@@ -19,8 +19,8 @@
     };
 
     Character.prototype.update = function(time) {
-        if (Core.isKeyPressed(83)) this.ypos += 5;
-        if (Core.isKeyPressed(87)) this.ypos -= 5;
+        if (Core.isKeyPressed(83)) this.ypos += 15;
+        if (Core.isKeyPressed(87)) this.ypos -= 15;
     };
 
     Character.prototype.draw = function(ctx) {

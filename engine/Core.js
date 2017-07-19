@@ -27,8 +27,8 @@
         this.canvas = document.getElementById(target ? target : '2DBoard');
         this.ctx = this.canvas.getContext('2d');
         this.canvasDim = {
-            width   : parseInt(this.canvas.style.width.replace('px', '')),
-            height  : parseInt(this.canvas.style.height.replace('px', ''))
+            width   : parseInt(this.canvas.width),
+            height  : parseInt(this.canvas.height)
         };
 
         return this.ctx;

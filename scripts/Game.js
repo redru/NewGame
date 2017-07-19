@@ -7,7 +7,7 @@
     let ctx = core.initGraphics();
 
     let char = new Character();
-    char.configure({ x: 10, y: 10 }, { width: 10, height: 50 });
+    char.configure({ x: 50, y: (core.canvasDim.height / 2) - 25 }, { width: 5, height: 50 });
 
     core.gameCallback = function(time) {
         char.update(time);
