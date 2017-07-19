@@ -9,7 +9,6 @@
         this.sleepTime      = 1000 / this.fps;
         this.intervalId     = -1;
         this.gameCallback   = function() { };
-        this.time           = 0;
     };
 
     /**
@@ -39,20 +38,32 @@
         this.ctx.fillRect(0, 0, this.canvasDim.width, this.canvasDim.height);
     };
 
-    Core.prototype.addKey = function(keyCode) {
-        Core.pressedKeys[keyCode] = true;
+    Core.prototype.start = function(statsActive) {
+        this.statsActive = statsActive;
+        Chrono.static.start();
+
+        if (statsActive === true) this.startWithStats();
+        else this.startWithoutStats();
     };
 
-    Core.prototype.removeKey = function(keyCode) {
-        Core.pressedKeys[keyCode] = false;
-    };
-
-    Core.prototype.start = function() {
+    Core.prototype.startWithStats = function() {
         this.intervalId = setInterval(() => {
-            this.time += this.sleepTime;
+            Core.frameTime = Chrono.static.step();
+            Core.time += Core.frameTime;
             this.clearScreen();
 
-            this.gameCallback(this.time);
+            this.gameCallback();
+            this.drawStats();
+        }, this.sleepTime);
+    };
+
+    Core.prototype.startWithoutStats = function() {
+        this.intervalId = setInterval(() => {
+            Core.frameTime = Chrono.static.step();
+            Core.time += Core.frameTime;
+            this.clearScreen();
+
+            this.gameCallback();
         }, this.sleepTime);
     };
 
@@ -62,34 +73,63 @@
 
     Core.prototype.restart = function() {
         this.stop();
-        this.start();
+        this.start(this.statsActive);
     };
 
-    Core.prototype.updateFps = function(fps) {
+    Core.prototype.updateFps = function(delta) {
+        this.fps += delta;
+        this.sleepTime = 1000 / this.fps;
+
+        this.restart();
+    };
+
+    Core.prototype.setFps = function(fps) {
         this.fps = fps;
         this.sleepTime = 1000 / fps;
 
         this.restart();
     };
 
-    // EXPORT SECTION --------------------------------------------------------------------------------------------------
-    const core = new Core();
-
-    Core.pressedKeys = { };
-
-    window.addEventListener('keydown', (event) => {
-        core.addKey(event.keyCode)
-    });
-
-    window.addEventListener('keyup', (event) => {
-        core.removeKey(event.keyCode)
-    });
-
-    global.Core = {
-        GetCoreInstance: () => { return core; },
-        isKeyPressed: function(keyCode) {
-            return Core.pressedKeys[keyCode] === true;
-        }
+    Core.prototype.drawStats = function() {
+        this.ctx.fillStyle = `rgb(${Core.STATS_COLOR & 0xFF},${(Core.STATS_COLOR & 0xFF00) >> 8},${(Core.STATS_COLOR & 0xFF0000) >> 16})`;
+        this.ctx.fillText(`FPS: ${this.fps}`, 10, 15);
+        this.ctx.fillText(`Global Time: ${Math.round(Core.time)} ms`, 10, 30);
+        this.ctx.fillText(`Frame Time: ${Core.frameTime} ms`, 10, 45);
     };
+
+    // STATIC SECTION --------------------------------------------------------------------------------------------------
+    Core.STATS_COLOR = 0x00FF00;
+
+    Core._$keyCallbacks = [];
+    Core._$pressedKeys = { };
+    Core.time = 0;
+    Core.frameTime = 0;
+
+    Core.AddKeyListener = function(cb) {
+        Core._$keyCallbacks.push(cb);
+    };
+
+    Core.IsKeyPressed = function(keyCode) {
+        return Core._$pressedKeys[keyCode] === true;
+    };
+
+    Core.GetInstance = function() {
+        const core = new Core();
+
+        Core.GetInstance = function() { return core; };
+        return core;
+    };
+
+    global.addEventListener('keydown', (event) => {
+        Core._$pressedKeys[event.keyCode] = true;
+    });
+
+    global.addEventListener('keyup', (event) => {
+        Core._$pressedKeys[event.keyCode] = false;
+        Core._$keyCallbacks.forEach(cb => cb(event.keyCode));
+    });
+
+    // EXPORT SECTION --------------------------------------------------------------------------------------------------
+    global.Core = Core;
 
 })(window);
