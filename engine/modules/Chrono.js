@@ -11,8 +11,6 @@
         this.t1 = performance.now();
         this.t2 = 0;
         this.elapsed = 0;
-
-        return this.elapsed;
     };
 
     Chrono.prototype.stop = function() {
@@ -26,7 +24,7 @@
 
     Chrono.prototype.step = function() {
         this.t2 = performance.now();
-        this.elapsed =  this.t2 - this.t1;
+        this.elapsed = this.t2 - this.t1;
         this.t1 = this.t2;
 
         return this.elapsed;

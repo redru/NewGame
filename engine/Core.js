@@ -4,7 +4,7 @@
     const Core = function() {
         this.canvas         = null;
         this.ctx            = null;
-        this.canvasDim      = { };
+        this.canvasDim      = null;
         this.fps            = 30;
         this.sleepTime      = 1000 / this.fps;
         this.intervalId     = -1;
@@ -25,17 +25,14 @@
     Core.prototype.initGraphics = function(target) {
         this.canvas = document.getElementById(target ? target : '2DBoard');
         this.ctx = this.canvas.getContext('2d');
-        this.canvasDim = {
-            width   : parseInt(this.canvas.width),
-            height  : parseInt(this.canvas.height)
-        };
+        this.canvasDim = new Vec2([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
 
         return this.ctx;
     };
 
     Core.prototype.clearScreen = function() {
         this.ctx.fillStyle = 'rgb(0,0,0)';
-        this.ctx.fillRect(0, 0, this.canvasDim.width, this.canvasDim.height);
+        this.ctx.fillRect(0, 0, this.canvasDim.x(), this.canvasDim.y());
     };
 
     Core.prototype.start = function(statsActive) {
@@ -50,8 +47,8 @@
         this.intervalId = setInterval(() => {
             Core.frameTime = Chrono.static.step();
             Core.time += Core.frameTime;
-            this.clearScreen();
 
+            this.clearScreen();
             this.gameCallback();
             this.drawStats();
         }, this.sleepTime);
@@ -61,8 +58,8 @@
         this.intervalId = setInterval(() => {
             Core.frameTime = Chrono.static.step();
             Core.time += Core.frameTime;
-            this.clearScreen();
 
+            this.clearScreen();
             this.gameCallback();
         }, this.sleepTime);
     };
@@ -91,14 +88,15 @@
     };
 
     Core.prototype.drawStats = function() {
-        this.ctx.fillStyle = `rgb(${Core.STATS_COLOR & 0xFF},${(Core.STATS_COLOR & 0xFF00) >> 8},${(Core.STATS_COLOR & 0xFF0000) >> 16})`;
+        this.ctx.font = '12px serif';
+        this.ctx.fillStyle = `rgb(${Core.STATS_COLOR.get(Color.RED)},${Core.STATS_COLOR.get(Color.GREEN)},${Core.STATS_COLOR.get(Color.BLUE)})`;
         this.ctx.fillText(`FPS: ${this.fps}`, 10, 15);
-        this.ctx.fillText(`Global Time: ${Math.round(Core.time)} ms`, 10, 30);
-        this.ctx.fillText(`Frame Time: ${Core.frameTime} ms`, 10, 45);
+        this.ctx.fillText(`Global Time: ${Math.round(Core.time)} ms`, 60, 15);
+        this.ctx.fillText(`Frame Time: ${Core.frameTime} ms`, 220, 15);
     };
 
     // STATIC SECTION --------------------------------------------------------------------------------------------------
-    Core.STATS_COLOR = 0x00FF00;
+    Core.STATS_COLOR = new Color(0x00FF00);
 
     Core._$keyCallbacks = [];
     Core._$pressedKeys = { };
