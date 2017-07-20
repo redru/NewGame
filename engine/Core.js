@@ -4,7 +4,7 @@
     const Core = function() {
         this.canvas         = null;
         this.ctx            = null;
-        this.canvasDim      = null;
+        this.canvasDim      = Vec2.Zero();
         this.fps            = 30;
         this.sleepTime      = 1000 / this.fps;
         this.intervalId     = -1;
@@ -22,10 +22,17 @@
         this.sleepTime = configuration.sleepTime ? configuration.sleepTime : 1000 / configuration.fps;
     };
 
-    Core.prototype.initGraphics = function(target) {
+    Core.prototype.initGraphics = function(target, dimension) {
         this.canvas = document.getElementById(target ? target : '2DBoard');
         this.ctx = this.canvas.getContext('2d');
-        this.canvasDim = new Vec2([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
+
+        if (dimension) {
+            this.canvasDim.copy(dimension);
+            this.canvas.width = dimension.x();
+            this.canvas.height = dimension.y();
+        } else {
+            this.canvasDim.copyFromArray([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
+        }
 
         return this.ctx;
     };

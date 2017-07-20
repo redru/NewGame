@@ -23,15 +23,25 @@
         this._$val[position] += value;
     };
 
+    Vec2.prototype.copy = function(vec) {
+        this.x(vec.x());
+        this.y(vec.y());
+    };
+
+    Vec2.prototype.copyFromArray = function(vec) {
+        this.x(vec[0]);
+        this.y(vec[1]);
+    };
+
     Vec2.X = 0;
     Vec2.Y = 1;
 
     Vec2.Zero = function() {
-        return [0, 0];
+        return new Vec2([0, 0]);
     };
 
     Vec2.One = function() {
-        return [1, 1];
+        return new Vec2([1, 1]);
     };
 
     const Mat22 = function(mat22) {
