@@ -16,12 +16,18 @@
     ctx = core.initGraphics(null, GameConfiguration.BOARD_DIMENSION);
 
     // Pj creation and setup
-    let char = new Pj();
-    char.configure(GameConfiguration.PJ_INIT_POSITION, GameConfiguration.PJ_INIT_SIZE);
-    char.setColor(0xFFAD7A);
+    let pj = new Pj();
+    pj.configure(GameConfiguration.PJ_INIT_POSITION, GameConfiguration.PJ_INIT_SIZE);
+    pj.setColor(0xFFAD7A);
 
-    updatables.push(char);
-    drawables.push(char);
+    updatables.push(pj);
+    drawables.push(pj);
+
+    let pjBox = new PositionalBox();
+    pjBox.configure(GameConfiguration.PJ_INIT_POSITION, GameConfiguration.PJ_INIT_SIZE, 20);
+    pjBox.follow(pj);
+
+    drawables.push(pjBox);
 
     // Disk creation and setup
     let disk = new Disk();
@@ -29,6 +35,12 @@
 
     updatables.push(disk);
     drawables.push(disk);
+
+    let diskBox = new PositionalBox();
+    diskBox.configure(new Vec2([360, 360]), new Vec2([30, 30]), 20, -15);
+    diskBox.follow(disk);
+
+    drawables.push(diskBox);
 
     // Set game callback
     core.gameCallback = function() {

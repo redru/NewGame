@@ -23,6 +23,16 @@
         this._$val[position] += value;
     };
 
+    Vec2.prototype.sumScalar = function(scalar) {
+        this._$val[0] += scalar;
+        this._$val[1] += scalar;
+    };
+
+    Vec2.prototype.multiplyScalar = function(scalar) {
+        this._$val[0] *= scalar;
+        this._$val[1] *= scalar;
+    };
+
     Vec2.prototype.copy = function(vec) {
         this.x(vec.x());
         this.y(vec.y());
