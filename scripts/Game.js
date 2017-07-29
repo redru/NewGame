@@ -14,7 +14,7 @@ let ctx = null;
 // Engine Core initialization
 // [0] Configuration
 // [1] Graphics
-let core = Core.GetInstance();
+const core = Core.Instance;
 core.configure(GameDescriptor['engine']['core']);
 ctx = core.initGraphics(null, new Vec2(GameDescriptor['engine']['board-dimension']));
 
@@ -79,7 +79,7 @@ Core.AddKeyListener(keyCode => {
 function drawPause() {
     ctx.fillStyle = 'rgb(0, 255, 0)';
     ctx.font = '48px serif';
-    ctx.fillText('PAUSED', core.canvasDim.x() / 2 - 144, core.canvasDim.y() / 2);
+    ctx.fillText('PAUSED', core.CanvasDim.x / 2 - 144, core.CanvasDim.y / 2);
 }
 
 // Start engine

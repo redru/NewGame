@@ -1,59 +1,62 @@
 "use strict";
-export function Vec2(vec2) {
-    this._$val = vec2 ? vec2 : Vec2.One();
+export class Vec2 {
+
+    constructor(vec2) {
+        this._$val = vec2 ? vec2 : Vec2.One;
+    }
+
+    increment(position, value) {
+        if (position < 0 || position > 1) return;
+
+        this._$val[position] += value;
+    }
+
+    sumScalar(scalar) {
+        this._$val[0] += scalar;
+        this._$val[1] += scalar;
+    }
+
+    multiplyScalar(scalar) {
+        this._$val[0] *= scalar;
+        this._$val[1] *= scalar;
+    }
+
+    copy(vec2) {
+        this._$val[0] = vec2._$val[0];
+        this._$val[1] = vec2._$val[1];
+    }
+
+    copyFromArray(vec) {
+        this.x = vec[0];
+        this.y = vec[1];
+    }
+
+    set x(value) {
+        this._$val[0] = value;
+    }
+
+    get x() {
+        return this._$val[0];
+    }
+
+    set y(value) {
+        this._$val[1] = value;
+    }
+
+    get y() {
+        return this._$val[1];
+    }
+
+    static get X() { return 0 };
+
+    static get Y() { return 1 };
+
+    static get Zero() { return new Vec2([0, 0]) }
+
+    static get One() { return new Vec2([1, 1]); }
 }
 
-Vec2.prototype.x = function(newVal) {
-    if (newVal !== undefined) this._$val[0] = newVal;
-
-    return this._$val[0];
-};
-
-Vec2.prototype.y = function(newVal) {
-    if (newVal !== undefined) this._$val[1] = newVal;
-
-    return this._$val[1];
-};
-
-Vec2.prototype.increment = function(position, value) {
-    if (position < 0 || position > 1) return;
-
-    this._$val[position] += value;
-};
-
-Vec2.prototype.sumScalar = function(scalar) {
-    this._$val[0] += scalar;
-    this._$val[1] += scalar;
-};
-
-Vec2.prototype.multiplyScalar = function(scalar) {
-    this._$val[0] *= scalar;
-    this._$val[1] *= scalar;
-};
-
-Vec2.prototype.copy = function(vec) {
-    this.x(vec.x());
-    this.y(vec.y());
-};
-
-Vec2.prototype.copyFromArray = function(vec) {
-    this.x(vec[0]);
-    this.y(vec[1]);
-};
-
-Vec2.X = 0;
-Vec2.Y = 1;
-
-Vec2.Zero = function() {
-    return new Vec2([0, 0]);
-};
-
-Vec2.One = function() {
-    return new Vec2([1, 1]);
-};
-
-
-export function Mat22(mat22) {
+/*export function Mat22(mat22) {
     this._$val = mat22 ? mat22 : Mat22.Identity();
 }
 
@@ -70,7 +73,4 @@ Mat22.Identity = function() {
         [1, 0],
         [0, 1]
     ];
-};
-
-window.Vec2 = Vec2;
-window.Mat22 = Mat22;
+};*/

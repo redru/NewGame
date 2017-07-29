@@ -30,5 +30,3 @@ Color.RED = 0xFF;
 Color.GREEN = 0xFF00;
 Color.BLUE = 0xFF0000;
 Color.ALPHA = 0xFF000000;
-
-window.Color = Color;

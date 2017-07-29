@@ -101,6 +101,4 @@ const KeyCodes = {
     SINGLE_QUOTE    : 222
 };
 
-window.KeyCodes = KeyCodes;
-
 export { KeyCodes as default }

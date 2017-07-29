@@ -1,139 +1,155 @@
 "use strict"
-export default function Core() {
-    this.canvas         = null;
-    this.ctx            = null;
-    this.canvasDim      = Vec2.Zero();
-    this.fps            = 30;
-    this.sleepTime      = 1000 / this.fps;
-    this.intervalId     = -1;
-    this.gameCallback   = function() { };
-};
+import Color    from "./various/Color"
+import { Vec2 } from "./modules/Geometry2D"
 
-/**
- *
- * @param {Object} configuration
- * @param {number} configuration.fps
- * @param {number} [configuration.sleepTime]
- */
-Core.prototype.configure = function(configuration) {
-    this.fps = configuration.fps;
-    this.sleepTime = configuration.sleepTime ? configuration.sleepTime : 1000 / configuration.fps;
-};
+export default class Core {
 
-Core.prototype.initGraphics = function(target, dimension) {
-    this.canvas = document.getElementById(target ? target : '2DBoard');
-    this.ctx = this.canvas.getContext('2d');
+    constructor() {
+        this.canvas         = null;
+        this.__ctx          = null;
+        this.__canvasDim    = Vec2.Zero;
+        this.fps            = 30;
+        this.sleepTime      = 1000 / this.fps;
+        this.intervalId     = -1;
+        this.gameCallback   = () => { };
 
-    if (dimension) {
-        this.canvasDim.copy(dimension);
-        this.canvas.width = dimension.x();
-        this.canvas.height = dimension.y();
-    } else {
-        this.canvasDim.copyFromArray([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
+        window.addEventListener('keydown', (event) => {
+            Core.__$pressedKeys[event.keyCode] = true;
+        });
+
+        window.addEventListener('keyup', (event) => {
+            Core.__$pressedKeys[event.keyCode] = false;
+            Core.__$keyCallbacks.forEach(cb => cb(event.keyCode));
+        });
     }
 
-    return this.ctx;
-};
+    /**
+     *
+     * @param {Object} configuration
+     * @param {number} configuration.fps
+     * @param {number} [configuration.sleepTime]
+     */
+    configure(configuration) {
+        this.fps = configuration.fps;
+        this.sleepTime = configuration.sleepTime ? configuration.sleepTime : 1000 / configuration.fps;
+    }
 
-Core.prototype.clearScreen = function() {
-    this.ctx.fillStyle = 'rgb(0,0,0)';
-    this.ctx.fillRect(0, 0, this.canvasDim.x(), this.canvasDim.y());
-};
+    initGraphics(target, dimension) {
+        this.canvas = document.getElementById(target ? target : '2DBoard');
+        this.__ctx = this.canvas.getContext('2d');
 
-Core.prototype.start = function(statsActive) {
-    this.statsActive = statsActive;
-    Chrono.static.start();
+        if (dimension) {
+            this.__canvasDim.copy(dimension);
+            this.canvas.width = dimension.x;
+            this.canvas.height = dimension.y;
+        } else {
+            this.__canvasDim.copyFromArray([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
+        }
 
-    if (statsActive === true) this.startWithStats();
-    else this.startWithoutStats();
-};
+        return this.__ctx;
+    }
 
-Core.prototype.startWithStats = function() {
-    this.intervalId = setInterval(() => {
-        Core.frameTime = Chrono.static.step();
-        Core.time += Core.frameTime;
+    clearScreen() {
+        this.__ctx.fillStyle = 'rgb(0,0,0)';
+        this.__ctx.fillRect(0, 0, this.__canvasDim.x, this.__canvasDim.y);
+    }
 
-        this.clearScreen();
-        this.gameCallback();
-        this.drawStats();
-    }, this.sleepTime);
-};
+    start(statsActive) {
+        this.statsActive = statsActive;
+        Chrono.static.start();
 
-Core.prototype.startWithoutStats = function() {
-    this.intervalId = setInterval(() => {
-        Core.frameTime = Chrono.static.step();
-        Core.time += Core.frameTime;
+        if (statsActive === true) this.startWithStats();
+        else this.startWithoutStats();
+    }
 
-        this.clearScreen();
-        this.gameCallback();
-    }, this.sleepTime);
-};
+    startWithStats() {
+        this.intervalId = setInterval(() => {
+            Core.FrameTime = Chrono.static.step();
+            Core.Time += Core.FrameTime;
 
-Core.prototype.stop = function() {
-    clearInterval(this.intervalId);
-};
+            this.clearScreen();
+            this.gameCallback();
+            this.drawStats();
+        }, this.sleepTime);
+    }
 
-Core.prototype.restart = function(statsActive) {
-    this.stop();
+    startWithoutStats() {
+        this.intervalId = setInterval(() => {
+            Core.FrameTime = Chrono.static.step();
+            Core.Time += Core.FrameTime;
 
-    if (statsActive === undefined) statsActive = this.statsActive;
-    else this.statsActive = (statsActive === true);
+            this.clearScreen();
+            this.gameCallback();
+        }, this.sleepTime);
+    }
 
-    this.start(this.statsActive);
-};
+    stop() {
+        clearInterval(this.intervalId);
+    }
 
-Core.prototype.updateFps = function(delta) {
-    this.fps += delta;
-    this.sleepTime = 1000 / this.fps;
+    restart(statsActive) {
+        this.stop();
 
-    this.restart();
-};
+        if (statsActive === undefined) statsActive = this.statsActive;
+        else this.statsActive = (statsActive === true);
 
-Core.prototype.setFps = function(fps) {
-    this.fps = fps;
-    this.sleepTime = 1000 / fps;
+        this.start(this.statsActive);
+    }
 
-    this.restart();
-};
+    updateFps(delta) {
+        this.fps += delta;
+        this.sleepTime = 1000 / this.fps;
 
-Core.prototype.drawStats = function() {
-    this.ctx.font = '12px serif';
-    this.ctx.fillStyle = `rgb(${Core.STATS_COLOR.get(Color.RED)},${Core.STATS_COLOR.get(Color.GREEN)},${Core.STATS_COLOR.get(Color.BLUE)})`;
-    this.ctx.fillText(`FPS: ${this.fps}`, 10, 15);
-    this.ctx.fillText(`Global Time: ${Math.round(Core.time)} ms`, 60, 15);
-    this.ctx.fillText(`Frame Time: ${Core.frameTime} ms`, 220, 15);
-};
+        this.restart();
+    }
 
-// STATIC SECTION --------------------------------------------------------------------------------------------------
-Core.STATS_COLOR = new Color(0x00FF00);
+    setFps(fps) {
+        this.fps = fps;
+        this.sleepTime = 1000 / fps;
 
-Core._$keyCallbacks = [];
-Core._$pressedKeys = { };
-Core.time = 0;
-Core.frameTime = 0;
+        this.restart();
+    }
 
-Core.AddKeyListener = function(cb) {
-    Core._$keyCallbacks.push(cb);
-};
+    drawStats() {
+        this.__ctx.font = '12px serif';
+        this.__ctx.fillStyle = `rgb(${Core.StatsColor.get(Color.RED)},${Core.StatsColor.get(Color.GREEN)},${Core.StatsColor.get(Color.BLUE)})`;
+        this.__ctx.fillText(`FPS: ${this.fps}`, 10, 15);
+        this.__ctx.fillText(`Global Time: ${Math.round(Core.Time)} ms`, 60, 15);
+        this.__ctx.fillText(`Frame Time: ${Core.FrameTime} ms`, 220, 15);
+    }
 
-Core.IsKeyPressed = function(keyCode) {
-    return Core._$pressedKeys[keyCode] === true;
-};
+    set Ctx(value) { this.__ctx = value }
 
-Core.GetInstance = function() {
-    const core = new Core();
+    get Ctx() { return this.__ctx }
 
-    Core.GetInstance = function() { return core; };
-    return core;
-};
+    set CanvasDim(value) { this.__canvasDim = value }
 
-window.addEventListener('keydown', (event) => {
-    Core._$pressedKeys[event.keyCode] = true;
-});
+    get CanvasDim() { return this.__canvasDim }
 
-window.addEventListener('keyup', (event) => {
-    Core._$pressedKeys[event.keyCode] = false;
-    Core._$keyCallbacks.forEach(cb => cb(event.keyCode));
-});
+    static AddKeyListener(cb) {
+        Core.__$keyCallbacks.push(cb);
+    }
 
-window.Core = Core;
+    static IsKeyPressed(keyCode) {
+        return Core.__$pressedKeys[keyCode] === true;
+    }
+
+    static get Instance() { return Core.__instance }
+
+    static set Time(value) { Core.__time = value }
+
+    static get Time() { return Core.__time }
+
+    static set FrameTime(value) { Core.__frameTime = value }
+
+    static get FrameTime() { return Core.__frameTime }
+
+    static get StatsColor() { return Core.__statsColor }
+}
+
+Core.__statsColor       = new Color(0x00FF00);
+Core.__instance         = new Core();
+Core.__time             = 0;
+Core.__frameTime        = 0;
+Core.__$keyCallbacks    = [];
+Core.__$pressedKeys     = { };

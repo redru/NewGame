@@ -29,5 +29,3 @@ Chrono.prototype.step = function() {
 };
 
 Chrono.static = new Chrono();
-
-window.Chrono = Chrono;
