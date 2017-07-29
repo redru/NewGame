@@ -1,5 +1,4 @@
-"use strict";
-
+"use strict"
 export default function Core() {
     this.canvas         = null;
     this.ctx            = null;
@@ -74,8 +73,12 @@ Core.prototype.stop = function() {
     clearInterval(this.intervalId);
 };
 
-Core.prototype.restart = function() {
+Core.prototype.restart = function(statsActive) {
     this.stop();
+
+    if (statsActive === undefined) statsActive = this.statsActive;
+    else this.statsActive = (statsActive === true);
+
     this.start(this.statsActive);
 };
 

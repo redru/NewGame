@@ -1,0 +1,28 @@
+{
+  "engine": {
+    "core": {
+      "fps": 45
+    },
+    "board-dimension": [1280, 720]
+  },
+  "game-objs": [
+    {
+      "type"      : "Pj",
+      "color"     : "default",
+      "position"  : [100, 300],
+      "size"      : [10, 80]
+    },
+    {
+      "type"      : "Enemy",
+      "color"     : "default",
+      "position"  : [1180, 340],
+      "size"      : [10, 80]
+    },
+    {
+      "type"      : "Disk",
+      "color"     : "default",
+      "position"  : [600, 300],
+      "size"      : [5, 50]
+    }
+  ]
+}

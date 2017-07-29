@@ -1,71 +1,59 @@
 "use strict";
-import GameConfiguration    from "./GameConfiguration"
-import Pj                   from "./Pj"
-import Enemy                from "./Enemy"
-import Disk                 from "./Disk"
+import GameDescriptor   from "./game.descriptor.json"
+import GameObjectLoader from "./GameObjectLoader"
 
 // Vars
 const updatables = [];
 const drawables = [];
+const drawablesInfoObjects = [];
 
 let paused = false;
+let mustDrawInfoObjects = true;
 let ctx = null;
 
 // Engine Core initialization
 // [0] Configuration
 // [1] Graphics
 let core = Core.GetInstance();
-core.configure({fps: 60});
-ctx = core.initGraphics(null, GameConfiguration.BOARD_DIMENSION);
+core.configure(GameDescriptor['engine']['core']);
+ctx = core.initGraphics(null, new Vec2(GameDescriptor['engine']['board-dimension']));
 
-// Pj creation and setup
-let pj = new Pj();
-pj.configure(GameConfiguration.PJ_INIT_POSITION, GameConfiguration.PJ_INIT_SIZE);
-pj.setColor(0xFFAD7A);
+GameDescriptor['game-objs'].forEach(object => {
+    let obj = GameObjectLoader.ObjectNewInstance(object.type);
+    obj.configure(new Vec2(object.position), new Vec2(object.size));
 
-updatables.push(pj);
-drawables.push(pj);
+    if (typeof object.color === 'string' && object.color !== 'default') obj.setColor(object.color);
 
-let pjBox = new PositionalBox();
-pjBox.configure(GameConfiguration.PJ_INIT_POSITION, GameConfiguration.PJ_INIT_SIZE, 20);
-pjBox.follow(pj);
+    updatables.push(obj);
+    drawables.push(obj);
 
-drawables.push(pjBox);
+    switch(object.type) {
+        case 'Pj':
+        case 'Enemy':
+            let box = new PositionalBox();
+            box.configure(obj.position, obj.size, 20);
+            box.follow(obj);
 
-// Pj creation and setup
-let enemy = new Enemy();
-enemy.configure(new Vec2([1180, 320]), GameConfiguration.ENEMY_INIT_SIZE);
+            drawablesInfoObjects.push(box);
+            break;
+        case 'Disk':
+            let diskbox = new PositionalBox();
+            diskbox.configure(new Vec2([360, 360]), new Vec2([30, 30]), 20, -15);
+            diskbox.follow(obj);
 
-updatables.push(enemy);
-drawables.push(enemy);
-
-let enemyBox = new PositionalBox();
-enemyBox.configure(Vec2.Zero(), GameConfiguration.ENEMY_INIT_SIZE, 20);
-enemyBox.follow(enemy);
-
-drawables.push(enemyBox);
-
-// Disk creation and setup
-let disk = new Disk();
-disk.configure(new Vec2([400, 400]), GameConfiguration.PJ_INIT_SIZE);
-
-updatables.push(disk);
-drawables.push(disk);
-
-let diskBox = new PositionalBox();
-diskBox.configure(new Vec2([360, 360]), new Vec2([30, 30]), 20, -15);
-diskBox.follow(disk);
-
-drawables.push(diskBox);
+            drawablesInfoObjects.push(diskbox);
+            break;
+    }
+});
 
 // Set game callback
 core.gameCallback = function () {
     drawables.forEach(object => object.draw());
+    if (mustDrawInfoObjects) drawablesInfoObjects.forEach(object => object.draw());
 
     if (paused === false) {
         updatables.forEach(object => object.update());
-    }
-    else drawPause();
+    } else drawPause();
 };
 
 // Attach global keylistener
@@ -80,7 +68,10 @@ Core.AddKeyListener(keyCode => {
         case KeyCodes.SPACE:
             paused = !paused;
             break;
-
+        case KeyCodes.Z:
+            mustDrawInfoObjects = !mustDrawInfoObjects;
+            core.restart(mustDrawInfoObjects);
+            break;
     }
 });
 

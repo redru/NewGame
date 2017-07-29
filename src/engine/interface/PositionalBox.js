@@ -1,7 +1,4 @@
 "use strict";
-let ctx = null;
-let canvasDim = null;
-
 export default function PositionalBox() {
     this.position       = Vec2.Zero();
     this.size           = Vec2.One();
@@ -9,8 +6,8 @@ export default function PositionalBox() {
     this.paddingOffset  = 0;
     this.followedObject = null;
 
-    ctx = Core.GetInstance().ctx;
-    canvasDim = Core.GetInstance().canvasDim;
+    this.ctx            = Core.GetInstance().ctx;
+    this.canvasDim      = Core.GetInstance().canvasDim;
 };
 
 PositionalBox.prototype.configure = function(position, size, padding, offset) {
@@ -27,16 +24,21 @@ PositionalBox.prototype.follow = function(gameObject) {
 };
 
 PositionalBox.prototype.draw = function() {
-    ctx.strokeStyle = '#FFFFFF';
+    this.ctx.strokeStyle = '#FFFFFF';
     if (this.followedObject) {
-        ctx.strokeRect(this.followedObject.position.x() + this.offset + this.paddingOffset, this.followedObject.position.y() + this.offset + this.paddingOffset, this.size.x(), this.size.y());
+        let xpos = this.followedObject.position.x() + this.size.x();
+        let ypos = this.followedObject.position.y() > 20 ?
+            this.followedObject.position.y() + this.offset + this.paddingOffset :
+            this.followedObject.position.y() + this.offset + this.paddingOffset + 50;
 
-        ctx.font = '12px serif';
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillText(`x: ${parseInt(this.followedObject.position.x())}`, this.followedObject.position.x() + this.size.x(), this.followedObject.position.y() + this.offset + this.paddingOffset);
-        ctx.fillText(`y: ${parseInt(this.followedObject.position.y())}`, this.followedObject.position.x() + this.size.x(), this.followedObject.position.y() + this.offset + this.paddingOffset + 15);
+        this.ctx.strokeRect(this.followedObject.position.x() + this.offset + this.paddingOffset, this.followedObject.position.y() + this.offset + this.paddingOffset, this.size.x(), this.size.y());
+
+        this.ctx.font = '12px serif';
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.fillText(`x: ${parseInt(this.followedObject.position.x())}`, xpos, ypos);
+        this.ctx.fillText(`y: ${parseInt(this.followedObject.position.y())}`, xpos, ypos + 15);
     } else {
-        ctx.strokeRect(this.position.x(), this.position.y(), this.size.x(), this.size.y());
+        this.ctx.strokeRect(this.position.x(), this.position.y(), this.size.x(), this.size.y());
     }
 };
 

@@ -18,7 +18,12 @@ Pj.prototype.configure = function(position, size) {
 };
 
 Pj.prototype.setColor = function(hexColor) {
-    this.color.set(hexColor);
+    if (!hexColor) {
+        this.color.set(0x000000);
+        return;
+    }
+
+    this.color.set(typeof hexColor === 'string' ? parseInt(hexColor) : hexColor);
 };
 
 Pj.prototype.update = function() {
