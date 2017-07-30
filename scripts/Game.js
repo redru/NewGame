@@ -80,7 +80,7 @@ GameDescriptor['game-objs'].forEach(object => {
         case 'Pj':
         case 'Enemy':
             let box = new PositionalBox();
-            box.configure(obj.position, obj.size, 20);
+            box.configure(obj.Position, obj.Size, 20);
             box.follow(obj);
 
             drawablesInfoObjects.push(box);
@@ -99,7 +99,7 @@ GameDescriptor['game-objs'].forEach(object => {
 function drawPause() {
     ctx.fillStyle = 'rgb(0, 255, 0)';
     ctx.font = '48px serif';
-    ctx.fillText('PAUSED', core.CanvasDim.x / 2 - 144, core.CanvasDim.y / 2);
+    ctx.fillText('PAUSED', core.CanvasDim.X / 2 - 144, core.CanvasDim.Y / 2);
 }
 
 // Start engine

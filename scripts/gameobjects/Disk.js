@@ -1,30 +1,50 @@
 "use strict";
+import GameStatus from "../Game"
+
 export default class Disk {
 
     constructor() {
-        this.position   = Vec2.Zero;
-        this.size       = Vec2.One;
-        this.rotation   = 0;
-        this.normal     = Vec2.StdNormal;
-        this.color      = new Color(0x0000FF);
-        this.velocity   = new Vec2([0, 500]);
-        this.ctx        = Core.Instance.Ctx;
+        this.__$position    = Vec2.Zero;
+        this.__$size        = Vec2.One;
+        this.__$rotation    = Math.random() * 360;
+        this.normal         = Vec2.StdNormal;
+        this.color          = new Color(0x0000FF);
+        this.direction      = Vec2.Zero;
+        this.velocity       = 1;
+
+        this.ctx            = Core.Instance.Ctx;
     }
 
     configure(position, size) {
-        this.position = position;
-        this.size = size;
+        this.__$position = position;
+        this.__$size = size;
     }
 
     update() {
+        this.direction.copy(Vec2.GetNormalRotated(this.__$rotation));
+        this.normal.copy(this.direction);
 
+        this.__$position.increment(this.direction.X * this.velocity * Core.DeltaTime, this.direction.Y * this.velocity * Core.DeltaTime);
     }
 
     draw() {
         this.ctx.fillStyle = `rgb(${this.color.Red},${this.color.Green},${this.color.Blue})`;
         this.ctx.beginPath();
-        this.ctx.arc(this.position.x, this.position.y, 15, 0, 2 * Math.PI);
+        this.ctx.arc(this.__$position.X, this.__$position.Y, 15, 0, 2 * Math.PI);
         this.ctx.fill();
+
+        if (GameStatus.MustDrawInfo) this.drawNormal();
+    }
+
+    drawNormal() {
+        let bx = this.__$position.X;
+        let by = this.__$position.Y;
+
+        this.ctx.strokeStyle = '#FFFF00';
+        this.ctx.beginPath();
+        this.ctx.moveTo(bx, by);
+        this.ctx.lineTo(bx + this.normal.X * 100, by + this.normal.Y * 100);
+        this.ctx.stroke();
     }
 
     set Color(value) {
@@ -36,8 +56,16 @@ export default class Disk {
         this.color.change(typeof value === 'string' ? parseInt(value) : value);
     }
 
-    set Rotation(value) { this.rotation = value }
+    set Position(value) { this.__$position = value }
 
-    get Rotation() { return this.rotation }
+    get Position() { return this.__$position }
+
+    set Size(value) { this.__$size = value }
+
+    get Size() { return this.__$size }
+
+    set Rotation(value) { this.__$rotation = value }
+
+    get Rotation() { return this.__$rotation }
 
 }

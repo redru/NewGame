@@ -40,8 +40,8 @@ export default class Core {
 
         if (dimension) {
             this.__$canvasDim.copy(dimension);
-            this.canvas.width = dimension.x;
-            this.canvas.height = dimension.y;
+            this.canvas.width = dimension.X;
+            this.canvas.height = dimension.Y;
         } else {
             this.__$canvasDim.copyFromArray([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
         }
@@ -51,7 +51,7 @@ export default class Core {
 
     clearScreen() {
         this.__$ctx.fillStyle = 'rgb(0,0,0)';
-        this.__$ctx.fillRect(0, 0, this.__$canvasDim.x, this.__$canvasDim.y);
+        this.__$ctx.fillRect(0, 0, this.__$canvasDim.X, this.__$canvasDim.Y);
     }
 
     start(statsActive) {
@@ -65,6 +65,7 @@ export default class Core {
     startWithStats() {
         this.intervalId = setInterval(() => {
             Core.FrameTime = Chrono.static.step();
+            Core.DeltaTime = Core.FrameTime / 1000;
             Core.Time += Core.FrameTime;
 
             this.clearScreen();
@@ -76,6 +77,7 @@ export default class Core {
     startWithoutStats() {
         this.intervalId = setInterval(() => {
             Core.FrameTime = Chrono.static.step();
+            Core.DeltaTime = Core.FrameTime / 1000;
             Core.Time += Core.FrameTime;
 
             this.clearScreen();
@@ -97,6 +99,8 @@ export default class Core {
     }
 
     updateFps(delta) {
+        if (this.fps + delta < 0 || this.fps + delta > 120) return;
+
         this.fps += delta;
         this.sleepTime = 1000 / this.fps;
 
@@ -104,6 +108,8 @@ export default class Core {
     }
 
     setFps(fps) {
+        if (fps < 0 || fps > 120) return;
+
         this.fps = fps;
         this.sleepTime = 1000 / fps;
 
@@ -144,6 +150,10 @@ export default class Core {
 
     static get FrameTime() { return Core.__$frameTime }
 
+    static set DeltaTime(value) { Core.__$deltaTime = value }
+
+    static get DeltaTime() { return Core.__$deltaTime }
+
     static get StatsColor() { return Core.__$statsColor }
 }
 
@@ -151,5 +161,6 @@ Core.__$statsColor      = new Color(0x00FF00);
 Core.__$instance        = new Core();
 Core.__$time            = 0;
 Core.__$frameTime       = 0;
+Core.__$deltaTime       = 0;
 Core.__$keyCallbacks    = [];
 Core.__$pressedKeys     = { };

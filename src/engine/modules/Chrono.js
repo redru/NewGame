@@ -1,31 +1,37 @@
 "use strict";
-export default function Chrono() {
-    this.t1         = 0;
-    this.t2         = 0;
-    this.elapsed    = 0;
-};
+export default class Chrono {
 
-Chrono.prototype.start = function() {
-    this.t1 = performance.now();
-    this.t2 = 0;
-    this.elapsed = 0;
-};
+    constructor() {
+        this.__$t1      = 0;
+        this.__$t2      = 0;
+        this.__$elapsed = 0;
+    }
 
-Chrono.prototype.stop = function() {
-    const tmpValue = performance.now() - this.t1;
-    this.t1 = 0;
-    this.t2 = 0;
-    this.elapsed = 0;
+    start() {
+        this.__$t1 = performance.now();
+        this.__$t2 = 0;
+        this.__$elapsed = 0;
+    }
 
-    return tmpValue;
-};
+    stop() {
+        const tmpValue = performance.now() - this.__$t1;
+        this.__$t1 = 0;
+        this.__$t2 = 0;
+        this.__$elapsed = 0;
 
-Chrono.prototype.step = function() {
-    this.t2 = performance.now();
-    this.elapsed = this.t2 - this.t1;
-    this.t1 = this.t2;
+        return tmpValue;
+    }
 
-    return this.elapsed;
+    step() {
+        this.__$t2 = performance.now();
+        this.__$elapsed = this.__$t2 - this.__$t1;
+        this.__$t1 = this.__$t2;
+
+        return this.__$elapsed;
+    }
+
+    get Elapsed() { return this.__$elapsed }
+
 };
 
 Chrono.static = new Chrono();

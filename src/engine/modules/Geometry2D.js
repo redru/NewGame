@@ -2,33 +2,32 @@
 export class Vec2 {
 
     constructor(vec2) {
-        this._$val = vec2 ? vec2 : Vec2.One;
+        this.__$val = vec2 ? vec2 : Vec2.One;
     }
 
-    increment(position, value) {
-        if (position < 0 || position > 1) return;
-
-        this._$val[position] += value;
+    increment(v1, v2) {
+        this.__$val[0] += v1;
+        this.__$val[1] += v2;
     }
 
     sumScalar(scalar) {
-        this._$val[0] += scalar;
-        this._$val[1] += scalar;
+        this.__$val[0] += scalar;
+        this.__$val[1] += scalar;
     }
 
     multiplyScalar(scalar) {
-        this._$val[0] *= scalar;
-        this._$val[1] *= scalar;
+        this.__$val[0] *= scalar;
+        this.__$val[1] *= scalar;
     }
 
     copy(vec2) {
-        this._$val[0] = vec2._$val[0];
-        this._$val[1] = vec2._$val[1];
+        this.__$val[0] = vec2.__$val[0];
+        this.__$val[1] = vec2.__$val[1];
     }
 
     copyFromArray(vec) {
-        this.x = vec[0];
-        this.y = vec[1];
+        this.X = vec[0];
+        this.Y = vec[1];
     }
 
     rotate(angle) {
@@ -36,11 +35,11 @@ export class Vec2 {
         let cs      = Math.cos(theta);
         let sn      = Math.sin(theta);
 
-        let rx      = this._$val[0] * cs - this._$val[1] * sn;
-        let ry      = this._$val[0] * sn + this._$val[1] * cs;
+        let rx      = this.__$val[0] * cs - this.__$val[1] * sn;
+        let ry      = this.__$val[0] * sn + this.__$val[1] * cs;
 
-        this._$val[0] = rx;
-        this._$val[1] = ry;
+        this.__$val[0] = rx;
+        this.__$val[1] = ry;
 
         return this;
     }
@@ -51,25 +50,25 @@ export class Vec2 {
         let sn      = Math.sin(theta);
 
         return new Vec2([
-            this._$val[0] * cs - this._$val[1] * sn,
-            this._$val[0] * sn + this._$val[1] * cs
+            this.__$val[0] * cs - this.__$val[1] * sn,
+            this.__$val[0] * sn + this.__$val[1] * cs
         ]);
     }
 
-    set x(value) {
-        this._$val[0] = value;
+    set X(value) {
+        this.__$val[0] = value;
     }
 
-    get x() {
-        return this._$val[0];
+    get X() {
+        return this.__$val[0];
     }
 
-    set y(value) {
-        this._$val[1] = value;
+    set Y(value) {
+        this.__$val[1] = value;
     }
 
-    get y() {
-        return this._$val[1];
+    get Y() {
+        return this.__$val[1];
     }
 
     static GetNormalRotated(angle) {
@@ -79,14 +78,10 @@ export class Vec2 {
         let sn      = Math.sin(theta);
 
         return new Vec2([
-            normal.x * cs - normal.y * sn,
-            normal.x * sn + normal.y * cs
+            normal.X * cs - normal.Y * sn,
+            normal.X * sn + normal.Y * cs
         ]);
     }
-
-    static get X() { return 0 };
-
-    static get Y() { return 1 };
 
     static get Zero() { return new Vec2([0, 0]) }
 
@@ -96,15 +91,15 @@ export class Vec2 {
 }
 
 /*export function Mat22(mat22) {
-    this._$val = mat22 ? mat22 : Mat22.Identity();
+    this.__$val = mat22 ? mat22 : Mat22.Identity();
 }
 
 Mat22.prototype.get = function(param) {
-    return this._$val;
+    return this.__$val;
 };
 
 Mat22.prototype.set = function(newVal) {
-    return this._$val = newVal;
+    return this.__$val = newVal;
 };
 
 Mat22.Identity = function() {
