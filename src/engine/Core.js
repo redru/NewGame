@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 import Color    from "./various/Color"
 import { Vec2 } from "./modules/Geometry2D"
 
@@ -6,8 +6,9 @@ export default class Core {
 
     constructor() {
         this.canvas         = null;
-        this.__$ctx          = null;
-        this.__$canvasDim    = Vec2.Zero;
+        this.__$ctx         = null;
+        this.__$canvasDim   = Vec2.Zero;
+        this.__$statsActive = false;
         this.fps            = 30;
         this.sleepTime      = 1000 / this.fps;
         this.intervalId     = -1;
@@ -55,14 +56,9 @@ export default class Core {
     }
 
     start(statsActive) {
-        this.statsActive = statsActive;
+        if (statsActive !== undefined) this.__$statsActive = (statsActive === true);
         Chrono.static.start();
 
-        if (statsActive === true) this.startWithStats();
-        else this.startWithoutStats();
-    }
-
-    startWithStats() {
         this.intervalId = setInterval(() => {
             Core.FrameTime = Chrono.static.step();
             Core.DeltaTime = Core.FrameTime / 1000;
@@ -70,18 +66,7 @@ export default class Core {
 
             this.clearScreen();
             this.gameCallback();
-            this.drawStats();
-        }, this.sleepTime);
-    }
-
-    startWithoutStats() {
-        this.intervalId = setInterval(() => {
-            Core.FrameTime = Chrono.static.step();
-            Core.DeltaTime = Core.FrameTime / 1000;
-            Core.Time += Core.FrameTime;
-
-            this.clearScreen();
-            this.gameCallback();
+            if (this.__$statsActive) this.drawStats();
         }, this.sleepTime);
     }
 
@@ -91,11 +76,7 @@ export default class Core {
 
     restart(statsActive) {
         this.stop();
-
-        if (statsActive === undefined) statsActive = this.statsActive;
-        else this.statsActive = (statsActive === true);
-
-        this.start(this.statsActive);
+        this.start(statsActive);
     }
 
     updateFps(delta) {
@@ -131,6 +112,10 @@ export default class Core {
     set CanvasDim(value) { this.__$canvasDim = value }
 
     get CanvasDim() { return this.__$canvasDim }
+
+    set StatsActive(value) { this.__$statsActive = value }
+
+    get StatsActive() { return this.__$statsActive }
 
     static AddKeyListener(cb) {
         Core.__$keyCallbacks.push(cb);

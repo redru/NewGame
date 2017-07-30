@@ -17,7 +17,7 @@ export default class Pj {
         this.ctx            = Core.Instance.Ctx;
         this.canvasDim      = Core.Instance.CanvasDim;
 
-        this.attachCollider(new BoundingBox())
+        this.attachCollider(new BoundingBox());
     }
 
     configure(position, size) {

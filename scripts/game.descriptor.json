@@ -9,13 +9,13 @@
     {
       "type"      : "Pj",
       "color"     : "default",
-      "position"  : [100, 300],
+      "position"  : [200, 300],
       "size"      : [10, 80]
     },
     {
       "type"      : "Enemy",
       "color"     : "default",
-      "position"  : [1180, 340],
+      "position"  : [1080, 340],
       "size"      : [10, 80],
       "rotation"  : 180
     },
@@ -24,6 +24,30 @@
       "color"     : "default",
       "position"  : [600, 300],
       "size"      : [5, 50]
+    },
+    {
+      "type"      : "RectangleGameObject",
+      "color"     : "default",
+      "position"  : [50, 50],
+      "size"      : [1180, 50]
+    },
+    {
+      "type"      : "RectangleGameObject",
+      "color"     : "default",
+      "position"  : [50, 620],
+      "size"      : [1180, 50]
+    },
+    {
+      "type"      : "RectangleGameObject",
+      "color"     : "default",
+      "position"  : [50, 100],
+      "size"      : [50, 520]
+    },
+    {
+      "type"      : "RectangleGameObject",
+      "color"     : "default",
+      "position"  : [1180, 100],
+      "size"      : [50, 520]
     }
   ]
 }

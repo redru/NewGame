@@ -68,7 +68,13 @@ Core.AddKeyListener(keyCode => {
 
 GameDescriptor['game-objs'].forEach(object => {
     let obj = GameObjectLoader.ObjectNewInstance(object.type);
-    obj.configure(new Vec2(object.position), new Vec2(object.size));
+
+    if (obj.configure) {
+        obj.configure(new Vec2(object.position), new Vec2(object.size));
+    } else {
+        obj.Position = new Vec2(object.position);
+        obj.Size = new Vec2(object.size);
+    }
 
     if (typeof object.color === 'string' && object.color !== 'default') obj.Color = object.color;
     if (object.rotation) obj.Rotation = object.rotation;
