@@ -58,7 +58,7 @@ export default class Pj {
         this.ctx.strokeStyle = '#FFFF00';
         this.ctx.beginPath();
         this.ctx.moveTo(bx, by);
-        this.ctx.lineTo(bx + this.normal.x * 50, by + this.normal.y * 50);
+        this.ctx.lineTo(bx + this.normal.x * 50, by + this.normal.y * -50);
         this.ctx.stroke();
     }
 
