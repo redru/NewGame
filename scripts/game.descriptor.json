@@ -29,25 +29,29 @@
       "type"      : "RectangleGameObject",
       "color"     : "default",
       "position"  : [50, 50],
-      "size"      : [1180, 50]
+      "size"      : [1180, 50],
+      "normal"    : [0, -1]
     },
     {
       "type"      : "RectangleGameObject",
       "color"     : "default",
       "position"  : [50, 620],
-      "size"      : [1180, 50]
+      "size"      : [1180, 50],
+      "normal"    : [0, 1]
     },
     {
       "type"      : "RectangleGameObject",
       "color"     : "default",
       "position"  : [50, 100],
-      "size"      : [50, 520]
+      "size"      : [50, 520],
+      "normal"    : [1, 0]
     },
     {
       "type"      : "RectangleGameObject",
       "color"     : "default",
       "position"  : [1180, 100],
-      "size"      : [50, 520]
+      "size"      : [50, 520],
+      "normal"    : [-1, 0]
     }
   ]
 }

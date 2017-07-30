@@ -6,6 +6,7 @@ export default class GameObject {
     constructor() {
         this.__$position    = Vec2.Zero;
         this.__$size        = Vec2.Zero;
+        this.__$normal      = Vec2.Zero;
         this.__$rotation    = 0;
         this.__$colliders   = [];
     }
@@ -22,6 +23,10 @@ export default class GameObject {
     set Size(value) { this.__$size.copy(value) }
 
     get Size() { return this.__$size }
+
+    set Normal(value) { this.__$normal.copy(value) }
+
+    get Normal() { return this.__$normal }
 
     set Rotation(value) { this.__$rotation.copy(value) }
 
