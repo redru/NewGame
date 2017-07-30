@@ -16,7 +16,8 @@
       "type"      : "Enemy",
       "color"     : "default",
       "position"  : [1180, 340],
-      "size"      : [10, 80]
+      "size"      : [10, 80],
+      "rotation"  : 180
     },
     {
       "type"      : "Disk",

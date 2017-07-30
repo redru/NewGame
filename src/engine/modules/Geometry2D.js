@@ -31,6 +31,31 @@ export class Vec2 {
         this.y = vec[1];
     }
 
+    rotate(angle) {
+        let theta   = angle * Math.PI / 180;
+        let cs      = Math.cos(theta);
+        let sn      = Math.sin(theta);
+
+        let rx      = this._$val[0] * cs - this._$val[1] * sn;
+        let ry      = this._$val[0] * sn + this._$val[1] * cs;
+
+        this._$val[0] = rx;
+        this._$val[1] = ry;
+
+        return this;
+    }
+
+    rotation(angle) {
+        let theta   = angle * Math.PI / 180;
+        let cs      = Math.cos(theta);
+        let sn      = Math.sin(theta);
+
+        return new Vec2([
+            this._$val[0] * cs - this._$val[1] * sn,
+            this._$val[0] * sn + this._$val[1] * cs
+        ]);
+    }
+
     set x(value) {
         this._$val[0] = value;
     }
@@ -47,13 +72,27 @@ export class Vec2 {
         return this._$val[1];
     }
 
+    static GetNormalRotated(angle) {
+        let normal  = Vec2.StdNormal;
+        let theta   = angle * Math.PI / 180;
+        let cs      = Math.cos(theta);
+        let sn      = Math.sin(theta);
+
+        return new Vec2([
+            normal.x * cs - normal.y * sn,
+            normal.x * sn + normal.y * cs
+        ]);
+    }
+
     static get X() { return 0 };
 
     static get Y() { return 1 };
 
     static get Zero() { return new Vec2([0, 0]) }
 
-    static get One() { return new Vec2([1, 1]); }
+    static get One() { return new Vec2([1, 1]) }
+
+    static get StdNormal() { return new Vec2([1, 0]) }
 }
 
 /*export function Mat22(mat22) {

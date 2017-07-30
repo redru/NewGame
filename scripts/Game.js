@@ -2,13 +2,32 @@
 import GameDescriptor   from "./game.descriptor.json"
 import GameObjectLoader from "./GameObjectLoader"
 
+class GameStatus {
+
+    constructor() {
+        this.__$mustDrawInfo    = true;
+        this.__$paused          = false;
+    }
+
+    set MustDrawInfo(value) { this.__$mustDrawInfo = value }
+
+    get MustDrawInfo() { return this.__$mustDrawInfo }
+
+    set Paused(value) { this.__$paused = value }
+
+    get Paused() { return this.__$paused }
+
+}
+
+const gameStatus = new GameStatus();
+export { gameStatus as default };
+
+// --------------------------------------------------------------
+
 // Vars
 const updatables = [];
 const drawables = [];
 const drawablesInfoObjects = [];
-
-let paused = false;
-let mustDrawInfoObjects = true;
 let ctx = null;
 
 // Engine Core initialization
@@ -18,11 +37,41 @@ const core = Core.Instance;
 core.configure(GameDescriptor['engine']['core']);
 ctx = core.initGraphics(null, new Vec2(GameDescriptor['engine']['board-dimension']));
 
+// Set game callback
+core.gameCallback = function () {
+    drawables.forEach(object => object.draw());
+    if (gameStatus.MustDrawInfo) drawablesInfoObjects.forEach(object => object.draw());
+
+    if (gameStatus.Paused === false) {
+        updatables.forEach(object => object.update());
+    } else drawPause();
+};
+
+// Attach global keylistener
+Core.AddKeyListener(keyCode => {
+    switch (keyCode) {
+        case KeyCodes.ADD:
+            core.updateFps(5);
+            break;
+        case KeyCodes.SUBSTRACT:
+            core.updateFps(-5);
+            break;
+        case KeyCodes.SPACE:
+            gameStatus.Paused = !gameStatus.Paused;
+            break;
+        case KeyCodes.Z:
+            gameStatus.MustDrawInfo = !gameStatus.MustDrawInfo;
+            core.restart(gameStatus.MustDrawInfo);
+            break;
+    }
+});
+
 GameDescriptor['game-objs'].forEach(object => {
     let obj = GameObjectLoader.ObjectNewInstance(object.type);
     obj.configure(new Vec2(object.position), new Vec2(object.size));
 
-    if (typeof object.color === 'string' && object.color !== 'default') obj.setColor(object.color);
+    if (typeof object.color === 'string' && object.color !== 'default') obj.Color = object.color;
+    if (object.rotation) obj.Rotation = object.rotation;
 
     updatables.push(obj);
     drawables.push(obj);
@@ -42,35 +91,6 @@ GameDescriptor['game-objs'].forEach(object => {
             diskbox.follow(obj);
 
             drawablesInfoObjects.push(diskbox);
-            break;
-    }
-});
-
-// Set game callback
-core.gameCallback = function () {
-    drawables.forEach(object => object.draw());
-    if (mustDrawInfoObjects) drawablesInfoObjects.forEach(object => object.draw());
-
-    if (paused === false) {
-        updatables.forEach(object => object.update());
-    } else drawPause();
-};
-
-// Attach global keylistener
-Core.AddKeyListener(keyCode => {
-    switch (keyCode) {
-        case KeyCodes.ADD:
-            core.updateFps(5);
-            break;
-        case KeyCodes.SUBSTRACT:
-            core.updateFps(-5);
-            break;
-        case KeyCodes.SPACE:
-            paused = !paused;
-            break;
-        case KeyCodes.Z:
-            mustDrawInfoObjects = !mustDrawInfoObjects;
-            core.restart(mustDrawInfoObjects);
             break;
     }
 });

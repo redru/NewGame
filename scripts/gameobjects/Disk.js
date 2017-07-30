@@ -1,40 +1,43 @@
 "use strict";
-let ctx = null;
-let canvasDim = null;
+export default class Disk {
 
-export default function Disk() {
-    this.position   = Vec2.Zero;
-    this.size       = Vec2.One;
-    this.color      = new Color(0x0000FF);
-    this.velocity   = new Vec2([0, 500]);
-
-    ctx = Core.Instance.Ctx;
-    canvasDim = Core.Instance.CanvasDim;
-};
-
-Disk.prototype.configure = function(position, size) {
-    this.position = position;
-    this.size = size;
-};
-
-Disk.prototype.setColor = function(hexColor) {
-    if (!hexColor) {
-        this.color.set(0x000000);
-        return;
+    constructor() {
+        this.position   = Vec2.Zero;
+        this.size       = Vec2.One;
+        this.rotation   = 0;
+        this.normal     = Vec2.StdNormal;
+        this.color      = new Color(0x0000FF);
+        this.velocity   = new Vec2([0, 500]);
+        this.ctx        = Core.Instance.Ctx;
     }
 
-    this.color.set(typeof hexColor === 'string' ? parseInt(hexColor) : hexColor);
-};
+    configure(position, size) {
+        this.position = position;
+        this.size = size;
+    }
 
-Disk.prototype.update = function() {
+    update() {
 
-};
+    }
 
-Disk.prototype.draw = function() {
-    ctx.fillStyle = `rgb(${this.color.get(Color.RED)},${this.color.get(Color.GREEN)},${this.color.get(Color.BLUE)})`;
-    ctx.beginPath();
-    ctx.arc(this.position.x, this.position.y, 15, 0, 2 * Math.PI);
-    ctx.fill();
-};
+    draw() {
+        this.ctx.fillStyle = `rgb(${this.color.Red},${this.color.Green},${this.color.Blue})`;
+        this.ctx.beginPath();
+        this.ctx.arc(this.position.x, this.position.y, 15, 0, 2 * Math.PI);
+        this.ctx.fill();
+    }
 
-window.Disk = Disk;
+    set Color(value) {
+        if (!value) {
+            this.color.change(0x000000);
+            return;
+        }
+
+        this.color.change(typeof value === 'string' ? parseInt(value) : value);
+    }
+
+    set Rotation(value) { this.rotation = value }
+
+    get Rotation() { return this.rotation }
+
+}
