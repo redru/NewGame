@@ -147,9 +147,9 @@ export default class Core {
     static get StatsColor() { return Core.__$statsColor }
 }
 
-Core.__$statsColor       = new Color(0x00FF00);
-Core.__$instance         = new Core();
-Core.__$time             = 0;
-Core.__$frameTime        = 0;
+Core.__$statsColor      = new Color(0x00FF00);
+Core.__$instance        = new Core();
+Core.__$time            = 0;
+Core.__$frameTime       = 0;
 Core.__$keyCallbacks    = [];
 Core.__$pressedKeys     = { };
