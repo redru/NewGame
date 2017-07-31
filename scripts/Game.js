@@ -1,6 +1,8 @@
 "use strict";
 import GameDescriptor   from "./game.descriptor.json"
-import GameObjectLoader from "./GameObjectLoader"
+import Pj               from "./gameobjects/Pj"
+import Enemy            from "./gameobjects/Enemy"
+import Disk             from "./gameobjects/Disk"
 
 class GameStatus {
 
@@ -36,6 +38,9 @@ let ctx = null;
 const core = Core.Instance;
 core.configure(GameDescriptor['engine']['core']);
 ctx = core.initGraphics(null, new Vec2(GameDescriptor['engine']['board-dimension']));
+
+// Register custom objects
+GameObjectLoader.RegisterObjects(['Pj', 'Enemy', 'Disk'], [Pj, Enemy, Disk]);
 
 // Set game callback
 core.gameCallback = function () {

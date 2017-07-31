@@ -1,6 +1,8 @@
 "use strict";
-import Color    from "./various/Color"
-import { Vec2 } from "./modules/Geometry2D"
+import { Vec2 }             from "./modules/Geometry2D"
+import GameObjectLoader     from "./modules/GameObjectLoader"
+import RectangleGameObject  from "./objects/RectangleGameObject"
+import Color                from "./various/Color"
 
 export default class Core {
 
@@ -33,6 +35,7 @@ export default class Core {
     configure(configuration) {
         this.fps = configuration.fps;
         this.sleepTime = configuration.sleepTime ? configuration.sleepTime : 1000 / configuration.fps;
+        GameObjectLoader.RegisterObjects(['RectangleGameObject'], [RectangleGameObject]);
     }
 
     initGraphics(target, dimension) {
