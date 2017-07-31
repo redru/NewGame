@@ -4,17 +4,19 @@ import GameStatus from "../Game"
 export default class Disk {
 
     constructor() {
-        this.__$id          = -1;
-        this.__$name         = '';
-        this.__$position    = Vec2.Zero;
-        this.__$size        = Vec2.One;
-        this.__$rotation    = Math.random() * 360;
-        this.normal         = Vec2.StdNormal;
-        this.color          = new Color(0x0000FF);
-        this.direction      = Vec2.Zero;
-        this.velocity       = 1;
+        this.__$id              = -1;
+        this.__$name            = '';
+        this.__$position        = Vec2.Zero;
+        this.__$size            = Vec2.One;
+        this.__$rotation        = Math.random() * 360;
+        this.__$normal             = Vec2.StdNormal;
+        this.__$color           = new Color(0x0055FF);
+        this.__$direction       = new Vec2([0, 0]);
+        this.__$velocity        = 1;
+        this.__$rotationSpeed   = 100;
+        this.__$colliders       = [];
 
-        this.ctx            = Core.Instance.Ctx;
+        this.__$ctx             = Core.Instance.Ctx;
     }
 
     configure(position, size) {
@@ -23,17 +25,17 @@ export default class Disk {
     }
 
     update() {
-        this.direction.copy(Vec2.GetNormalRotated(this.__$rotation));
-        this.normal.copy(this.direction);
+        this.__$direction.copy(Vec2.GetNormalRotated(this.__$rotation));
+        this.__$normal.copy(this.__$direction);
 
-        this.__$position.increment(this.direction.X * this.velocity * Core.DeltaTime, this.direction.Y * this.velocity * Core.DeltaTime);
+        this.__$position.increment(this.__$direction.X * this.__$velocity * Core.DeltaTime, this.__$direction.Y * this.__$velocity * Core.DeltaTime);
     }
 
     draw() {
-        this.ctx.fillStyle = `rgb(${this.color.Red},${this.color.Green},${this.color.Blue})`;
-        this.ctx.beginPath();
-        this.ctx.arc(this.__$position.X, this.__$position.Y, 15, 0, 2 * Math.PI);
-        this.ctx.fill();
+        this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
+        this.__$ctx.beginPath();
+        this.__$ctx.arc(this.__$position.X, this.__$position.Y, 15, 0, 2 * Math.PI);
+        this.__$ctx.fill();
 
         if (GameStatus.MustDrawInfo) this.drawNormal();
     }
@@ -42,11 +44,11 @@ export default class Disk {
         let bx = this.__$position.X;
         let by = this.__$position.Y;
 
-        this.ctx.strokeStyle = '#FFFF00';
-        this.ctx.beginPath();
-        this.ctx.moveTo(bx, by);
-        this.ctx.lineTo(bx + this.normal.X * 100, by + this.normal.Y * 100);
-        this.ctx.stroke();
+        this.__$ctx.strokeStyle = '#FFFF00';
+        this.__$ctx.beginPath();
+        this.__$ctx.moveTo(bx, by);
+        this.__$ctx.lineTo(bx + this.__$normal.X * 100, by + this.__$normal.Y * 100);
+        this.__$ctx.stroke();
     }
 
     set Id(value) { this.__$id = value }
@@ -59,12 +61,14 @@ export default class Disk {
 
     set Color(value) {
         if (!value) {
-            this.color.change(0x000000);
+            this.__$color.change(0x000000);
             return;
         }
 
-        this.color.change(typeof value === 'string' ? parseInt(value) : value);
+        this.__$color.change(typeof value === 'string' ? parseInt(value) : value);
     }
+
+    get Color() { return this.__$color }
 
     set Position(value) { this.__$position = value }
 
@@ -77,5 +81,9 @@ export default class Disk {
     set Rotation(value) { this.__$rotation = value }
 
     get Rotation() { return this.__$rotation }
+
+    set Normal(value) { this.__$normal.copy(value) }
+
+    get Normal() { return this.__$normal }
 
 }

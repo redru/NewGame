@@ -44,4 +44,8 @@ export default class RectangleGameObject extends GameObject {
 
     }
 
+    set Color(value) { this.__$color.change(value) }
+
+    get Color() { return this.__$color }
+
 }
