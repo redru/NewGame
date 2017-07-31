@@ -36,9 +36,11 @@ export default class PositionalBox {
 
             this.__$ctx.font = '12px serif';
             this.__$ctx.fillStyle = `rgb(${this.__$styleColor.Red},${this.__$styleColor.Green},${this.__$styleColor.Blue})`;
-            this.__$ctx.fillText(`p : [${parseInt(this.__$followedObject.Position.X)}, ${parseInt(this.__$followedObject.Position.Y)}]`, xpos, ypos);
-            this.__$ctx.fillText(`n : [${parseFloat(this.__$followedObject.normal.X)}, ${parseFloat(this.__$followedObject.normal.Y)}]`, xpos, ypos + 15);
-            this.__$ctx.fillText(`° : ${this.__$followedObject.Rotation}`, xpos, ypos + 30);
+            this.__$ctx.fillText(`id : ${this.__$followedObject.Id}`, xpos, ypos);
+            this.__$ctx.fillText(`name : ${this.__$followedObject.Name}`, xpos, ypos + 15);
+            this.__$ctx.fillText(`p : [${parseInt(this.__$followedObject.Position.X)}, ${parseInt(this.__$followedObject.Position.Y)}]`, xpos, ypos + 30);
+            this.__$ctx.fillText(`n : [${parseFloat(this.__$followedObject.normal.X)}, ${parseFloat(this.__$followedObject.normal.Y)}]`, xpos, ypos + 45);
+            this.__$ctx.fillText(`° : ${this.__$followedObject.Rotation}`, xpos, ypos + 60);
         } else {
             this.__$ctx.strokeRect(this.__$position.X, this.__$position.Y, this.__$size.X, this.__$size.Y);
         }

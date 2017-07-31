@@ -68,6 +68,7 @@ Core.AddKeyListener(keyCode => {
 
 GameDescriptor['game-objs'].forEach(object => {
     let obj = GameObjectLoader.ObjectNewInstance(object.type);
+    obj.Name = object.name;
 
     if (obj.configure) {
         obj.configure(new Vec2(object.position), new Vec2(object.size));

@@ -10,12 +10,17 @@ const __$objectsList = {
     'RectangleGameObject'   : RectangleGameObject
 };
 
+let __$idCounter = 0;
+
 export default class GameObjectLoader {
 
     static ObjectNewInstance(name) {
         if (!__$objectsList.hasOwnProperty(name)) return null;
 
-        return new __$objectsList[name]();
+        const tmp = new __$objectsList[name]();
+        tmp.Id = __$idCounter++;
+
+        return tmp;
     }
 
 }

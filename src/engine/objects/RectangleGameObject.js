@@ -13,6 +13,8 @@ export default class RectangleGameObject extends GameObject {
         this.attachCollider(new BoundingBox());
     }
 
+    update() { }
+
     draw() {
         this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
         this.__$ctx.fillRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y);

@@ -8,12 +8,14 @@
   "game-objs": [
     {
       "type"      : "Pj",
+      "name"      : "PJ_1",
       "color"     : "default",
       "position"  : [200, 300],
       "size"      : [10, 80]
     },
     {
       "type"      : "Enemy",
+      "name"      : "ENEMY_1",
       "color"     : "default",
       "position"  : [1080, 340],
       "size"      : [10, 80],
@@ -21,12 +23,14 @@
     },
     {
       "type"      : "Disk",
+      "name"      : "DISK_1",
       "color"     : "default",
       "position"  : [600, 300],
       "size"      : [5, 50]
     },
     {
       "type"      : "RectangleGameObject",
+      "name"      : "WALL_TOP",
       "color"     : "default",
       "position"  : [50, 50],
       "size"      : [1180, 50],
@@ -34,6 +38,7 @@
     },
     {
       "type"      : "RectangleGameObject",
+      "name"      : "WALL_BOTTOM",
       "color"     : "default",
       "position"  : [50, 620],
       "size"      : [1180, 50],
@@ -41,6 +46,7 @@
     },
     {
       "type"      : "RectangleGameObject",
+      "name"      : "WALL_LEFT",
       "color"     : "default",
       "position"  : [50, 100],
       "size"      : [50, 520],
@@ -48,6 +54,7 @@
     },
     {
       "type"      : "RectangleGameObject",
+      "name"      : "WALL_RIGHT",
       "color"     : "default",
       "position"  : [1180, 100],
       "size"      : [50, 520],

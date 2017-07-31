@@ -38,6 +38,8 @@ export default class Core {
     initGraphics(target, dimension) {
         this.canvas = document.getElementById(target ? target : '2DBoard');
         this.__$ctx = this.canvas.getContext('2d');
+        // this.__$ctx.imageSmoothingQuality = 'High';
+        this.__$ctx.imageSmoothingEnabled = false;
 
         if (dimension) {
             this.__$canvasDim.copy(dimension);

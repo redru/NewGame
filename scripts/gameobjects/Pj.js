@@ -4,6 +4,8 @@ import GameStatus from "../Game"
 export default class Pj {
 
     constructor() {
+        this.__$id          = -1;
+        this._$name         = '';
         this.__$position    = Vec2.Zero;
         this.__$size        = Vec2.One;
         this.__$rotation    = 0;
@@ -79,6 +81,14 @@ export default class Pj {
     drawColliders() {
         this.__$colliders.forEach(collider => collider.draw());
     }
+
+    set Id(value) { this.__$id = value }
+
+    get Id() { return this.__$id }
+
+    set Name(value) { this.__$name = value }
+
+    get Name() { return this.__$name }
 
     set Color(value) {
         if (!value) {

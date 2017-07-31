@@ -4,6 +4,8 @@ import GameStatus from "../Game"
 export default class Disk {
 
     constructor() {
+        this.__$id          = -1;
+        this.__$name         = '';
         this.__$position    = Vec2.Zero;
         this.__$size        = Vec2.One;
         this.__$rotation    = Math.random() * 360;
@@ -46,6 +48,14 @@ export default class Disk {
         this.ctx.lineTo(bx + this.normal.X * 100, by + this.normal.Y * 100);
         this.ctx.stroke();
     }
+
+    set Id(value) { this.__$id = value }
+
+    get Id() { return this.__$id }
+
+    set Name(value) { this.__$name = value }
+
+    get Name() { return this.__$name }
 
     set Color(value) {
         if (!value) {
