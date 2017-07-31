@@ -14,23 +14,18 @@ export default class Pj {
         this.__$direction       = new Vec2([0, 0]);
         this.__$velocity        = 500;
         this.__$rotationSpeed   = 200;
-        this.__$colliders       = [];
+        this.__$collider        = null;
 
         this.__$ctx             = Core.Instance.Ctx;
         this.__$canvasDim       = Core.Instance.CanvasDim;
-
-        this.attachCollider(new BoundingBox());
-    }
-
-    configure(position, size) {
-        this.__$position.copy(position);
-        this.__$size.copy(size);
     }
 
     attachCollider(collider) {
-        this.__$colliders.push(collider);
+        this.__$collider = collider;
         collider.attachObject(this);
     }
+
+    onCollision(collider) { }
 
     update() {
         // Rotate if needed
@@ -46,15 +41,12 @@ export default class Pj {
 
         // Set direction vector
         if (Core.IsKeyPressed(KeyCodes.E) && Core.IsKeyPressed(KeyCodes.Q)) this.__$direction.Y = 0;
-        else if (Core.IsKeyPressed(KeyCodes.E)) this.__$direction.Y = 1;
-        else if (Core.IsKeyPressed(KeyCodes.Q)) this.__$direction.Y = -1;
+        else if (Core.IsKeyPressed(KeyCodes.E) && !this.__$collider.collidesWith('WALL_BOTTOM')) this.__$direction.Y = 1;
+        else if (Core.IsKeyPressed(KeyCodes.Q) && !this.__$collider.collidesWith('WALL_TOP')) this.__$direction.Y = -1;
         else this.__$direction.Y = 0;
 
         // Move
         this.__$position.increment(0, this.__$direction.Y * this.__$velocity * Core.DeltaTime);
-
-        if (this.__$position.Y < 0) this.__$position.Y = 0;
-        else if (this.__$position.Y + this.__$size.Y > this.__$canvasDim.Y) this.__$position.Y = this.__$canvasDim.Y - this.__$size.Y;
     }
 
     draw() {
@@ -66,7 +58,7 @@ export default class Pj {
         this.__$ctx.restore();
 
         if (GameStatus.MustDrawInfo) {
-            this.drawColliders();
+            this.__$collider.draw();
             this.drawNormal();
             this.drawDirection();
         }
@@ -90,12 +82,8 @@ export default class Pj {
         this.__$ctx.strokeStyle = '#00FF00';
         this.__$ctx.beginPath();
         this.__$ctx.moveTo(bx, by);
-        this.__$ctx.lineTo(bx + this.__$direction.X * this.__$velocity, by + this.__$direction.Y * this.__$velocity);
+        this.__$ctx.lineTo(bx + this.__$direction.X * this.__$velocity * 0.25, by + this.__$direction.Y * this.__$velocity * 0.25);
         this.__$ctx.stroke();
-    }
-
-    drawColliders() {
-        this.__$colliders.forEach(collider => collider.draw());
     }
 
     set Id(value) { this.__$id = value }
@@ -132,5 +120,9 @@ export default class Pj {
     set Normal(value) { this.__$normal.copy(value) }
 
     get Normal() { return this.__$normal }
+
+    set Collider(value) { this.__$collider = value }
+
+    get Collider() { return this.__$collider }
 
 };

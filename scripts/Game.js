@@ -75,17 +75,14 @@ Core.AddKeyListener(keyCode => {
 GameDescriptor['game-objs'].forEach(object => {
     let obj = GameObjectLoader.ObjectNewInstance(object.type);
     obj.Name = object.name;
-
-    if (obj.configure) {
-        obj.configure(new Vec2(object.position), new Vec2(object.size));
-    } else {
-        obj.Position = new Vec2(object.position);
-        obj.Size = new Vec2(object.size);
-    }
+    obj.Position = new Vec2(object.position);
+    obj.Size = new Vec2(object.size);
+    Logger.Append(`[Game] Created new ${object.type} [${obj.Id}] ${obj.Name}`);
 
     if (typeof object.color === 'string' && object.color !== 'default') obj.Color = object.color;
     if (object.rotation) obj.Rotation = object.rotation;
     if (object.normal) obj.Normal = new Vec2(object.normal);
+    if (obj.attachCollider) obj.attachCollider(new BoundingBox());
 
     updatables.push(obj);
     drawables.push(obj);
@@ -107,8 +104,6 @@ GameDescriptor['game-objs'].forEach(object => {
             drawablesInfoObjects.push(diskbox);
             break;
     }
-
-    Logger.Append(`Created new object [${obj.Id}] ${obj.Name}`);
 });
 
 // Draw pause function in case of paused game

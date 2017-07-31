@@ -13,7 +13,7 @@ export default class GameObjectLoader {
     static RegisterObjects(names, prototypes) {
         names.forEach((name, index) => {
             __$objectsList[name] = prototypes[index];
-            Logger.Append(`Initialized prototype "${name}"`);
+            Logger.Append(`[GameObjectLoader] Initialized prototype "${name}"`);
         });
     }
 

@@ -1,5 +1,6 @@
 "use strict";
 import Core     from "../Core"
+import Logger   from "../modules/Logger"
 import Color    from "../various/Color"
 import Collider from "./Collider"
 
@@ -11,8 +12,9 @@ export default class BoundingBox extends Collider {
         this.__$ctx     = Core.Instance.Ctx;
     }
 
-    checkCollision() {
-
+    attachObject(object) {
+        Collider.prototype.attachObject.call(this, object);
+        Logger.Append(`[BoundingBox] Attached BoundingBox to ${object.Name}`);
     }
 
     draw() {
@@ -27,5 +29,7 @@ export default class BoundingBox extends Collider {
     set Color(value) { this.__$color.change(value) }
 
     get Color() { return this.__$color }
+
+    static get Type() { return Collider.Types.Square }
 
 }

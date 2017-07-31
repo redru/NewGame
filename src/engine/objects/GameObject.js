@@ -10,12 +10,12 @@ export default class GameObject {
         this.__$size        = Vec2.Zero;
         this.__$normal      = Vec2.Zero;
         this.__$rotation    = 0;
-        this.__$colliders   = [];
+        this.__$collider    = null;
     }
 
     attachCollider(object) {
         object.attachObject(this);
-        this.__$colliders.push(object);
+        this.__$collider = object;
     }
 
     set Id(value) { this.__$id = value }
@@ -42,6 +42,6 @@ export default class GameObject {
 
     get Rotation() { return this.__$rotation }
 
-    get Colliders() { return this.__$colliders }
+    get Collider() { return this.__$collider }
 
 }

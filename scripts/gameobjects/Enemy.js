@@ -19,11 +19,6 @@ export default class Enemy {
         this.__$ctx             = Core.Instance.Ctx;
     }
 
-    configure(position, size) {
-        this.__$position.copy(position);
-        this.__$size.copy(size);
-    }
-
     update() {
         this.__$normal.copy(Vec2.GetNormalRotated(this.__$rotation));
     }

@@ -10,6 +10,11 @@ export class Vec2 {
         this.__$val[1] += v2;
     }
 
+    substractVector(v) {
+        this.__$val[0] -= v.X;
+        this.__$val[1] -= v.Y;
+    }
+
     sumScalar(scalar) {
         this.__$val[0] += scalar;
         this.__$val[1] += scalar;
@@ -69,6 +74,34 @@ export class Vec2 {
 
     get Y() {
         return this.__$val[1];
+    }
+
+    set Width(value) {
+        this.__$val[0] = value;
+    }
+
+    get Width() {
+        return this.__$val[0];
+    }
+
+    set Height(value) {
+        this.__$val[1] = value;
+    }
+
+    get Height() {
+        return this.__$val[1];
+    }
+
+    static SumScalar(v, scalar) {
+        return new Vec2([v.X += scalar, v.Y += scalar]);
+    }
+
+    static MultiplyScalar(v, scalar) {
+        return new Vec2([v.X *= scalar, v.Y *= scalar]);
+    }
+
+    static DotProduct(v1, v2) {
+        return v1.X * v2.X + v1.Y + v2.Y;
     }
 
     static GetNormalRotated(angle) {

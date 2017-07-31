@@ -8,20 +8,32 @@ export default class Disk {
         this.__$name            = '';
         this.__$position        = Vec2.Zero;
         this.__$size            = Vec2.One;
+        this.__$radius          = 0;
         this.__$rotation        = Math.random() * 360;
-        this.__$normal             = Vec2.StdNormal;
+        this.__$normal          = Vec2.StdNormal;
         this.__$color           = new Color(0x0055FF);
         this.__$direction       = new Vec2([0, 0]);
-        this.__$velocity        = 1;
+        this.__$velocity        = 50;
         this.__$rotationSpeed   = 100;
-        this.__$colliders       = [];
+        this.__$collider        = null;
 
         this.__$ctx             = Core.Instance.Ctx;
     }
 
-    configure(position, size) {
-        this.__$position = position;
-        this.__$size = size;
+    attachCollider(collider) {
+        this.__$collider = collider;
+        collider.attachObject(this);
+    }
+
+    onCollision(object) {
+        console.log(`Disk collided`);
+        if (object.Normal) {
+            // v' = 2 * (v . n) * n - v;
+            let reflected = Vec2.MultiplyScalar(object.Normal, Vec2.DotProduct(this.__$direction, object.Normal) * 2);
+            reflected.substractVector(this.__$direction);
+            this.__$rotation = Math.atan2(reflected.X, reflected.Y) * 180/ Math.PI;
+            console.log(`New rotation: ${this.__$rotation}`);
+        }
     }
 
     update() {
@@ -34,10 +46,13 @@ export default class Disk {
     draw() {
         this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
         this.__$ctx.beginPath();
-        this.__$ctx.arc(this.__$position.X, this.__$position.Y, 15, 0, 2 * Math.PI);
+        this.__$ctx.arc(this.__$position.X + this.__$radius, this.__$position.Y + this.__$radius, this.__$radius, 0, 2 * Math.PI);
         this.__$ctx.fill();
 
-        if (GameStatus.MustDrawInfo) this.drawNormal();
+        if (GameStatus.MustDrawInfo) {
+            this.__$collider.draw();
+            this.drawNormal();
+        }
     }
 
     drawNormal() {
@@ -70,13 +85,18 @@ export default class Disk {
 
     get Color() { return this.__$color }
 
-    set Position(value) { this.__$position = value }
+    set Position(value) { this.__$position.copy(value) }
 
     get Position() { return this.__$position }
 
-    set Size(value) { this.__$size = value }
+    set Size(value) {
+        this.__$size.copy(value);
+        this.__$radius = value.Width / 2;
+    }
 
     get Size() { return this.__$size }
+
+    get Radius() { return this.__$radius }
 
     set Rotation(value) { this.__$rotation = value }
 
@@ -85,5 +105,9 @@ export default class Disk {
     set Normal(value) { this.__$normal.copy(value) }
 
     get Normal() { return this.__$normal }
+
+    set Collider(value) { this.__$collider = value }
+
+    get Collider() { return this.__$collider }
 
 }

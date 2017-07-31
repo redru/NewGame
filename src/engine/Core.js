@@ -3,6 +3,7 @@ import { Vec2 }             from "./modules/Geometry2D"
 import GameObjectLoader     from "./modules/GameObjectLoader"
 import Logger               from "./modules/Logger"
 import RectangleGameObject  from "./objects/RectangleGameObject"
+import CollisionSystem      from "./collisions/CollisionSystem"
 import Color                from "./various/Color"
 
 export default class Core {
@@ -39,7 +40,7 @@ export default class Core {
         this.fps = configuration.fps;
         this.sleepTime = configuration.sleepTime ? configuration.sleepTime : 1000 / configuration.fps;
 
-        Logger.Append(`Core initialized: ${this.fps} FPS`);
+        Logger.Append(`[Core] Initialized: ${this.fps} FPS`);
     }
 
     initGraphics(target, dimension) {
@@ -56,7 +57,7 @@ export default class Core {
             this.__$canvasDim.copyFromArray([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
         }
 
-        Logger.Append(`Graphics initialized: Canvas [${this.__$canvasDim.X}, ${this.__$canvasDim.Y}]`);
+        Logger.Append(`[Core] Graphics initialized: Canvas [${this.__$canvasDim.X}, ${this.__$canvasDim.Y}]`);
         return this.__$ctx;
     }
 
@@ -79,6 +80,8 @@ export default class Core {
             Core.Time += Core.FrameTime;
 
             this.clearScreen();
+
+            CollisionSystem.Instance.checkCollision();
             this.gameCallback();
             if (this.__$statsActive) this.drawStats();
         }, this.sleepTime);
@@ -98,7 +101,7 @@ export default class Core {
 
         this.fps += delta;
         this.sleepTime = 1000 / this.fps;
-        Logger.Append(`FPS: ${this.fps}`);
+        Logger.Append(`[Core] FPS: ${this.fps}`);
 
         this.restart();
     }
