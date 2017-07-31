@@ -1,4 +1,6 @@
 "use strict";
+import Logger   from "./Logger"
+
 const __$objectsList = { };
 let __$idCounter = 0;
 
@@ -11,6 +13,7 @@ export default class GameObjectLoader {
     static RegisterObjects(names, prototypes) {
         names.forEach((name, index) => {
             __$objectsList[name] = prototypes[index];
+            Logger.Append(`Initialized prototype "${name}"`);
         });
     }
 

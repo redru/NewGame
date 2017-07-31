@@ -38,6 +38,7 @@ let ctx = null;
 const core = Core.Instance;
 core.configure(GameDescriptor['engine']['core']);
 ctx = core.initGraphics(null, new Vec2(GameDescriptor['engine']['board-dimension']));
+core.loadObjects();
 
 // Register custom objects
 GameObjectLoader.RegisterObjects(['Pj', 'Enemy', 'Disk'], [Pj, Enemy, Disk]);
@@ -106,6 +107,8 @@ GameDescriptor['game-objs'].forEach(object => {
             drawablesInfoObjects.push(diskbox);
             break;
     }
+
+    Logger.Append(`Created new object [${obj.Id}] ${obj.Name}`);
 });
 
 // Draw pause function in case of paused game

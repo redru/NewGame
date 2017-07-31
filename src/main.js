@@ -1,5 +1,6 @@
 import KeyCodes             from "./engine/various/KeyCodes"
 import Color                from "./engine/various/Color"
+import Logger               from "./engine/modules/Logger"
 import Chrono               from "./engine/modules/Chrono"
 import { Vec2 }             from "./engine/modules/Geometry2D"
 import GameObjectLoader     from "./engine/modules/GameObjectLoader"
@@ -12,6 +13,7 @@ import Core                 from "./engine/Core"
 
 window.KeyCodes             = KeyCodes;
 window.Color                = Color;
+window.Logger               = Logger;
 window.Chrono               = Chrono;
 window.Vec2                 = Vec2;
 window.GameObjectLoader     = GameObjectLoader;
