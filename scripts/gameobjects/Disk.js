@@ -13,7 +13,7 @@ export default class Disk {
         this.__$normal          = Vec2.StdNormal;
         this.__$color           = new Color(0x0055FF);
         this.__$direction       = new Vec2([0, 0]);
-        this.__$velocity        = 50;
+        this.__$velocity        = 25;
         this.__$rotationSpeed   = 100;
         this.__$collider        = null;
 
@@ -26,12 +26,24 @@ export default class Disk {
     }
 
     onCollision(object) {
-        console.log(`Disk collided`);
+        console.log(`Disk collided. Old rotation ${this.__$rotation}`);
         if (object.Normal) {
             // v' = 2 * (v . n) * n - v;
+            // let reflected = Vec2.MultiplyScalar(object.Normal, Vec2.DotProduct(this.__$direction, object.Normal) * 2);
+            // reflected.substractVector(this.__$direction);
+
+            // Vect2 = Vect1 - 2 * WallN * (WallN DOT Vect1)
             let reflected = Vec2.MultiplyScalar(object.Normal, Vec2.DotProduct(this.__$direction, object.Normal) * 2);
-            reflected.substractVector(this.__$direction);
+            reflected = Vec2.Substract(this.__$direction, reflected);
+
+            // V-=2*Normal_wall*(Normal_wall.V)
+
+            // Retrieve rotation from new direction
             this.__$rotation = Math.atan2(reflected.X, reflected.Y) * 180/ Math.PI;
+
+            if (this.__$rotation < 0) this.__$rotation += 360;
+            else if (this.__$rotation >= 360) this.__$rotation -= 360;
+
             console.log(`New rotation: ${this.__$rotation}`);
         }
     }

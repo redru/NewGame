@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.5.0",
+    "chalk": "^2.0.1",
     "jquery": "^3.2.1"
   },
   "devDependencies": {
