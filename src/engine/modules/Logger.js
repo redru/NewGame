@@ -9,6 +9,7 @@ export default class Logger {
 
     static Append(text) {
         __$logArea.value += `${text}\n`;
+        __$logArea.scrollTop = __$logArea.scrollHeight;
     }
 
 }

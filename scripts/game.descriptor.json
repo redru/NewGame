@@ -9,6 +9,7 @@
     {
       "type"      : "Pj",
       "name"      : "PJ_1",
+      "group"     : "PLAYER",
       "color"     : "default",
       "position"  : [200, 300],
       "size"      : [10, 80]
@@ -31,6 +32,7 @@
     {
       "type"      : "RectangleGameObject",
       "name"      : "WALL_TOP",
+      "group"     : "WALL",
       "color"     : "default",
       "position"  : [50, 50],
       "size"      : [1180, 50],
@@ -39,6 +41,7 @@
     {
       "type"      : "RectangleGameObject",
       "name"      : "WALL_BOTTOM",
+      "group"     : "WALL",
       "color"     : "default",
       "position"  : [50, 620],
       "size"      : [1180, 50],
@@ -47,6 +50,7 @@
     {
       "type"      : "RectangleGameObject",
       "name"      : "WALL_LEFT",
+      "group"     : "WALL",
       "color"     : "default",
       "position"  : [50, 100],
       "size"      : [50, 520],
@@ -55,6 +59,7 @@
     {
       "type"      : "RectangleGameObject",
       "name"      : "WALL_RIGHT",
+      "group"     : "WALL",
       "color"     : "default",
       "position"  : [1180, 100],
       "size"      : [50, 520],

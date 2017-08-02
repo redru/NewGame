@@ -6,6 +6,7 @@ export default class GameObject {
     constructor() {
         this.__$id          = -1;
         this.__$name        = '';
+        this.__$group       = 'default';
         this.__$position    = Vec2.Zero;
         this.__$size        = Vec2.Zero;
         this.__$normal      = Vec2.Zero;
@@ -25,6 +26,10 @@ export default class GameObject {
     set Name(value) { this.__$name = value }
 
     get Name() { return this.__$name }
+
+    set Group(value) { this.__$group = value }
+
+    get Group() { return this.__$group }
 
     set Position(value) { this.__$position.copy(value) }
 

@@ -82,6 +82,7 @@ GameDescriptor['game-objs'].forEach(object => {
     if (typeof object.color === 'string' && object.color !== 'default') obj.Color = object.color;
     if (object.rotation) obj.Rotation = object.rotation;
     if (object.normal) obj.Normal = new Vec2(object.normal);
+    if (object.group) obj.Group = object.group;
     if (obj.attachCollider) obj.attachCollider(new BoundingBox());
 
     updatables.push(obj);

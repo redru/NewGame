@@ -20,7 +20,7 @@ export default class Enemy {
     }
 
     update() {
-        this.__$normal.copy(Vec2.GetNormalRotated(this.__$rotation));
+        this.__$normal.copy(Vec2.GetNormal(this.__$rotation));
     }
 
     draw() {

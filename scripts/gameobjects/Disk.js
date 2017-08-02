@@ -10,10 +10,10 @@ export default class Disk {
         this.__$size            = Vec2.One;
         this.__$radius          = 0;
         this.__$rotation        = Math.random() * 360;
-        this.__$normal          = Vec2.StdNormal;
+        this.__$normal          = Vec2.GetNormal(this.__$rotation);
         this.__$color           = new Color(0x0055FF);
-        this.__$direction       = new Vec2([0, 0]);
-        this.__$velocity        = 125;
+        this.__$direction       = Vec2.Copy(this.__$normal);
+        this.__$velocity        = 250;
         this.__$rotationSpeed   = 100;
         this.__$collider        = null;
 
@@ -26,22 +26,30 @@ export default class Disk {
     }
 
     onCollision(object) {
-        Logger.Append(`[Disk] Collision. Old rotation ${this.__$rotation}`);
-        if (object.Normal) {
-            this.__$rotation = Vec2.Reflect(this.__$direction, object.Normal).toRotation();
 
-            if (this.__$rotation < 0) this.__$rotation += 360;
-            else if (this.__$rotation >= 360) this.__$rotation -= 360;
-
-            Logger.Append(`[Disk] New rotation: ${this.__$rotation}`);
-        }
     }
 
     update() {
-        this.__$direction.copy(Vec2.GetNormalRotated(this.__$rotation));
-        this.__$normal.copy(this.__$direction);
-
+        const oldPosition = Vec2.Copy(this.__$position);
         this.__$position.increment(this.__$direction.X * this.__$velocity * Core.DeltaTime, this.__$direction.Y * this.__$velocity * Core.DeltaTime);
+
+        const collisions = this.__$collider.getCollisions();
+
+        if (collisions.length !== 0) {
+            this.__$position.copy(oldPosition);
+
+            collisions.forEach(object => {
+                if ((object.Group === 'WALL' || object.Group === 'PLAYER') && object.Normal) {
+                    this.__$rotation = Vec2.Reflect(this.__$direction, object.Normal).toRotation() + Math.random() * 50 - 25;
+
+                    if (this.__$rotation < 0) this.__$rotation += 360;
+                    else if (this.__$rotation >= 360) this.__$rotation -= 360;
+
+                    this.__$direction = Vec2.GetNormal(this.__$rotation);
+                    this.__$normal.copy(this.__$direction);
+                }
+            });
+        }
     }
 
     draw() {

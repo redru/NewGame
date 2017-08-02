@@ -8,11 +8,16 @@ export default class Collider {
         this.__$size            = Vec2.Zero;
         this.__$attached        = attached;
         this.__$collidingWith   = [];
+        this.__$collisionSystem = CollisionSystem.Instance;
     }
 
     attachObject(object) {
         this.__$attached = object;
-        CollisionSystem.Instance.register(this);
+        this.__$collisionSystem.register(this);
+    }
+
+    getCollisions() {
+        return this.__$collisionSystem.executeCollisionCheck(this);
     }
 
     collidesWith(name) {

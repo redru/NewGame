@@ -6,6 +6,7 @@ export default class Pj {
     constructor() {
         this.__$id              = -1;
         this.__$name            = '';
+        this.__$group           = '';
         this.__$position        = Vec2.Zero;
         this.__$size            = Vec2.One;
         this.__$rotation        = 0;
@@ -37,7 +38,7 @@ export default class Pj {
         else if (this.__$rotation < 0) this.__$rotation += 360;
 
         // Recalculate normals
-        this.__$normal.copy(Vec2.GetNormalRotated(this.__$rotation));
+        this.__$normal.copy(Vec2.GetNormal(this.__$rotation));
 
         // Set direction vector
         if (Core.IsKeyPressed(KeyCodes.E) && Core.IsKeyPressed(KeyCodes.Q)) this.__$direction.Y = 0;
@@ -93,6 +94,10 @@ export default class Pj {
     set Name(value) { this.__$name = value }
 
     get Name() { return this.__$name }
+
+    set Group(value) { this.__$group = value }
+
+    get Group() { return this.__$group }
 
     set Color(value) {
         if (!value) {

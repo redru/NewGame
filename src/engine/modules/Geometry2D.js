@@ -1,8 +1,9 @@
 "use strict";
 export class Vec2 {
 
-    constructor(vec2) {
-        this.__$val = vec2 ? vec2 : Vec2.One;
+    constructor(vec) {
+        if (!vec) this.__$val = Vec2.Zero;
+        else this.__$val = Array.isArray(vec) ? [vec[0], vec[1]] : [vec.X, vec.Y];
     }
 
     increment(v1, v2) {
@@ -31,7 +32,7 @@ export class Vec2 {
     }
 
     toRotation() {
-        return Math.atan2(this.__$val[0], this.__$val[1]) * 180/ Math.PI;
+        return Math.atan2(this.__$val[1], this.__$val[0]) * 180/ Math.PI;
     }
 
     copyFromArray(vec) {
@@ -112,7 +113,7 @@ export class Vec2 {
         return v1.X * v2.X + v1.Y * v2.Y;
     }
 
-    static GetNormalRotated(angle) {
+    static GetNormal(angle) {
         let normal  = Vec2.StdNormal;
         let theta   = angle * Math.PI / 180;
         let cs      = Math.cos(theta);
@@ -130,6 +131,10 @@ export class Vec2 {
     static Reflect(direction, normal) {
         let reflected = Vec2.MultiplyScalar(normal, Vec2.DotProduct(direction, normal) * 2);
         return Vec2.Substract(direction, reflected);
+    }
+
+    static Copy(vec) {
+        return new Vec2(Array.isArray(vec) ? [vec[0], vec[1]] : [vec.X, vec.Y]);
     }
 
     static get Zero() { return new Vec2([0, 0]) }
