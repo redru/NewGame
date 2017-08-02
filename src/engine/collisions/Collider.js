@@ -15,10 +15,6 @@ export default class Collider {
         CollisionSystem.Instance.register(this);
     }
 
-    checkCollision(collider) { return false }
-
-    onCollision(collider) { }
-
     collidesWith(name) {
         for (let index in this.__$collidingWith) {
             if (this.__$collidingWith[index].Name === name)

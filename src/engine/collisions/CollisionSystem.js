@@ -1,5 +1,4 @@
 "use strict";
-import Core     from "../Core"
 import Logger   from "../modules/Logger";
 import Collider from "./Collider";
 

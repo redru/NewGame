@@ -30,6 +30,10 @@ export class Vec2 {
         this.__$val[1] = vec2.__$val[1];
     }
 
+    toRotation() {
+        return Math.atan2(this.__$val[0], this.__$val[1]) * 180/ Math.PI;
+    }
+
     copyFromArray(vec) {
         this.X = vec[0];
         this.Y = vec[1];
@@ -120,28 +124,17 @@ export class Vec2 {
         ]);
     }
 
+    // v' = 2 * (v . n) * n - v;
+    // Vect2 = Vect1 - 2 * WallN * (WallN DOT Vect1)
+    // V-=2*Normal_wall*(Normal_wall.V)
+    static Reflect(direction, normal) {
+        let reflected = Vec2.MultiplyScalar(normal, Vec2.DotProduct(direction, normal) * 2);
+        return Vec2.Substract(direction, reflected);
+    }
+
     static get Zero() { return new Vec2([0, 0]) }
 
     static get One() { return new Vec2([1, 1]) }
 
     static get StdNormal() { return new Vec2([1, 0]) }
 }
-
-/*export function Mat22(mat22) {
-    this.__$val = mat22 ? mat22 : Mat22.Identity();
-}
-
-Mat22.prototype.get = function(param) {
-    return this.__$val;
-};
-
-Mat22.prototype.set = function(newVal) {
-    return this.__$val = newVal;
-};
-
-Mat22.Identity = function() {
-    return [
-        [1, 0],
-        [0, 1]
-    ];
-};*/
