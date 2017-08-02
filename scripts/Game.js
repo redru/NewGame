@@ -37,6 +37,7 @@ let ctx = null;
 // [1] Graphics
 const core = Core.Instance;
 core.configure(GameDescriptor['engine']['core']);
+core.ClearColor = GameDescriptor['engine']['clear-color'];
 ctx = core.initGraphics(null, new Vec2(GameDescriptor['engine']['board-dimension']));
 core.loadObjects();
 
@@ -91,18 +92,12 @@ GameDescriptor['game-objs'].forEach(object => {
     switch(object.type) {
         case 'Pj':
         case 'Enemy':
+        case 'Disk':
             let box = new PositionalBox();
             box.configure(obj.Position, obj.Size, 20);
             box.follow(obj);
 
             drawablesInfoObjects.push(box);
-            break;
-        case 'Disk':
-            let diskbox = new PositionalBox();
-            diskbox.configure(new Vec2([360, 360]), new Vec2([30, 30]), 20, -15);
-            diskbox.follow(obj);
-
-            drawablesInfoObjects.push(diskbox);
             break;
     }
 });

@@ -4,6 +4,7 @@ import Logger               from "./engine/modules/Logger"
 import Chrono               from "./engine/modules/Chrono"
 import { Vec2 }             from "./engine/modules/Geometry2D"
 import GameObjectLoader     from "./engine/modules/GameObjectLoader"
+import AssetsLoader         from "./engine/modules/AssetsLoader"
 import PositionalBox        from "./engine/interface/PositionalBox"
 import CollisionSystem      from "./engine/collisions/CollisionSystem"
 import BoundingBox          from "./engine/collisions/BoundingBox"
@@ -17,6 +18,7 @@ window.Logger               = Logger;
 window.Chrono               = Chrono;
 window.Vec2                 = Vec2;
 window.GameObjectLoader     = GameObjectLoader;
+window.AssetsLoader         = AssetsLoader;
 window.PositionalBox        = PositionalBox;
 window.BoundingBox          = BoundingBox;
 window.CollisionSystem      = CollisionSystem;

@@ -17,6 +17,9 @@ export default class Disk {
         this.__$rotationSpeed   = 100;
         this.__$collider        = null;
 
+        this.__$ballImage       = document.getElementById('ball');
+        this.__$animationRot    = 0;
+
         this.__$ctx             = Core.Instance.Ctx;
     }
 
@@ -50,13 +53,21 @@ export default class Disk {
                 }
             });
         }
+
+        this.__$animationRot += Core.DeltaTime * 200;
+        if (this.__$animationRot >= 360) this.__$animationRot = 0;
     }
 
     draw() {
-        this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
+        /*this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
         this.__$ctx.beginPath();
         this.__$ctx.arc(this.__$position.X + this.__$radius, this.__$position.Y + this.__$radius, this.__$radius, 0, 2 * Math.PI);
-        this.__$ctx.fill();
+        this.__$ctx.fill();*/
+        this.__$ctx.save();
+        this.__$ctx.translate(this.__$position.X + this.__$size.X / 2, this.__$position.Y + this.__$size.Y / 2);
+        this.__$ctx.rotate(this.__$animationRot * Math.PI / 180);
+        this.__$ctx.drawImage(this.__$ballImage, this.__$size.X / -2, this.__$size.Y / -2, this.__$size.X, this.__$size.Y);
+        this.__$ctx.restore();
 
         if (GameStatus.MustDrawInfo) {
             this.__$collider.draw();
@@ -65,13 +76,13 @@ export default class Disk {
     }
 
     drawNormal() {
-        let bx = this.__$position.X;
-        let by = this.__$position.Y;
+        let bx = this.__$position.X + this.__$size.X / 2;
+        let by = this.__$position.Y + this.__$size.Y / 2;
 
         this.__$ctx.strokeStyle = '#FFFF00';
         this.__$ctx.beginPath();
         this.__$ctx.moveTo(bx, by);
-        this.__$ctx.lineTo(bx + this.__$normal.X * 100, by + this.__$normal.Y * 100);
+        this.__$ctx.lineTo(bx + this.__$normal.X * 50, by + this.__$normal.Y * -50);
         this.__$ctx.stroke();
     }
 

@@ -13,6 +13,7 @@ export default class Core {
         this.__$ctx         = null;
         this.__$canvasDim   = Vec2.Zero;
         this.__$statsActive = false;
+        this.__$clearColor  = "black";
         this.fps            = 30;
         this.sleepTime      = 1000 / this.fps;
         this.intervalId     = -1;
@@ -66,7 +67,7 @@ export default class Core {
     }
 
     clearScreen() {
-        this.__$ctx.fillStyle = 'rgb(0,0,0)';
+        this.__$ctx.fillStyle = this.__$clearColor;
         this.__$ctx.fillRect(0, 0, this.__$canvasDim.X, this.__$canvasDim.Y);
     }
 
@@ -134,6 +135,10 @@ export default class Core {
     set StatsActive(value) { this.__$statsActive = value }
 
     get StatsActive() { return this.__$statsActive }
+
+    set ClearColor(value) { this.__$clearColor = value }
+
+    get ClearColor() { return this.__$clearColor }
 
     static AddKeyListener(cb) {
         Core.__$keyCallbacks.push(cb);

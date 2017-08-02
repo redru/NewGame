@@ -3,7 +3,17 @@
     "core": {
       "fps": 60
     },
-    "board-dimension": [1280, 720]
+    "board-dimension": [1280, 720],
+    "clear-color": "lightgrey"
+  },
+  "assets": {
+    "png": [
+      {
+        "name"  : "ball",
+        "src"   : "/assets/ball.png",
+        "type"  : "PNG"
+      }
+    ]
   },
   "game-objs": [
     {
@@ -27,7 +37,7 @@
       "name"      : "DISK_1",
       "color"     : "default",
       "position"  : [600, 300],
-      "size"      : [30, 30]
+      "size"      : [20, 20]
     },
     {
       "type"      : "RectangleGameObject",
