@@ -35,7 +35,7 @@ export default class CollisionSystem {
 
                 if (Collider.GenerateTypesMask(collider_1.Type, collider_2.Type) === Collider.Masks.Square2) {
                     if (CollisionSystem.Square2collision(collider_1, collider_2)) {
-                        Logger.Append(`[CollisionSystem] Collision between ${collider_1.Attached.Name} and ${collider_2.Attached.Name}`);
+                        // Logger.Append(`[CollisionSystem] Collision between ${collider_1.Attached.Name} and ${collider_2.Attached.Name}`);
                         collider_1.addCollidingObject(collider_2.Attached);
                         collider_2.addCollidingObject(collider_1.Attached);
 
@@ -58,7 +58,7 @@ export default class CollisionSystem {
                 switch(Collider.GenerateTypesMask(target.Type, collider.Type)) {
                     case Collider.Masks.Square2:
                         if (CollisionSystem.Square2collision(target, collider)) {
-                            Logger.Append(`[CollisionSystem] Collision between ${target.Attached.Name} and ${collider.Attached.Name}`);
+                            // Logger.Append(`[CollisionSystem] Collision between ${target.Attached.Name} and ${collider.Attached.Name}`);
                             collisions.push(target.Attached);
                         }
                         break;
