@@ -45,8 +45,7 @@ export default class Disk {
                 if ((object.Group === 'WALL' || object.Group === 'PLAYER') && object.Normal) {
                     this.__$rotation = Vec2.Reflect(this.__$direction, object.Normal).toRotation() + Math.random() * 50 - 25;
 
-                    if (this.__$rotation < 0) this.__$rotation += 360;
-                    else if (this.__$rotation >= 360) this.__$rotation -= 360;
+                    this.__$rotation = Util2D.AdjustRotation(this.__$rotation);
 
                     this.__$direction = Vec2.GetNormal(this.__$rotation);
                     this.__$normal.copy(this.__$direction);
@@ -65,7 +64,7 @@ export default class Disk {
         this.__$ctx.fill();*/
         this.__$ctx.save();
         this.__$ctx.translate(this.__$position.X + this.__$size.X / 2, this.__$position.Y + this.__$size.Y / 2);
-        this.__$ctx.rotate(this.__$animationRot * Math.PI / 180);
+        this.__$ctx.rotate(Util2D.ToRadians(this.__$animationRot));
         this.__$ctx.drawImage(this.__$ballImage, this.__$size.X / -2, this.__$size.Y / -2, this.__$size.X, this.__$size.Y);
         this.__$ctx.restore();
 
@@ -82,7 +81,7 @@ export default class Disk {
         this.__$ctx.strokeStyle = '#FFFF00';
         this.__$ctx.beginPath();
         this.__$ctx.moveTo(bx, by);
-        this.__$ctx.lineTo(bx + this.__$normal.X * 50, by + this.__$normal.Y * -50);
+        this.__$ctx.lineTo(bx + this.__$normal.X * 50, by + this.__$normal.Y * 50);
         this.__$ctx.stroke();
     }
 

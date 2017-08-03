@@ -2,7 +2,7 @@ import KeyCodes             from "./engine/various/KeyCodes"
 import Color                from "./engine/various/Color"
 import Logger               from "./engine/modules/Logger"
 import Chrono               from "./engine/modules/Chrono"
-import { Vec2 }             from "./engine/modules/Geometry2D"
+import { Vec2, Util2D }     from "./engine/modules/Geometry2D"
 import GameObjectLoader     from "./engine/modules/GameObjectLoader"
 import AssetsLoader         from "./engine/modules/AssetsLoader"
 import PositionalBox        from "./engine/interface/PositionalBox"
@@ -17,6 +17,7 @@ window.Color                = Color;
 window.Logger               = Logger;
 window.Chrono               = Chrono;
 window.Vec2                 = Vec2;
+window.Util2D               = Util2D;
 window.GameObjectLoader     = GameObjectLoader;
 window.AssetsLoader         = AssetsLoader;
 window.PositionalBox        = PositionalBox;

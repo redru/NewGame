@@ -4,7 +4,7 @@
       "fps": 60
     },
     "board-dimension": [1280, 720],
-    "clear-color": "lightgrey"
+    "clear-color": "grey"
   },
   "assets": {
     "png": [
@@ -36,7 +36,28 @@
       "type"      : "Disk",
       "name"      : "DISK_1",
       "color"     : "default",
-      "position"  : [600, 300],
+      "position"  : [630, 350],
+      "size"      : [20, 20]
+    },
+    {
+      "type"      : "Disk",
+      "name"      : "DISK_2",
+      "color"     : "default",
+      "position"  : [630, 350],
+      "size"      : [20, 20]
+    },
+    {
+      "type"      : "Disk",
+      "name"      : "DISK_3",
+      "color"     : "default",
+      "position"  : [630, 350],
+      "size"      : [20, 20]
+    },
+    {
+      "type"      : "Disk",
+      "name"      : "DISK_4",
+      "color"     : "default",
+      "position"  : [630, 350],
       "size"      : [20, 20]
     },
     {

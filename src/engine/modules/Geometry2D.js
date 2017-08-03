@@ -41,7 +41,7 @@ export class Vec2 {
     }
 
     rotate(angle) {
-        let theta   = angle * Math.PI / 180;
+        let theta   = Util2D.ToRadians(angle);
         let cs      = Math.cos(theta);
         let sn      = Math.sin(theta);
 
@@ -55,7 +55,7 @@ export class Vec2 {
     }
 
     rotation(angle) {
-        let theta   = angle * Math.PI / 180;
+        let theta   = Util2D.ToRadians(angle);
         let cs      = Math.cos(theta);
         let sn      = Math.sin(theta);
 
@@ -115,7 +115,7 @@ export class Vec2 {
 
     static GetNormal(angle) {
         let normal  = Vec2.StdNormal;
-        let theta   = angle * Math.PI / 180;
+        let theta   = Util2D.ToRadians(angle);
         let cs      = Math.cos(theta);
         let sn      = Math.sin(theta);
 
@@ -142,4 +142,19 @@ export class Vec2 {
     static get One() { return new Vec2([1, 1]) }
 
     static get StdNormal() { return new Vec2([1, 0]) }
+}
+
+export class Util2D {
+
+    static ToRadians(degrees) {
+        return degrees * Math.PI / 180;
+    }
+
+    static AdjustRotation(rotation) {
+        if (rotation < 0) rotation += 360;
+        else if (rotation >= 360) rotation -= 360;
+
+        return rotation;
+    }
+
 }

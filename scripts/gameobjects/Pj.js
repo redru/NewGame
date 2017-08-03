@@ -34,8 +34,7 @@ export default class Pj {
         else if (Core.IsKeyPressed(KeyCodes.A)) this.__$rotation += (this.__$rotationSpeed * Core.DeltaTime);
         else if (Core.IsKeyPressed(KeyCodes.D)) this.__$rotation -= (this.__$rotationSpeed * Core.DeltaTime);
 
-        if (this.__$rotation >= 360) this.__$rotation -= 360;
-        else if (this.__$rotation < 0) this.__$rotation += 360;
+        this.__$rotation = Util2D.AdjustRotation(this.__$rotation);
 
         // Recalculate normals
         this.__$normal.copy(Vec2.GetNormal(this.__$rotation));
@@ -53,7 +52,7 @@ export default class Pj {
     draw() {
         this.__$ctx.save();
         this.__$ctx.translate(this.__$position.X + this.__$size.X / 2, this.__$position.Y + this.__$size.Y / 2);
-        this.__$ctx.rotate(-this.__$rotation * Math.PI / 180); // Negative rotation to rotate counterclockwise
+        this.__$ctx.rotate(-Util2D.ToRadians(this.__$rotation)); // Negative rotation to rotate counterclockwise
         this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
         this.__$ctx.fillRect(this.__$size.X / -2, this.__$size.Y / -2, this.__$size.X, this.__$size.Y);
         this.__$ctx.restore();
