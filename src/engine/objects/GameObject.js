@@ -4,49 +4,49 @@ import {Vec2} from "../modules/Geometry2D";
 export default class GameObject {
 
     constructor() {
-        this.__$id          = -1;
-        this.__$name        = '';
-        this.__$group       = 'default';
-        this.__$position    = Vec2.Zero;
-        this.__$size        = Vec2.Zero;
-        this.__$normal      = Vec2.Zero;
-        this.__$rotation    = 0;
-        this.__$collider    = null;
+        this._id          = -1;
+        this._name        = 'any';
+        this._group       = 'default';
+        this._position    = Vec2.Zero;
+        this._size        = Vec2.Zero;
+        this._normal      = Vec2.Zero;
+        this._rotation    = 0;
+        this._collider    = null;
     }
 
     attachCollider(object) {
         object.attachObject(this);
-        this.__$collider = object;
+        this._collider = object;
     }
 
-    set Id(value) { this.__$id = value }
+    set Id(value) { this._id = value }
 
-    get Id() { return this.__$id }
+    get Id() { return this._id }
 
-    set Name(value) { this.__$name = value }
+    set Name(value) { this._name = value }
 
-    get Name() { return this.__$name }
+    get Name() { return this._name }
 
-    set Group(value) { this.__$group = value }
+    set Group(value) { this._group = value }
 
-    get Group() { return this.__$group }
+    get Group() { return this._group }
 
-    set Position(value) { this.__$position.copy(value) }
+    set Position(value) { this._position.copy(value) }
 
-    get Position() { return this.__$position }
+    get Position() { return this._position }
 
-    set Size(value) { this.__$size.copy(value) }
+    set Size(value) { this._size.copy(value) }
 
-    get Size() { return this.__$size }
+    get Size() { return this._size }
 
-    set Normal(value) { this.__$normal.copy(value) }
+    set Normal(value) { this._normal.copy(value) }
 
-    get Normal() { return this.__$normal }
+    get Normal() { return this._normal }
 
-    set Rotation(value) { this.__$rotation.copy(value) }
+    set Rotation(value) { this._rotation.copy(value) }
 
-    get Rotation() { return this.__$rotation }
+    get Rotation() { return this._rotation }
 
-    get Collider() { return this.__$collider }
+    get Collider() { return this._collider }
 
 }

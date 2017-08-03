@@ -43,7 +43,7 @@ export default class Disk {
 
             collisions.forEach(object => {
                 if ((object.Group === 'WALL' || object.Group === 'PLAYER') && object.Normal) {
-                    this.__$rotation = Vec2.Reflect(this.__$direction, object.Normal).toRotation() + Math.random() * 50 - 25;
+                    this.__$rotation = Vec2.Reflect(this.__$direction, object.Normal).toRotation() + Math.random() * 20 - 10;
 
                     this.__$rotation = Util2D.AdjustRotation(this.__$rotation);
 

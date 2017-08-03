@@ -6,14 +6,14 @@ export class Vec2 {
         else this.__$val = Array.isArray(vec) ? [vec[0], vec[1]] : [vec.X, vec.Y];
     }
 
-    increment(v1, v2) {
-        this.__$val[0] += v1;
-        this.__$val[1] += v2;
+    increment(x, y) {
+        this.__$val[0] += x;
+        this.__$val[1] += y;
     }
 
-    substractVector(v) {
-        this.__$val[0] -= v.X;
-        this.__$val[1] -= v.Y;
+    substractVector(vec) {
+        this.__$val[0] -= vec.__$val[0];
+        this.__$val[1] -= vec.__$val[1];
     }
 
     sumScalar(scalar) {
@@ -26,13 +26,13 @@ export class Vec2 {
         this.__$val[1] *= scalar;
     }
 
-    copy(vec2) {
-        this.__$val[0] = vec2.__$val[0];
-        this.__$val[1] = vec2.__$val[1];
+    copy(vec) {
+        this.__$val[0] = vec.__$val[0];
+        this.__$val[1] = vec.__$val[1];
     }
 
     toRotation() {
-        return Math.atan2(this.__$val[1], this.__$val[0]) * 180/ Math.PI;
+        return Math.atan2(this.__$val[1], this.__$val[0]) * 180 / Math.PI;
     }
 
     copyFromArray(vec) {
@@ -41,7 +41,7 @@ export class Vec2 {
     }
 
     rotate(angle) {
-        let theta   = Util2D.ToRadians(angle);
+        let theta   = angle * Math.PI / 180;
         let cs      = Math.cos(theta);
         let sn      = Math.sin(theta);
 
@@ -55,7 +55,7 @@ export class Vec2 {
     }
 
     rotation(angle) {
-        let theta   = Util2D.ToRadians(angle);
+        let theta   = angle * Math.PI / 180;
         let cs      = Math.cos(theta);
         let sn      = Math.sin(theta);
 
@@ -115,7 +115,7 @@ export class Vec2 {
 
     static GetNormal(angle) {
         let normal  = Vec2.StdNormal;
-        let theta   = Util2D.ToRadians(angle);
+        let theta   = angle * Math.PI / 180;
         let cs      = Math.cos(theta);
         let sn      = Math.sin(theta);
 
@@ -148,6 +148,10 @@ export class Util2D {
 
     static ToRadians(degrees) {
         return degrees * Math.PI / 180;
+    }
+
+    static ToDegrees(radians) {
+        return radians * 180 / Math.PI;
     }
 
     static AdjustRotation(rotation) {
