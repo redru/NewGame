@@ -1,5 +1,6 @@
 "use strict";
-import { Vec2 }             from "./modules/Geometry2D"
+import Chrono               from "./modules/Chrono"
+import {Vec2}               from "./modules/Geometry2D"
 import GameObjectLoader     from "./modules/GameObjectLoader"
 import Logger               from "./modules/Logger"
 import RectangleGameObject  from "./objects/RectangleGameObject"

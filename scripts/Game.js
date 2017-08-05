@@ -1,4 +1,11 @@
 "use strict";
+import KeyCodes         from "../src/engine/various/KeyCodes"
+import Logger           from "../src/engine/modules/Logger"
+import Core             from "../src/engine/Core"
+import {Vec2}           from "../src/engine/modules/Geometry2D"
+import GameObjectLoader from "../src/engine/modules/GameObjectLoader";
+import BoundingBox      from "../src/engine/collisions/BoundingBox";
+import PositionalBox    from "../src/engine/interface/PositionalBox";
 import GameDescriptor   from "./game.descriptor.json"
 import Pj               from "./gameobjects/Pj"
 import Enemy            from "./gameobjects/Enemy"

@@ -1,5 +1,8 @@
 "use strict";
-import GameStatus from "../Game"
+import Core             from "../../src/engine/Core"
+import Color            from "../../src/engine/various/Color"
+import {Vec2, Util2D}   from "../../src/engine/modules/Geometry2D"
+import GameStatus       from "../Game"
 
 export default class Disk {
 

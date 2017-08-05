@@ -1,5 +1,5 @@
 "use strict";
-import {Vec2} from "../modules/Geometry2D";
+import {Vec2}   from "../modules/Geometry2D";
 
 export default class GameObject {
 

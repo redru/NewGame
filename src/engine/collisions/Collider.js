@@ -1,4 +1,4 @@
-import { Vec2 }         from "../modules/Geometry2D"
+import {Vec2}           from "../modules/Geometry2D"
 import CollisionSystem  from "./CollisionSystem"
 
 export default class Collider {

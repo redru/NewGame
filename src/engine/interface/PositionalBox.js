@@ -1,4 +1,8 @@
 "use strict";
+import Core     from "../Core"
+import Color    from "../various/Color"
+import {Vec2}   from "../modules/Geometry2D";
+
 export default class PositionalBox {
 
     constructor() {

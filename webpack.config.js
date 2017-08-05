@@ -15,12 +15,12 @@ const config = {
     }
 };
 
-const EngineConfig = Object.assign({ }, config, {
+/*const EngineConfig = Object.assign({ }, config, {
     entry: './src/main.js',
     output: {
         filename: 'dist/engine.js'
     }
-});
+});*/
 
 const GameConfig = Object.assign({ }, config, {
     entry: './scripts/Game.js',
@@ -29,4 +29,4 @@ const GameConfig = Object.assign({ }, config, {
     }
 });
 
-module.exports = [EngineConfig, GameConfig];
+module.exports = [/*EngineConfig, */GameConfig];
