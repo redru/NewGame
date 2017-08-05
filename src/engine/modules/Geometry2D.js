@@ -2,37 +2,37 @@
 export class Vec2 {
 
     constructor(vec) {
-        if (!vec) this.__$val = Vec2.Zero;
-        else this.__$val = Array.isArray(vec) ? [vec[0], vec[1]] : [vec.X, vec.Y];
+        if (!vec) this._val = Vec2.Zero;
+        else this._val = Array.isArray(vec) ? [vec[0], vec[1]] : [vec.X, vec.Y];
     }
 
     increment(x, y) {
-        this.__$val[0] += x;
-        this.__$val[1] += y;
+        this._val[0] += x;
+        this._val[1] += y;
     }
 
     substractVector(vec) {
-        this.__$val[0] -= vec.__$val[0];
-        this.__$val[1] -= vec.__$val[1];
+        this._val[0] -= vec._val[0];
+        this._val[1] -= vec._val[1];
     }
 
     sumScalar(scalar) {
-        this.__$val[0] += scalar;
-        this.__$val[1] += scalar;
+        this._val[0] += scalar;
+        this._val[1] += scalar;
     }
 
     multiplyScalar(scalar) {
-        this.__$val[0] *= scalar;
-        this.__$val[1] *= scalar;
+        this._val[0] *= scalar;
+        this._val[1] *= scalar;
     }
 
     copy(vec) {
-        this.__$val[0] = vec.__$val[0];
-        this.__$val[1] = vec.__$val[1];
+        this._val[0] = vec._val[0];
+        this._val[1] = vec._val[1];
     }
 
     toRotation() {
-        return Math.atan2(this.__$val[1], this.__$val[0]) * 180 / Math.PI;
+        return Math.atan2(this._val[1], this._val[0]) * 180 / Math.PI;
     }
 
     copyFromArray(vec) {
@@ -45,11 +45,11 @@ export class Vec2 {
         let cs      = Math.cos(theta);
         let sn      = Math.sin(theta);
 
-        let rx      = this.__$val[0] * cs - this.__$val[1] * sn;
-        let ry      = this.__$val[0] * sn + this.__$val[1] * cs;
+        let rx      = this._val[0] * cs - this._val[1] * sn;
+        let ry      = this._val[0] * sn + this._val[1] * cs;
 
-        this.__$val[0] = rx;
-        this.__$val[1] = ry;
+        this._val[0] = rx;
+        this._val[1] = ry;
 
         return this;
     }
@@ -60,41 +60,41 @@ export class Vec2 {
         let sn      = Math.sin(theta);
 
         return new Vec2([
-            this.__$val[0] * cs - this.__$val[1] * sn,
-            this.__$val[0] * sn + this.__$val[1] * cs
+            this._val[0] * cs - this._val[1] * sn,
+            this._val[0] * sn + this._val[1] * cs
         ]);
     }
 
     set X(value) {
-        this.__$val[0] = value;
+        this._val[0] = value;
     }
 
     get X() {
-        return this.__$val[0];
+        return this._val[0];
     }
 
     set Y(value) {
-        this.__$val[1] = value;
+        this._val[1] = value;
     }
 
     get Y() {
-        return this.__$val[1];
+        return this._val[1];
     }
 
     set Width(value) {
-        this.__$val[0] = value;
+        this._val[0] = value;
     }
 
     get Width() {
-        return this.__$val[0];
+        return this._val[0];
     }
 
     set Height(value) {
-        this.__$val[1] = value;
+        this._val[1] = value;
     }
 
     get Height() {
-        return this.__$val[1];
+        return this._val[1];
     }
 
     static SumScalar(v, scalar) {

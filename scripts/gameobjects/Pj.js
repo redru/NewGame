@@ -4,25 +4,25 @@ import GameStatus from "../Game"
 export default class Pj {
 
     constructor() {
-        this.__$id              = -1;
-        this.__$name            = '';
-        this.__$group           = '';
-        this.__$position        = Vec2.Zero;
-        this.__$size            = Vec2.One;
-        this.__$rotation        = 0;
-        this.__$normal          = Vec2.StdNormal;
-        this.__$color           = new Color(0xAA4411);
-        this.__$direction       = new Vec2([0, 0]);
-        this.__$velocity        = 500;
-        this.__$rotationSpeed   = 200;
-        this.__$collider        = null;
+        this._id              = -1;
+        this._name            = '';
+        this._group           = '';
+        this._position        = Vec2.Zero;
+        this._size            = Vec2.One;
+        this._rotation        = 0;
+        this._normal          = Vec2.StdNormal;
+        this._color           = new Color(0xAA4411);
+        this._direction       = new Vec2([0, 0]);
+        this._velocity        = 500;
+        this._rotationSpeed   = 200;
+        this._collider        = null;
 
-        this.__$ctx             = Core.Instance.Ctx;
-        this.__$canvasDim       = Core.Instance.CanvasDim;
+        this._ctx             = Core.Instance.Ctx;
+        this._canvasDim       = Core.Instance.CanvasDim;
     }
 
     attachCollider(collider) {
-        this.__$collider = collider;
+        this._collider = collider;
         collider.attachObject(this);
     }
 
@@ -31,102 +31,102 @@ export default class Pj {
     update() {
         // Rotate if needed
         if (Core.IsKeyPressed(KeyCodes.A) && Core.IsKeyPressed(KeyCodes.D));
-        else if (Core.IsKeyPressed(KeyCodes.A)) this.__$rotation += (this.__$rotationSpeed * Core.DeltaTime);
-        else if (Core.IsKeyPressed(KeyCodes.D)) this.__$rotation -= (this.__$rotationSpeed * Core.DeltaTime);
+        else if (Core.IsKeyPressed(KeyCodes.A)) this._rotation += (this._rotationSpeed * Core.DeltaTime);
+        else if (Core.IsKeyPressed(KeyCodes.D)) this._rotation -= (this._rotationSpeed * Core.DeltaTime);
 
-        this.__$rotation = Util2D.AdjustRotation(this.__$rotation);
+        this._rotation = Util2D.AdjustRotation(this._rotation);
 
         // Recalculate normals
-        this.__$normal.copy(Vec2.GetNormal(this.__$rotation));
+        this._normal.copy(Vec2.GetNormal(this._rotation));
 
         // Set direction vector
-        if (Core.IsKeyPressed(KeyCodes.E) && Core.IsKeyPressed(KeyCodes.Q)) this.__$direction.Y = 0;
-        else if (Core.IsKeyPressed(KeyCodes.E) && !this.__$collider.collidesWith('WALL_BOTTOM')) this.__$direction.Y = 1;
-        else if (Core.IsKeyPressed(KeyCodes.Q) && !this.__$collider.collidesWith('WALL_TOP')) this.__$direction.Y = -1;
-        else this.__$direction.Y = 0;
+        if (Core.IsKeyPressed(KeyCodes.E) && Core.IsKeyPressed(KeyCodes.Q)) this._direction.Y = 0;
+        else if (Core.IsKeyPressed(KeyCodes.E) && !this._collider.collidesWith('WALL_BOTTOM')) this._direction.Y = 1;
+        else if (Core.IsKeyPressed(KeyCodes.Q) && !this._collider.collidesWith('WALL_TOP')) this._direction.Y = -1;
+        else this._direction.Y = 0;
 
         // Move
-        this.__$position.increment(0, this.__$direction.Y * this.__$velocity * Core.DeltaTime);
+        this._position.increment(0, this._direction.Y * this._velocity * Core.DeltaTime);
     }
 
     draw() {
-        this.__$ctx.save();
-        this.__$ctx.translate(this.__$position.X + this.__$size.X / 2, this.__$position.Y + this.__$size.Y / 2);
-        this.__$ctx.rotate(-Util2D.ToRadians(this.__$rotation)); // Negative rotation to rotate counterclockwise
-        this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
-        this.__$ctx.fillRect(this.__$size.X / -2, this.__$size.Y / -2, this.__$size.X, this.__$size.Y);
-        this.__$ctx.restore();
+        this._ctx.save();
+        this._ctx.translate(this._position.X + this._size.X / 2, this._position.Y + this._size.Y / 2);
+        this._ctx.rotate(-Util2D.ToRadians(this._rotation)); // Negative rotation to rotate counterclockwise
+        this._ctx.fillStyle = `rgb(${this._color.Red},${this._color.Green},${this._color.Blue})`;
+        this._ctx.fillRect(this._size.X / -2, this._size.Y / -2, this._size.X, this._size.Y);
+        this._ctx.restore();
 
         if (GameStatus.MustDrawInfo) {
-            this.__$collider.draw();
+            this._collider.draw();
             this.drawNormal();
             this.drawDirection();
         }
     }
 
     drawNormal() {
-        let bx = this.__$position.X + this.__$size.X / 2;
-        let by = this.__$position.Y + this.__$size.Y / 2;
+        let bx = this._position.X + this._size.X / 2;
+        let by = this._position.Y + this._size.Y / 2;
 
-        this.__$ctx.strokeStyle = '#FFFF00';
-        this.__$ctx.beginPath();
-        this.__$ctx.moveTo(bx, by);
-        this.__$ctx.lineTo(bx + this.__$normal.X * 50, by + this.__$normal.Y * -50);
-        this.__$ctx.stroke();
+        this._ctx.strokeStyle = '#FFFF00';
+        this._ctx.beginPath();
+        this._ctx.moveTo(bx, by);
+        this._ctx.lineTo(bx + this._normal.X * 50, by + this._normal.Y * -50);
+        this._ctx.stroke();
     }
 
     drawDirection() {
-        let bx = this.__$position.X + this.__$size.X / 2;
-        let by = this.__$position.Y + this.__$size.Y / 2;
+        let bx = this._position.X + this._size.X / 2;
+        let by = this._position.Y + this._size.Y / 2;
 
-        this.__$ctx.strokeStyle = '#00FF00';
-        this.__$ctx.beginPath();
-        this.__$ctx.moveTo(bx, by);
-        this.__$ctx.lineTo(bx + this.__$direction.X * this.__$velocity * 0.25, by + this.__$direction.Y * this.__$velocity * 0.25);
-        this.__$ctx.stroke();
+        this._ctx.strokeStyle = '#00FF00';
+        this._ctx.beginPath();
+        this._ctx.moveTo(bx, by);
+        this._ctx.lineTo(bx + this._direction.X * this._velocity * 0.25, by + this._direction.Y * this._velocity * 0.25);
+        this._ctx.stroke();
     }
 
-    set Id(value) { this.__$id = value }
+    set Id(value) { this._id = value }
 
-    get Id() { return this.__$id }
+    get Id() { return this._id }
 
-    set Name(value) { this.__$name = value }
+    set Name(value) { this._name = value }
 
-    get Name() { return this.__$name }
+    get Name() { return this._name }
 
-    set Group(value) { this.__$group = value }
+    set Group(value) { this._group = value }
 
-    get Group() { return this.__$group }
+    get Group() { return this._group }
 
     set Color(value) {
         if (!value) {
-            this.__$color.change(0x000000);
+            this._color.change(0x000000);
             return;
         }
 
-        this.__$color.change(typeof value === 'string' ? parseInt(value) : value);
+        this._color.change(typeof value === 'string' ? parseInt(value) : value);
     }
 
-    get Color() { return this.__$color }
+    get Color() { return this._color }
 
-    set Position(value) { this.__$position.copy(value) }
+    set Position(value) { this._position.copy(value) }
 
-    get Position() { return this.__$position }
+    get Position() { return this._position }
 
-    set Size(value) { this.__$size.copy(value) }
+    set Size(value) { this._size.copy(value) }
 
-    get Size() { return this.__$size }
+    get Size() { return this._size }
 
-    set Rotation(value) { this.__$rotation = value }
+    set Rotation(value) { this._rotation = value }
 
-    get Rotation() { return this.__$rotation }
+    get Rotation() { return this._rotation }
 
-    set Normal(value) { this.__$normal.copy(value) }
+    set Normal(value) { this._normal.copy(value) }
 
-    get Normal() { return this.__$normal }
+    get Normal() { return this._normal }
 
-    set Collider(value) { this.__$collider = value }
+    set Collider(value) { this._collider = value }
 
-    get Collider() { return this.__$collider }
+    get Collider() { return this._collider }
 
 };

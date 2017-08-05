@@ -2,47 +2,47 @@
 export default class PositionalBox {
 
     constructor() {
-        this.__$position        = Vec2.Zero;
-        this.__$size            = Vec2.One;
-        this.__$styleColor      = new Color(0xFFFFFFFF);
-        this.__$offset          = 0;
-        this.__$paddingOffset   = 0;
-        this.__$followedObject  = null;
-        this.__$ctx             = Core.Instance.Ctx;
+        this._position        = Vec2.Zero;
+        this._size            = Vec2.One;
+        this._styleColor      = new Color(0xFFFFFFFF);
+        this._offset          = 0;
+        this._paddingOffset   = 0;
+        this._followedObject  = null;
+        this._ctx             = Core.Instance.Ctx;
     }
 
     configure(position, size, padding, offset) {
-        this.__$position.copy(position);
-        this.__$size.copy(size);
-        this.__$size.sumScalar(padding || 0);
+        this._position.copy(position);
+        this._size.copy(size);
+        this._size.sumScalar(padding || 0);
 
-        this.__$paddingOffset = (padding ? -padding / 2 : 0);
-        this.__$offset = offset || 0;
+        this._paddingOffset = (padding ? -padding / 2 : 0);
+        this._offset = offset || 0;
     }
 
     follow(gameObject) {
-        if (gameObject && gameObject.Position) this.__$followedObject = gameObject;
+        if (gameObject && gameObject.Position) this._followedObject = gameObject;
     }
 
     draw() {
-        this.__$ctx.strokeStyle = `rgba(${this.__$styleColor.Red},${this.__$styleColor.Green},${this.__$styleColor.Blue},${this.__$styleColor.Alpha * Math.sin(Core.Time / 300)})`;
-        if (this.__$followedObject) {
-            let xpos = this.__$followedObject.Position.X + this.__$size.X;
-            let ypos = this.__$followedObject.Position.Y > 20 ?
-                this.__$followedObject.Position.Y + this.__$offset + this.__$paddingOffset :
-                this.__$followedObject.Position.Y + this.__$offset + this.__$paddingOffset + 50;
+        this._ctx.strokeStyle = `rgba(${this._styleColor.Red},${this._styleColor.Green},${this._styleColor.Blue},${this._styleColor.Alpha * Math.sin(Core.Time / 300)})`;
+        if (this._followedObject) {
+            let xpos = this._followedObject.Position.X + this._size.X;
+            let ypos = this._followedObject.Position.Y > 20 ?
+                this._followedObject.Position.Y + this._offset + this._paddingOffset :
+                this._followedObject.Position.Y + this._offset + this._paddingOffset + 50;
 
-            this.__$ctx.strokeRect(this.__$followedObject.Position.X + this.__$offset + this.__$paddingOffset, this.__$followedObject.Position.Y + this.__$offset + this.__$paddingOffset, this.__$size.X, this.__$size.Y);
+            this._ctx.strokeRect(this._followedObject.Position.X + this._offset + this._paddingOffset, this._followedObject.Position.Y + this._offset + this._paddingOffset, this._size.X, this._size.Y);
 
-            this.__$ctx.font = '12px serif';
-            this.__$ctx.fillStyle = `rgb(${this.__$styleColor.Red},${this.__$styleColor.Green},${this.__$styleColor.Blue})`;
-            this.__$ctx.fillText(`id : ${this.__$followedObject.Id}`, xpos, ypos);
-            this.__$ctx.fillText(`name : ${this.__$followedObject.Name}`, xpos, ypos + 15);
-            this.__$ctx.fillText(`p : [${parseInt(this.__$followedObject.Position.X)}, ${parseInt(this.__$followedObject.Position.Y)}]`, xpos, ypos + 30);
-            this.__$ctx.fillText(`n : [${parseFloat(this.__$followedObject.Normal.X)}, ${parseFloat(this.__$followedObject.Normal.Y)}]`, xpos, ypos + 45);
-            this.__$ctx.fillText(`° : ${this.__$followedObject.Rotation}`, xpos, ypos + 60);
+            this._ctx.font = '12px serif';
+            this._ctx.fillStyle = `rgb(${this._styleColor.Red},${this._styleColor.Green},${this._styleColor.Blue})`;
+            this._ctx.fillText(`id : ${this._followedObject.Id}`, xpos, ypos);
+            this._ctx.fillText(`name : ${this._followedObject.Name}`, xpos, ypos + 15);
+            this._ctx.fillText(`p : [${parseInt(this._followedObject.Position.X)}, ${parseInt(this._followedObject.Position.Y)}]`, xpos, ypos + 30);
+            this._ctx.fillText(`n : [${parseFloat(this._followedObject.Normal.X)}, ${parseFloat(this._followedObject.Normal.Y)}]`, xpos, ypos + 45);
+            this._ctx.fillText(`° : ${this._followedObject.Rotation}`, xpos, ypos + 60);
         } else {
-            this.__$ctx.strokeRect(this.__$position.X, this.__$position.Y, this.__$size.X, this.__$size.Y);
+            this._ctx.strokeRect(this._position.X, this._position.Y, this._size.X, this._size.Y);
         }
     }
 

@@ -7,17 +7,17 @@ import Disk             from "./gameobjects/Disk"
 class GameStatus {
 
     constructor() {
-        this.__$mustDrawInfo    = true;
-        this.__$paused          = false;
+        this._mustDrawInfo    = true;
+        this._paused          = false;
     }
 
-    set MustDrawInfo(value) { this.__$mustDrawInfo = value }
+    set MustDrawInfo(value) { this._mustDrawInfo = value }
 
-    get MustDrawInfo() { return this.__$mustDrawInfo }
+    get MustDrawInfo() { return this._mustDrawInfo }
 
-    set Paused(value) { this.__$paused = value }
+    set Paused(value) { this._paused = value }
 
-    get Paused() { return this.__$paused }
+    get Paused() { return this._paused }
 
 }
 

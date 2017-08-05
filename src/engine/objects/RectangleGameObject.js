@@ -7,15 +7,15 @@ export default class RectangleGameObject extends GameObject {
 
     constructor() {
         super();
-        this.__$color   = new Color(0xFF0000);
-        this.__$ctx     = Core.Instance.Ctx;
+        this._color   = new Color(0xFF0000);
+        this._ctx     = Core.Instance.Ctx;
     }
 
     update() { }
 
     draw() {
-        this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
-        this.__$ctx.fillRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y);
+        this._ctx.fillStyle = `rgb(${this._color.Red},${this._color.Green},${this._color.Blue})`;
+        this._ctx.fillRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y);
 
         if (Core.Instance.StatsActive) {
             this.Collider.draw();
@@ -27,19 +27,19 @@ export default class RectangleGameObject extends GameObject {
         let bx = this.Position.X + this.Size.X / 2;
         let by = this.Position.Y + this.Size.Y / 2;
 
-        this.__$ctx.strokeStyle = '#FFFF00';
-        this.__$ctx.beginPath();
-        this.__$ctx.moveTo(bx, by);
-        this.__$ctx.lineTo(bx + this.Normal.X * this.Size.X, by + this.Normal.Y * -this.Size.Y);
-        this.__$ctx.stroke();
+        this._ctx.strokeStyle = '#FFFF00';
+        this._ctx.beginPath();
+        this._ctx.moveTo(bx, by);
+        this._ctx.lineTo(bx + this.Normal.X * this.Size.X, by + this.Normal.Y * -this.Size.Y);
+        this._ctx.stroke();
     }
 
     onCollision(collider) {
 
     }
 
-    set Color(value) { this.__$color.change(value) }
+    set Color(value) { this._color.change(value) }
 
-    get Color() { return this.__$color }
+    get Color() { return this._color }
 
 }

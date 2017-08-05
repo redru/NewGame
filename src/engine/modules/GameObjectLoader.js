@@ -1,27 +1,27 @@
 "use strict";
 import Logger   from "./Logger"
 
-const __$objectsList = { };
-let __$idCounter = 0;
+const _objectsList = { };
+let _idCounter = 0;
 
 export default class GameObjectLoader {
 
     static RegisterObject(name, prototype) {
-        __$objectsList[name] = prototype;
+        _objectsList[name] = prototype;
     }
 
     static RegisterObjects(names, prototypes) {
         names.forEach((name, index) => {
-            __$objectsList[name] = prototypes[index];
+            _objectsList[name] = prototypes[index];
             Logger.Append(`[GameObjectLoader] Initialized prototype "${name}"`);
         });
     }
 
     static ObjectNewInstance(name) {
-        if (!__$objectsList.hasOwnProperty(name)) return null;
+        if (!_objectsList.hasOwnProperty(name)) return null;
 
-        const tmp = new __$objectsList[name]();
-        tmp.Id = __$idCounter++;
+        const tmp = new _objectsList[name]();
+        tmp.Id = _idCounter++;
 
         return tmp;
     }

@@ -4,25 +4,25 @@ import CollisionSystem  from "./CollisionSystem"
 export default class Collider {
 
     constructor(attached) {
-        this.__$position        = Vec2.Zero;
-        this.__$size            = Vec2.Zero;
-        this.__$attached        = attached;
-        this.__$collidingWith   = [];
-        this.__$collisionSystem = CollisionSystem.Instance;
+        this._position        = Vec2.Zero;
+        this._size            = Vec2.Zero;
+        this._attached        = attached;
+        this._collidingWith   = [];
+        this._collisionSystem = CollisionSystem.Instance;
     }
 
     attachObject(object) {
-        this.__$attached = object;
-        this.__$collisionSystem.register(this);
+        this._attached = object;
+        this._collisionSystem.register(this);
     }
 
     getCollisions() {
-        return this.__$collisionSystem.executeCollisionCheck(this);
+        return this._collisionSystem.executeCollisionCheck(this);
     }
 
     collidesWith(name) {
-        for (let index in this.__$collidingWith) {
-            if (this.__$collidingWith[index].Name === name)
+        for (let index in this._collidingWith) {
+            if (this._collidingWith[index].Name === name)
                 return true;
         }
 
@@ -30,34 +30,34 @@ export default class Collider {
     }
 
     addCollidingObject(object) {
-        let index = this.__$collidingWith.indexOf(object);
+        let index = this._collidingWith.indexOf(object);
 
         if (index === -1)
-            this.__$collidingWith.push(object);
+            this._collidingWith.push(object);
     }
 
     removeCollidingObject(object) {
-        let index = this.__$collidingWith.indexOf(object);
+        let index = this._collidingWith.indexOf(object);
 
         if (index !== -1)
-            this.__$collidingWith.splice(index, 1);
+            this._collidingWith.splice(index, 1);
     }
 
     update() { }
 
     draw() { }
 
-    set Position(value) { this.__$position.copy(value) }
+    set Position(value) { this._position.copy(value) }
 
-    get Position() { return this.__$position }
+    get Position() { return this._position }
 
-    set Size(value) { this.__$size.copy(value) }
+    set Size(value) { this._size.copy(value) }
 
-    get Size() { return this.__$size }
+    get Size() { return this._size }
 
-    set Attached(value) { this.__$attached = value }
+    set Attached(value) { this._attached = value }
 
-    get Attached() { return this.__$attached }
+    get Attached() { return this._attached }
 
     static GenerateTypesMask(type_1, type_2) { return ((type_1 << 1) | type_2) }
 

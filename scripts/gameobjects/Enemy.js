@@ -4,76 +4,76 @@ import GameStatus from "../Game"
 export default class Enemy {
 
     constructor() {
-        this.__$id              = -1;
-        this.__$name            = '';
-        this.__$position        = Vec2.Zero;
-        this.__$size            = Vec2.One;
-        this.__$rotation        = 0;
-        this.__$normal             = Vec2.StdNormal;
-        this.__$color           = new Color(0x55AA00);
-        this.__$direction       = new Vec2([0, 0]);
-        this.__$velocity        = 500;
-        this.__$rotationSpeed   = 100;
-        this.__$colliders       = [];
+        this._id              = -1;
+        this._name            = '';
+        this._position        = Vec2.Zero;
+        this._size            = Vec2.One;
+        this._rotation        = 0;
+        this._normal             = Vec2.StdNormal;
+        this._color           = new Color(0x55AA00);
+        this._direction       = new Vec2([0, 0]);
+        this._velocity        = 500;
+        this._rotationSpeed   = 100;
+        this._colliders       = [];
 
-        this.__$ctx             = Core.Instance.Ctx;
+        this._ctx             = Core.Instance.Ctx;
     }
 
     update() {
-        this.__$normal.copy(Vec2.GetNormal(this.__$rotation));
+        this._normal.copy(Vec2.GetNormal(this._rotation));
     }
 
     draw() {
-        this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
-        this.__$ctx.fillRect(this.__$position.X, this.__$position.Y, this.__$size.X, this.__$size.Y);
+        this._ctx.fillStyle = `rgb(${this._color.Red},${this._color.Green},${this._color.Blue})`;
+        this._ctx.fillRect(this._position.X, this._position.Y, this._size.X, this._size.Y);
 
         if (GameStatus.MustDrawInfo) this.drawNormal();
     }
 
     drawNormal() {
-        let bx = this.__$position.X + this.__$size.X / 2;
-        let by = this.__$position.Y + this.__$size.Y / 2;
+        let bx = this._position.X + this._size.X / 2;
+        let by = this._position.Y + this._size.Y / 2;
 
-        this.__$ctx.strokeStyle = '#FFFF00';
-        this.__$ctx.beginPath();
-        this.__$ctx.moveTo(bx, by);
-        this.__$ctx.lineTo(bx + this.__$normal.X * 50, by + this.__$normal.Y * 50);
-        this.__$ctx.stroke();
+        this._ctx.strokeStyle = '#FFFF00';
+        this._ctx.beginPath();
+        this._ctx.moveTo(bx, by);
+        this._ctx.lineTo(bx + this._normal.X * 50, by + this._normal.Y * 50);
+        this._ctx.stroke();
     }
 
-    set Id(value) { this.__$id = value }
+    set Id(value) { this._id = value }
 
-    get Id() { return this.__$id }
+    get Id() { return this._id }
 
-    set Name(value) { this.__$name = value }
+    set Name(value) { this._name = value }
 
-    get Name() { return this.__$name }
+    get Name() { return this._name }
 
     set Color(value) {
         if (!value) {
-            this.__$color.change(0x000000);
+            this._color.change(0x000000);
             return;
         }
 
-        this.__$color.change(typeof value === 'string' ? parseInt(value) : value);
+        this._color.change(typeof value === 'string' ? parseInt(value) : value);
     }
 
-    get Color() { return this.__$color }
+    get Color() { return this._color }
 
-    set Position(value) { this.__$position = value }
+    set Position(value) { this._position = value }
 
-    get Position() { return this.__$position }
+    get Position() { return this._position }
 
-    set Size(value) { this.__$size = value }
+    set Size(value) { this._size = value }
 
-    get Size() { return this.__$size }
+    get Size() { return this._size }
 
-    set Rotation(value) { this.__$rotation = value }
+    set Rotation(value) { this._rotation = value }
 
-    get Rotation() { return this.__$rotation }
+    get Rotation() { return this._rotation }
 
-    set Normal(value) { this.__$normal.copy(value) }
+    set Normal(value) { this._normal.copy(value) }
 
-    get Normal() { return this.__$normal }
+    get Normal() { return this._normal }
 
 }

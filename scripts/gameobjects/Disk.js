@@ -4,27 +4,27 @@ import GameStatus from "../Game"
 export default class Disk {
 
     constructor() {
-        this.__$id              = -1;
-        this.__$name            = '';
-        this.__$position        = Vec2.Zero;
-        this.__$size            = Vec2.One;
-        this.__$radius          = 0;
-        this.__$rotation        = Math.random() * 360;
-        this.__$normal          = Vec2.GetNormal(this.__$rotation);
-        this.__$color           = new Color(0x0055FF);
-        this.__$direction       = Vec2.Copy(this.__$normal);
-        this.__$velocity        = 250;
-        this.__$rotationSpeed   = 100;
-        this.__$collider        = null;
+        this._id              = -1;
+        this._name            = '';
+        this._position        = Vec2.Zero;
+        this._size            = Vec2.One;
+        this._radius          = 0;
+        this._rotation        = Math.random() * 360;
+        this._normal          = Vec2.GetNormal(this._rotation);
+        this._color           = new Color(0x0055FF);
+        this._direction       = Vec2.Copy(this._normal);
+        this._velocity        = 250;
+        this._rotationSpeed   = 100;
+        this._collider        = null;
 
-        this.__$ballImage       = document.getElementById('ball');
-        this.__$animationRot    = 0;
+        this._ballImage       = document.getElementById('ball');
+        this._animationRot    = 0;
 
-        this.__$ctx             = Core.Instance.Ctx;
+        this._ctx             = Core.Instance.Ctx;
     }
 
     attachCollider(collider) {
-        this.__$collider = collider;
+        this._collider = collider;
         collider.attachObject(this);
     }
 
@@ -33,100 +33,100 @@ export default class Disk {
     }
 
     update() {
-        const oldPosition = Vec2.Copy(this.__$position);
-        this.__$position.increment(this.__$direction.X * this.__$velocity * Core.DeltaTime, this.__$direction.Y * this.__$velocity * Core.DeltaTime);
+        const oldPosition = Vec2.Copy(this._position);
+        this._position.increment(this._direction.X * this._velocity * Core.DeltaTime, this._direction.Y * this._velocity * Core.DeltaTime);
 
-        const collisions = this.__$collider.getCollisions();
+        const collisions = this._collider.getCollisions();
 
         if (collisions.length !== 0) {
-            this.__$position.copy(oldPosition);
+            this._position.copy(oldPosition);
 
             collisions.forEach(object => {
                 if ((object.Group === 'WALL' || object.Group === 'PLAYER') && object.Normal) {
-                    this.__$rotation = Vec2.Reflect(this.__$direction, object.Normal).toRotation() + Math.random() * 20 - 10;
+                    this._rotation = Vec2.Reflect(this._direction, object.Normal).toRotation() + Math.random() * 20 - 10;
 
-                    this.__$rotation = Util2D.AdjustRotation(this.__$rotation);
+                    this._rotation = Util2D.AdjustRotation(this._rotation);
 
-                    this.__$direction = Vec2.GetNormal(this.__$rotation);
-                    this.__$normal.copy(this.__$direction);
+                    this._direction = Vec2.GetNormal(this._rotation);
+                    this._normal.copy(this._direction);
                 }
             });
         }
 
-        this.__$animationRot += Core.DeltaTime * 200;
-        if (this.__$animationRot >= 360) this.__$animationRot = 0;
+        this._animationRot += Core.DeltaTime * 200;
+        if (this._animationRot >= 360) this._animationRot = 0;
     }
 
     draw() {
-        /*this.__$ctx.fillStyle = `rgb(${this.__$color.Red},${this.__$color.Green},${this.__$color.Blue})`;
-        this.__$ctx.beginPath();
-        this.__$ctx.arc(this.__$position.X + this.__$radius, this.__$position.Y + this.__$radius, this.__$radius, 0, 2 * Math.PI);
-        this.__$ctx.fill();*/
-        this.__$ctx.save();
-        this.__$ctx.translate(this.__$position.X + this.__$size.X / 2, this.__$position.Y + this.__$size.Y / 2);
-        this.__$ctx.rotate(Util2D.ToRadians(this.__$animationRot));
-        this.__$ctx.drawImage(this.__$ballImage, this.__$size.X / -2, this.__$size.Y / -2, this.__$size.X, this.__$size.Y);
-        this.__$ctx.restore();
+        /*this._ctx.fillStyle = `rgb(${this._color.Red},${this._color.Green},${this._color.Blue})`;
+        this._ctx.beginPath();
+        this._ctx.arc(this._position.X + this._radius, this._position.Y + this._radius, this._radius, 0, 2 * Math.PI);
+        this._ctx.fill();*/
+        this._ctx.save();
+        this._ctx.translate(this._position.X + this._size.X / 2, this._position.Y + this._size.Y / 2);
+        this._ctx.rotate(Util2D.ToRadians(this._animationRot));
+        this._ctx.drawImage(this._ballImage, this._size.X / -2, this._size.Y / -2, this._size.X, this._size.Y);
+        this._ctx.restore();
 
         if (GameStatus.MustDrawInfo) {
-            this.__$collider.draw();
+            this._collider.draw();
             this.drawNormal();
         }
     }
 
     drawNormal() {
-        let bx = this.__$position.X + this.__$size.X / 2;
-        let by = this.__$position.Y + this.__$size.Y / 2;
+        let bx = this._position.X + this._size.X / 2;
+        let by = this._position.Y + this._size.Y / 2;
 
-        this.__$ctx.strokeStyle = '#FFFF00';
-        this.__$ctx.beginPath();
-        this.__$ctx.moveTo(bx, by);
-        this.__$ctx.lineTo(bx + this.__$normal.X * 50, by + this.__$normal.Y * 50);
-        this.__$ctx.stroke();
+        this._ctx.strokeStyle = '#FFFF00';
+        this._ctx.beginPath();
+        this._ctx.moveTo(bx, by);
+        this._ctx.lineTo(bx + this._normal.X * 50, by + this._normal.Y * 50);
+        this._ctx.stroke();
     }
 
-    set Id(value) { this.__$id = value }
+    set Id(value) { this._id = value }
 
-    get Id() { return this.__$id }
+    get Id() { return this._id }
 
-    set Name(value) { this.__$name = value }
+    set Name(value) { this._name = value }
 
-    get Name() { return this.__$name }
+    get Name() { return this._name }
 
     set Color(value) {
         if (!value) {
-            this.__$color.change(0x000000);
+            this._color.change(0x000000);
             return;
         }
 
-        this.__$color.change(typeof value === 'string' ? parseInt(value) : value);
+        this._color.change(typeof value === 'string' ? parseInt(value) : value);
     }
 
-    get Color() { return this.__$color }
+    get Color() { return this._color }
 
-    set Position(value) { this.__$position.copy(value) }
+    set Position(value) { this._position.copy(value) }
 
-    get Position() { return this.__$position }
+    get Position() { return this._position }
 
     set Size(value) {
-        this.__$size.copy(value);
-        this.__$radius = value.Width / 2;
+        this._size.copy(value);
+        this._radius = value.Width / 2;
     }
 
-    get Size() { return this.__$size }
+    get Size() { return this._size }
 
-    get Radius() { return this.__$radius }
+    get Radius() { return this._radius }
 
-    set Rotation(value) { this.__$rotation = value }
+    set Rotation(value) { this._rotation = value }
 
-    get Rotation() { return this.__$rotation }
+    get Rotation() { return this._rotation }
 
-    set Normal(value) { this.__$normal.copy(value) }
+    set Normal(value) { this._normal.copy(value) }
 
-    get Normal() { return this.__$normal }
+    get Normal() { return this._normal }
 
-    set Collider(value) { this.__$collider = value }
+    set Collider(value) { this._collider = value }
 
-    get Collider() { return this.__$collider }
+    get Collider() { return this._collider }
 
 }

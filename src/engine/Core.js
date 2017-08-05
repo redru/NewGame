@@ -10,22 +10,22 @@ export default class Core {
 
     constructor() {
         this.canvas         = null;
-        this.__$ctx         = null;
-        this.__$canvasDim   = Vec2.Zero;
-        this.__$statsActive = false;
-        this.__$clearColor  = "black";
+        this._ctx           = null;
+        this._canvasDim     = Vec2.Zero;
+        this._statsActive   = false;
+        this._clearColor    = 'black';
         this.fps            = 30;
         this.sleepTime      = 1000 / this.fps;
         this.intervalId     = -1;
         this.gameCallback   = () => { };
 
         window.addEventListener('keydown', (event) => {
-            Core.__$pressedKeys[event.keyCode] = true;
+            Core._pressedKeys[event.keyCode] = true;
         });
 
         window.addEventListener('keyup', (event) => {
-            Core.__$pressedKeys[event.keyCode] = false;
-            Core.__$keyCallbacks.forEach(cb => cb(event.keyCode));
+            Core._pressedKeys[event.keyCode] = false;
+            Core._keyCallbacks.forEach(cb => cb(event.keyCode));
         });
     }
 
@@ -46,20 +46,20 @@ export default class Core {
 
     initGraphics(target, dimension) {
         this.canvas = document.getElementById(target ? target : '2DBoard');
-        this.__$ctx = this.canvas.getContext('2d');
-        // this.__$ctx.imageSmoothingQuality = 'High';
-        this.__$ctx.imageSmoothingEnabled = false;
+        this._ctx = this.canvas.getContext('2d');
+        // this._ctx.imageSmoothingQuality = 'High';
+        this._ctx.imageSmoothingEnabled = false;
 
         if (dimension) {
-            this.__$canvasDim.copy(dimension);
+            this._canvasDim.copy(dimension);
             this.canvas.width = dimension.X;
             this.canvas.height = dimension.Y;
         } else {
-            this.__$canvasDim.copyFromArray([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
+            this._canvasDim.copyFromArray([parseInt(this.canvas.width), parseInt(this.canvas.height)]);
         }
 
-        Logger.Append(`[Core] Graphics initialized: Canvas [${this.__$canvasDim.X}, ${this.__$canvasDim.Y}]`);
-        return this.__$ctx;
+        Logger.Append(`[Core] Graphics initialized: Canvas [${this._canvasDim.X}, ${this._canvasDim.Y}]`);
+        return this._ctx;
     }
 
     loadObjects() {
@@ -67,12 +67,12 @@ export default class Core {
     }
 
     clearScreen() {
-        this.__$ctx.fillStyle = this.__$clearColor;
-        this.__$ctx.fillRect(0, 0, this.__$canvasDim.X, this.__$canvasDim.Y);
+        this._ctx.fillStyle = this._clearColor;
+        this._ctx.fillRect(0, 0, this._canvasDim.X, this._canvasDim.Y);
     }
 
     start(statsActive) {
-        if (statsActive !== undefined) this.__$statsActive = (statsActive === true);
+        if (statsActive !== undefined) this._statsActive = (statsActive === true);
         Chrono.static.start();
 
         this.intervalId = setInterval(() => {
@@ -84,7 +84,7 @@ export default class Core {
 
             CollisionSystem.Instance.checkCollision();
             this.gameCallback();
-            if (this.__$statsActive) this.drawStats();
+            if (this._statsActive) this.drawStats();
         }, this.sleepTime);
     }
 
@@ -117,58 +117,58 @@ export default class Core {
     }
 
     drawStats() {
-        this.__$ctx.font = '12px serif';
-        this.__$ctx.fillStyle = `rgb(${Core.StatsColor.Red},${Core.StatsColor.Green},${Core.StatsColor.Blue})`;
-        this.__$ctx.fillText(`FPS: ${this.fps}`, 10, 15);
-        this.__$ctx.fillText(`Global Time: ${Math.round(Core.Time)} ms`, 60, 15);
-        this.__$ctx.fillText(`Frame Time: ${Core.FrameTime} ms`, 220, 15);
+        this._ctx.font = '12px serif';
+        this._ctx.fillStyle = `rgb(${Core.StatsColor.Red},${Core.StatsColor.Green},${Core.StatsColor.Blue})`;
+        this._ctx.fillText(`FPS: ${this.fps}`, 10, 15);
+        this._ctx.fillText(`Global Time: ${Math.round(Core.Time)} ms`, 60, 15);
+        this._ctx.fillText(`Frame Time: ${Core.FrameTime} ms`, 220, 15);
     }
 
-    set Ctx(value) { this.__$ctx = value }
+    set Ctx(value) { this._ctx = value }
 
-    get Ctx() { return this.__$ctx }
+    get Ctx() { return this._ctx }
 
-    set CanvasDim(value) { this.__$canvasDim = value }
+    set CanvasDim(value) { this._canvasDim = value }
 
-    get CanvasDim() { return this.__$canvasDim }
+    get CanvasDim() { return this._canvasDim }
 
-    set StatsActive(value) { this.__$statsActive = value }
+    set StatsActive(value) { this._statsActive = value }
 
-    get StatsActive() { return this.__$statsActive }
+    get StatsActive() { return this._statsActive }
 
-    set ClearColor(value) { this.__$clearColor = value }
+    set ClearColor(value) { this._clearColor = value }
 
-    get ClearColor() { return this.__$clearColor }
+    get ClearColor() { return this._clearColor }
 
     static AddKeyListener(cb) {
-        Core.__$keyCallbacks.push(cb);
+        Core._keyCallbacks.push(cb);
     }
 
     static IsKeyPressed(keyCode) {
-        return Core.__$pressedKeys[keyCode] === true;
+        return Core._pressedKeys[keyCode] === true;
     }
 
-    static get Instance() { return Core.__$instance }
+    static get Instance() { return Core._instance }
 
-    static set Time(value) { Core.__$time = value }
+    static set Time(value) { Core._time = value }
 
-    static get Time() { return Core.__$time }
+    static get Time() { return Core._time }
 
-    static set FrameTime(value) { Core.__$frameTime = value }
+    static set FrameTime(value) { Core._frameTime = value }
 
-    static get FrameTime() { return Core.__$frameTime }
+    static get FrameTime() { return Core._frameTime }
 
-    static set DeltaTime(value) { Core.__$deltaTime = value }
+    static set DeltaTime(value) { Core._deltaTime = value }
 
-    static get DeltaTime() { return Core.__$deltaTime }
+    static get DeltaTime() { return Core._deltaTime }
 
-    static get StatsColor() { return Core.__$statsColor }
+    static get StatsColor() { return Core._statsColor }
 }
 
-Core.__$statsColor      = new Color(0xFFFFFF);
-Core.__$instance        = new Core();
-Core.__$time            = 0;
-Core.__$frameTime       = 0;
-Core.__$deltaTime       = 0;
-Core.__$keyCallbacks    = [];
-Core.__$pressedKeys     = { };
+Core._statsColor      = new Color(0xFFFFFF);
+Core._instance        = new Core();
+Core._time            = 0;
+Core._frameTime       = 0;
+Core._deltaTime       = 0;
+Core._keyCallbacks    = [];
+Core._pressedKeys     = { };

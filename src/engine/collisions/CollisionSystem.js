@@ -5,33 +5,33 @@ import Collider from "./Collider";
 export default class CollisionSystem {
 
     constructor() {
-        this.__$registeredColliders = [];
-        this.__$collisionMap        = { };
+        this._registeredColliders = [];
+        this._collisionMap        = { };
     }
 
     register(collider) {
-        this.__$registeredColliders.push(collider);
-        Logger.Append(`[CollisionSystem] Current active colliders: ${this.__$registeredColliders.length}`);
+        this._registeredColliders.push(collider);
+        Logger.Append(`[CollisionSystem] Current active colliders: ${this._registeredColliders.length}`);
     }
 
     checkCollision() {
-        this.__$collisionMap = { };
+        this._collisionMap = { };
 
-        this.__$registeredColliders.forEach((collider_1, index_1) => {
-            this.__$registeredColliders.forEach((collider_2, index_2) => {
+        this._registeredColliders.forEach((collider_1, index_1) => {
+            this._registeredColliders.forEach((collider_2, index_2) => {
                 let key = CollisionSystem.GenerateKey(index_1, index_2);
 
                 // Don't check collision on the same object
                 // Return if combination has already been checked
                 // Check collision
                 if (index_1 === index_2) {
-                    this.__$collisionMap[key] = true;
+                    this._collisionMap[key] = true;
                     return;
-                } else if (this.__$collisionMap[key]) {
+                } else if (this._collisionMap[key]) {
                     return;
                 }
 
-                this.__$collisionMap[key] = true;
+                this._collisionMap[key] = true;
 
                 if (Collider.GenerateTypesMask(collider_1.Type, collider_2.Type) === Collider.Masks.Square2) {
                     if (CollisionSystem.Square2collision(collider_1, collider_2)) {
@@ -53,7 +53,7 @@ export default class CollisionSystem {
     executeCollisionCheck(collider) {
         const collisions = [];
 
-        this.__$registeredColliders.forEach(target => {
+        this._registeredColliders.forEach(target => {
             if (collider !== target) {
                 switch(Collider.GenerateTypesMask(target.Type, collider.Type)) {
                     case Collider.Masks.Square2:
@@ -80,8 +80,8 @@ export default class CollisionSystem {
             collider_1.Attached.Size.Height + collider_1.Attached.Position.Y > collider_2.Attached.Position.Y);
     }
 
-    static get Instance() { return CollisionSystem.__$instance }
+    static get Instance() { return CollisionSystem._instance }
 
 }
 
-CollisionSystem.__$instance = new CollisionSystem();
+CollisionSystem._instance = new CollisionSystem();

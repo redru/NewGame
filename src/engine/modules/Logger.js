@@ -1,20 +1,20 @@
 "use strict";
-let __$logArea = null;
+let _logArea = null;
 
 export default class Logger {
 
     static InitializeLogArea(id) {
-        __$logArea = document.getElementById(id ? id : 'LogArea');
+        _logArea = document.getElementById(id ? id : 'LogArea');
     }
 
     static Append(text) {
         console.log(text);
-        __$logArea.value += `${text}\n`;
+        _logArea.value += `${text}\n`;
 
-        if (__$logArea.value.length > Logger.Limit)
-            __$logArea.value = __$logArea.value.substring(__$logArea.value.length - Logger.Limit);
+        if (_logArea.value.length > Logger.Limit)
+            _logArea.value = _logArea.value.substring(_logArea.value.length - Logger.Limit);
 
-        __$logArea.scrollTop = __$logArea.scrollHeight;
+        _logArea.scrollTop = _logArea.scrollHeight;
     }
 
     static get Limit() { return 5000 }

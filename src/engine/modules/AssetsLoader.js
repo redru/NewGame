@@ -2,7 +2,7 @@
 export default class AssetsLoader {
 
     constructor() {
-        this.__$png = { };
+        this._png = { };
     }
 
     loadAssets(assets) {
@@ -28,7 +28,7 @@ export default class AssetsLoader {
     }
 
     loadPng(path) {
-        return this.__$png[path];
+        return this._png[path];
     }
 
     static get Types() {
@@ -37,8 +37,8 @@ export default class AssetsLoader {
         };
     }
 
-    static get Instance() { return AssetsLoader.__$instance }
+    static get Instance() { return AssetsLoader._instance }
 
 }
 
-AssetsLoader.__$instance = new AssetsLoader();
+AssetsLoader._instance = new AssetsLoader();
