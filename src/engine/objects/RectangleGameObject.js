@@ -34,9 +34,7 @@ export default class RectangleGameObject extends GameObject {
         this._ctx.stroke();
     }
 
-    onCollision(collider) {
-
-    }
+    onCollision(collider) { }
 
     set Color(value) { this._color.change(value) }
 

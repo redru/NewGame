@@ -2,15 +2,28 @@
 export default class Color {
 
     constructor(color) {
-        this._$val = color ? color : 0;
+        this._$val = color ? color : 0x000000;
     }
 
     change(color) {
-        this._$val = color
+        if (!color) {
+            this._$val = 0x000000;
+            return;
+        }
+
+        this._$val = typeof color === 'string' ? parseInt(color) : color;
     }
 
     toString() {
         return this._$val.toString(16);
+    }
+
+    toRgb() {
+        return `rgb(${this._$val & Color.RED},${(this._$val & Color.GREEN) >> 8},${(this._$val & Color.BLUE) >> 16})`;
+    }
+
+    toRgba() {
+        return `rgb(${this._$val & Color.RED},${(this._$val & Color.GREEN) >> 8},${(this._$val & Color.BLUE) >> 16},${(this._$val & Color.ALPHA) >> 24})`;
     }
 
     get Red() {

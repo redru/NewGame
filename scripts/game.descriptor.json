@@ -22,11 +22,13 @@
       "group"     : "PLAYER",
       "color"     : "default",
       "position"  : [200, 300],
-      "size"      : [10, 80]
+      "size"      : [10, 80],
+      "rotation"  : 0
     },
     {
       "type"      : "Enemy",
       "name"      : "ENEMY_1",
+      "group"     : "PLAYER",
       "color"     : "default",
       "position"  : [1080, 340],
       "size"      : [10, 80],
@@ -37,27 +39,6 @@
       "name"      : "DISK_1",
       "color"     : "default",
       "position"  : [590, 310],
-      "size"      : [20, 20]
-    },
-    {
-      "type"      : "Disk",
-      "name"      : "DISK_2",
-      "color"     : "default",
-      "position"  : [690, 310],
-      "size"      : [20, 20]
-    },
-    {
-      "type"      : "Disk",
-      "name"      : "DISK_3",
-      "color"     : "default",
-      "position"  : [590, 410],
-      "size"      : [20, 20]
-    },
-    {
-      "type"      : "Disk",
-      "name"      : "DISK_4",
-      "color"     : "default",
-      "position"  : [690, 410],
       "size"      : [20, 20]
     },
     {

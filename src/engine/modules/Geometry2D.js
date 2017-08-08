@@ -113,7 +113,7 @@ export class Vec2 {
         return v1.X * v2.X + v1.Y * v2.Y;
     }
 
-    static GetNormal(angle) {
+    /*static GetNormal(angle) {
         let normal  = Vec2.StdNormal;
         let theta   = angle * Math.PI / 180;
         let cs      = Math.cos(theta);
@@ -123,6 +123,12 @@ export class Vec2 {
             normal.X * cs - normal.Y * sn,
             normal.X * sn + normal.Y * cs
         ]);
+    }*/
+
+    static GetNormalizedVector(angle) {
+        angle = angle * Math.PI / 180;
+
+        return new Vec2([Math.cos(angle), Math.sin(angle)]);
     }
 
     // v' = 2 * (v . n) * n - v;

@@ -1,57 +1,44 @@
 "use strict";
 import Core             from "../../src/engine/Core"
+import GameObject       from "../../src/engine/objects/GameObject";
 import Color            from "../../src/engine/various/Color"
 import {Vec2, Util2D}   from "../../src/engine/modules/Geometry2D"
 import GameStatus       from "../Game"
 
-export default class Disk {
+export default class Disk extends GameObject {
 
     constructor() {
-        this._id              = -1;
-        this._name            = '';
-        this._position        = Vec2.Zero;
-        this._size            = Vec2.One;
-        this._radius          = 0;
-        this._rotation        = Math.random() * 360;
-        this._normal          = Vec2.GetNormal(this._rotation);
-        this._color           = new Color(0x0055FF);
-        this._direction       = Vec2.Copy(this._normal);
-        this._velocity        = 250;
-        this._rotationSpeed   = 100;
-        this._collider        = null;
+        super();
+        this.Rotation       = Math.random() * 360;
+        this.Normal         = Vec2.GetNormalizedVector(this.Rotation);
+        this.Direction      = Vec2.Copy(this.Normal);
+        this._radius        = 0;
+        this._color         = new Color(0x0055FF);
+        this._velocity      = 500;
 
-        this._ballImage       = document.getElementById('ball');
-        this._animationRot    = 0;
-
-        this._ctx             = Core.Instance.Ctx;
+        this._ballImage     = document.getElementById('ball');
+        this._animationRot  = 0;
     }
 
-    attachCollider(collider) {
-        this._collider = collider;
-        collider.attachObject(this);
-    }
-
-    onCollision(object) {
-
-    }
+    onCollision(object) { }
 
     update() {
-        const oldPosition = Vec2.Copy(this._position);
-        this._position.increment(this._direction.X * this._velocity * Core.DeltaTime, this._direction.Y * this._velocity * Core.DeltaTime);
+        const oldPosition = Vec2.Copy(this.Position);
+        this.Position.increment(this.Direction.X * this._velocity * Core.DeltaTime, -this.Direction.Y * this._velocity * Core.DeltaTime);
 
-        const collisions = this._collider.getCollisions();
+        const collisions = this.Collider.getCollisions();
 
         if (collisions.length !== 0) {
-            this._position.copy(oldPosition);
+            this.Position.copy(oldPosition);
 
             collisions.forEach(object => {
                 if ((object.Group === 'WALL' || object.Group === 'PLAYER') && object.Normal) {
-                    this._rotation = Vec2.Reflect(this._direction, object.Normal).toRotation() + Math.random() * 20 - 10;
+                    this.Rotation = Vec2.Reflect(this.Direction, object.Normal).toRotation() + Math.random() * 20 - 10;
 
-                    this._rotation = Util2D.AdjustRotation(this._rotation);
+                    this.Rotation = Util2D.AdjustRotation(this.Rotation);
 
-                    this._direction = Vec2.GetNormal(this._rotation);
-                    this._normal.copy(this._direction);
+                    this.Direction = Vec2.GetNormalizedVector(this.Rotation);
+                    this.Normal.copy(this.Direction);
                 }
             });
         }
@@ -63,73 +50,22 @@ export default class Disk {
     draw() {
         /*this._ctx.fillStyle = `rgb(${this._color.Red},${this._color.Green},${this._color.Blue})`;
         this._ctx.beginPath();
-        this._ctx.arc(this._position.X + this._radius, this._position.Y + this._radius, this._radius, 0, 2 * Math.PI);
+        this._ctx.arc(this.Position.X + this._radius, this.Position.Y + this._radius, this._radius, 0, 2 * Math.PI);
         this._ctx.fill();*/
         this._ctx.save();
-        this._ctx.translate(this._position.X + this._size.X / 2, this._position.Y + this._size.Y / 2);
+        this._ctx.translate(this.Position.X + this.Size.X / 2, this.Position.Y + this.Size.Y / 2);
         this._ctx.rotate(Util2D.ToRadians(this._animationRot));
-        this._ctx.drawImage(this._ballImage, this._size.X / -2, this._size.Y / -2, this._size.X, this._size.Y);
+        this._ctx.drawImage(this._ballImage, this.Size.X / -2, this.Size.Y / -2, this.Size.X, this.Size.Y);
         this._ctx.restore();
 
         if (GameStatus.MustDrawInfo) {
-            this._collider.draw();
-            this.drawNormal();
+            this.Collider.draw();
+            this.drawInfo();
         }
     }
 
-    drawNormal() {
-        let bx = this._position.X + this._size.X / 2;
-        let by = this._position.Y + this._size.Y / 2;
-
-        this._ctx.strokeStyle = '#FFFF00';
-        this._ctx.beginPath();
-        this._ctx.moveTo(bx, by);
-        this._ctx.lineTo(bx + this._normal.X * 50, by + this._normal.Y * 50);
-        this._ctx.stroke();
-    }
-
-    set Id(value) { this._id = value }
-
-    get Id() { return this._id }
-
-    set Name(value) { this._name = value }
-
-    get Name() { return this._name }
-
-    set Color(value) {
-        if (!value) {
-            this._color.change(0x000000);
-            return;
-        }
-
-        this._color.change(typeof value === 'string' ? parseInt(value) : value);
-    }
+    set Color(value) { this._color.change(value) }
 
     get Color() { return this._color }
-
-    set Position(value) { this._position.copy(value) }
-
-    get Position() { return this._position }
-
-    set Size(value) {
-        this._size.copy(value);
-        this._radius = value.Width / 2;
-    }
-
-    get Size() { return this._size }
-
-    get Radius() { return this._radius }
-
-    set Rotation(value) { this._rotation = value }
-
-    get Rotation() { return this._rotation }
-
-    set Normal(value) { this._normal.copy(value) }
-
-    get Normal() { return this._normal }
-
-    set Collider(value) { this._collider = value }
-
-    get Collider() { return this._collider }
 
 }

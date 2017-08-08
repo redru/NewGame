@@ -18,7 +18,7 @@ export default class BoundingBox extends Collider {
     }
 
     draw() {
-        this._ctx.strokeStyle = `rgb(${this._color.Red},${this._color.Green},${this._color.Blue})`;
+        this._ctx.strokeStyle = this._color.toRgb();
 
         if (this.Attached)
             this._ctx.strokeRect(this.Attached.Position.X, this.Attached.Position.Y, this.Attached.Size.X, this.Attached.Size.Y);
