@@ -10,11 +10,14 @@ export default class Pj extends GameObject {
 
     constructor() {
         super();
-        this._color           = new Color(0xAA4411);
-        this._velocity        = 500;
-        this._rotationSpeed   = 200;
+        this._color             = new Color(0xAA4411);
+        this._maxVelocity       = 500;
+        this._currentVelocity   = 0;
+        this._acceleration      = 80;
+        this._rotationSpeed     = 200;
+        this._lastKeyPress      = null;
 
-        this._canvasDim       = Core.Instance.CanvasDim;
+        this._canvasDim         = Core.Instance.CanvasDim;
     }
 
     onCollision(collider) { }
@@ -31,13 +34,33 @@ export default class Pj extends GameObject {
         this._normal.copy(Vec2.GetNormalizedVector(this.Rotation));
 
         // Set direction vector
-        if (Core.IsKeyPressed(KeyCodes.E) && Core.IsKeyPressed(KeyCodes.Q)) this.Direction.Y = 0;
-        else if (Core.IsKeyPressed(KeyCodes.E) && !this.Collider.collidesWith('WALL_BOTTOM')) this.Direction.Y = -1;
-        else if (Core.IsKeyPressed(KeyCodes.Q) && !this.Collider.collidesWith('WALL_TOP')) this.Direction.Y = 1;
-        else this.Direction.Y = 0;
+        if (Core.IsKeyPressed(KeyCodes.E) && Core.IsKeyPressed(KeyCodes.Q)) {
+            this.Direction.Y = 0;
+            this._currentVelocity = 0;
+            this._lastKeyPress = null;
+        } else if (Core.IsKeyPressed(KeyCodes.E) && !this.Collider.collidesWith('WALL_BOTTOM')) {
+            this.Direction.Y = -1;
+            if (this._lastKeyPress === KeyCodes.E)
+                this._currentVelocity += this._acceleration;
+            else
+                this._lastKeyPress = KeyCodes.E;
+        } else if (Core.IsKeyPressed(KeyCodes.Q) && !this.Collider.collidesWith('WALL_TOP')) {
+            this.Direction.Y = 1;
+            if (this._lastKeyPress === KeyCodes.Q)
+                this._currentVelocity += this._acceleration;
+            else
+                this._lastKeyPress = KeyCodes.Q;
+        } else {
+            this._currentVelocity = 0;
+            this.Direction.Y = 0;
+            this._lastKeyPress = null;
+        }
+
+        if (this._currentVelocity > this._maxVelocity)
+            this._currentVelocity = this._maxVelocity;
 
         // Move
-        this.Position.increment(0, -this.Direction.Y * this._velocity * Core.DeltaTime);
+        this.Position.increment(0, -this.Direction.Y * this._currentVelocity * Core.DeltaTime);
     }
 
     draw() {
