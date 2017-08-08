@@ -11,9 +11,16 @@ export default class Enemy extends GameObject {
         super();
         this._color     = new Color(0x55AA00);
         this._velocity  = 500;
+        this._ball      = this.GameStorage.findGameObjectByName('DISK_1');
+    }
+
+    onCollision(collider) {
+
     }
 
     update() {
+        this.Position.Y = (this._ball.Position.Y + this._ball.Size.Height / 2) - (this.Size.Y / 2);
+
         this.Normal.copy(Vec2.GetNormalizedVector(this.Rotation));
     }
 

@@ -1,20 +1,22 @@
 "use strict";
-import Core     from "../Core"
-import {Vec2}   from "../modules/Geometry2D"
+import Core         from "../Core"
+import GameStorage  from "../modules/GameStorage"
+import {Vec2}       from "../modules/Geometry2D"
 
 export default class GameObject {
 
     constructor() {
-        this._id        = -1;
-        this._name      = 'any';
-        this._group     = 'default';
-        this._position  = Vec2.Zero;
-        this._size      = Vec2.Zero;
-        this._normal    = Vec2.Zero;
-        this._direction = Vec2.Zero;
-        this._rotation  = 0;
-        this._collider  = null;
-        this._ctx       = Core.Instance.Ctx;
+        this._id            = -1;
+        this._name          = 'any';
+        this._group         = 'default';
+        this._position      = Vec2.Zero;
+        this._size          = Vec2.Zero;
+        this._normal        = Vec2.Zero;
+        this._direction     = Vec2.Zero;
+        this._rotation      = 0;
+        this._collider      = null;
+        this._ctx           = Core.Instance.Ctx;
+        this._gameStorage   = GameStorage;
     }
 
     attachCollider(object) {
@@ -82,5 +84,7 @@ export default class GameObject {
     set Ctx(value) { this._ctx = value }
 
     get Ctx() { return this._ctx }
+
+    get GameStorage() { return this._gameStorage }
 
 }

@@ -1,5 +1,6 @@
 "use strict";
-import Logger   from "./Logger"
+import GameStorage  from "./GameStorage"
+import Logger       from "./Logger"
 
 const _objectsList = { };
 let _idCounter = 0;
@@ -22,6 +23,8 @@ export default class GameObjectLoader {
 
         const tmp = new _objectsList[name]();
         tmp.Id = _idCounter++;
+
+        GameStorage.addGameObject(tmp);
 
         return tmp;
     }

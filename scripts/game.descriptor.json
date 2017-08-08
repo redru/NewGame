@@ -26,6 +26,13 @@
       "rotation"  : 0
     },
     {
+      "type"      : "Disk",
+      "name"      : "DISK_1",
+      "color"     : "default",
+      "position"  : [590, 310],
+      "size"      : [20, 20]
+    },
+    {
       "type"      : "Enemy",
       "name"      : "ENEMY_1",
       "group"     : "PLAYER",
@@ -33,13 +40,6 @@
       "position"  : [1080, 340],
       "size"      : [10, 80],
       "rotation"  : 180
-    },
-    {
-      "type"      : "Disk",
-      "name"      : "DISK_1",
-      "color"     : "default",
-      "position"  : [590, 310],
-      "size"      : [20, 20]
     },
     {
       "type"      : "RectangleGameObject",

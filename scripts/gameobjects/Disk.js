@@ -33,7 +33,7 @@ export default class Disk extends GameObject {
 
             collisions.forEach(object => {
                 if ((object.Group === 'WALL' || object.Group === 'PLAYER') && object.Normal) {
-                    this.Rotation = Vec2.Reflect(this.Direction, object.Normal).toRotation() + Math.random() * 20 - 10;
+                    this.Rotation = Vec2.Reflect(this.Direction, object.Normal).toRotation() + Math.random() * 16 - 8;
 
                     this.Rotation = Util2D.AdjustRotation(this.Rotation);
 
