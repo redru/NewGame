@@ -2,10 +2,12 @@
 import Chrono               from "./modules/Chrono"
 import {Vec2}               from "./modules/Geometry2D"
 import GameObjectLoader     from "./modules/GameObjectLoader"
+import GameStorage          from "./modules/GameStorage";
 import Logger               from "./modules/Logger"
 import RectangleGameObject  from "./objects/RectangleGameObject"
 import CollisionSystem      from "./collisions/CollisionSystem"
 import Color                from "./various/Color"
+import CubeExplosion        from "./animations/CubeExplosion";
 
 export default class Core {
 
@@ -36,11 +38,13 @@ export default class Core {
      * @param {number} configuration.fps
      * @param {number} [configuration.sleepTime]
      */
-    configure(configuration) {
+    initialize(configuration) {
         Logger.InitializeLogArea();
 
         this.fps = configuration.fps;
         this.sleepTime = configuration.sleepTime ? configuration.sleepTime : 1000 / configuration.fps;
+
+        GameObjectLoader.RegisterObjects(['RectangleGameObject', 'CubeExplosion'], [RectangleGameObject, CubeExplosion]);
 
         Logger.Append(`[Core] Initialized: ${this.fps} FPS`);
     }
@@ -61,10 +65,6 @@ export default class Core {
 
         Logger.Append(`[Core] Graphics initialized: Canvas [${this._canvasDim.X}, ${this._canvasDim.Y}]`);
         return this._ctx;
-    }
-
-    loadObjects() {
-        GameObjectLoader.RegisterObjects(['RectangleGameObject'], [RectangleGameObject]);
     }
 
     clearScreen() {
@@ -151,6 +151,10 @@ export default class Core {
 
     static get Instance() { return Core._instance }
 
+    static get GameStorage() { return Core._gameStorage }
+
+    static get GameObjectLoader() { return Core._gameObjectLoader }
+
     static set Time(value) { Core._time = value }
 
     static get Time() { return Core._time }
@@ -166,10 +170,12 @@ export default class Core {
     static get StatsColor() { return Core._statsColor }
 }
 
-Core._statsColor      = new Color(0xFFFFFF);
-Core._instance        = new Core();
-Core._time            = 0;
-Core._frameTime       = 0;
-Core._deltaTime       = 0;
-Core._keyCallbacks    = [];
-Core._pressedKeys     = { };
+Core._statsColor        = new Color(0xFFFFFF);
+Core._instance          = new Core();
+Core._gameStorage       = GameStorage;
+Core._gameObjectLoader  = GameObjectLoader;
+Core._time              = 0;
+Core._frameTime         = 0;
+Core._deltaTime         = 0;
+Core._keyCallbacks      = [];
+Core._pressedKeys       = { };

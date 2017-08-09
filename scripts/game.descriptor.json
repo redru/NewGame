@@ -21,7 +21,7 @@
       "name"      : "PJ_1",
       "group"     : "PLAYER",
       "color"     : "default",
-      "position"  : [200, 300],
+      "position"  : [280, 300],
       "size"      : [10, 80],
       "rotation"  : 0
     },
@@ -37,9 +37,27 @@
       "name"      : "ENEMY_1",
       "group"     : "PLAYER",
       "color"     : "default",
-      "position"  : [1080, 340],
+      "position"  : [1000, 340],
       "size"      : [10, 80],
       "rotation"  : 180
+    },
+    {
+      "type"      : "Area",
+      "name"      : "PJ_AREA",
+      "group"     : "AREA",
+      "color"     : "0x009900",
+      "position"  : [100, 100],
+      "size"      : [140, 520],
+      "normal"    : [0, 0]
+    },
+    {
+      "type"      : "Area",
+      "name"      : "ENEMY_AREA",
+      "group"     : "AREA",
+      "color"     : "0x555555",
+      "position"  : [1040, 100],
+      "size"      : [140, 520],
+      "normal"    : [0, 0]
     },
     {
       "type"      : "RectangleGameObject",

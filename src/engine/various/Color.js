@@ -2,44 +2,48 @@
 export default class Color {
 
     constructor(color) {
-        this._$val = color ? color : 0x000000;
+        this._val = color ? color : 0x000000;
     }
 
     change(color) {
         if (!color) {
-            this._$val = 0x000000;
+            this._val = 0x000000;
             return;
         }
 
-        this._$val = typeof color === 'string' ? parseInt(color) : color;
+        this._val = typeof color === 'string' ? parseInt(color) : color;
+        
+        if ((this._val & Color.ALPHA) >> 24 === 0x00)
+            this._val = this._val | Color.ALPHA;
+        
     }
 
     toString() {
-        return this._$val.toString(16);
+        return this._val.toString(16);
     }
 
     toRgb() {
-        return `rgb(${this._$val & Color.RED},${(this._$val & Color.GREEN) >> 8},${(this._$val & Color.BLUE) >> 16})`;
+        return `rgb(${this._val & Color.RED},${(this._val & Color.GREEN) >> 8},${(this._val & Color.BLUE) >> 16})`;
     }
 
     toRgba() {
-        return `rgb(${this._$val & Color.RED},${(this._$val & Color.GREEN) >> 8},${(this._$val & Color.BLUE) >> 16},${(this._$val & Color.ALPHA) >> 24})`;
+        return `rgb(${this._val & Color.RED},${(this._val & Color.GREEN) >> 8},${(this._val & Color.BLUE) >> 16},${(this._val & Color.ALPHA) >> 24})`;
     }
 
     get Red() {
-        return this._$val & Color.RED;
+        return this._val & Color.RED;
     }
 
     get Green() {
-        return (this._$val & Color.GREEN) >> 8;
+        return (this._val & Color.GREEN) >> 8;
     }
 
     get Blue() {
-        return (this._$val & Color.BLUE) >> 16;
+        return (this._val & Color.BLUE) >> 16;
     }
 
     get Alpha() {
-        return (this._$val & Color.ALPHA) >> 24;
+        return (this._val & Color.ALPHA) >> 24;
     }
 
     static get RED() {

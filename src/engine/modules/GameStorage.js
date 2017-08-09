@@ -34,6 +34,8 @@ class GameStorage {
             null;
     }
 
+    get ObjectsList() { return this._gameObjectsList }
+
 }
 
 const _gameStorage = new GameStorage();

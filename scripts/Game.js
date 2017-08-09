@@ -3,13 +3,13 @@ import KeyCodes         from "../src/engine/various/KeyCodes"
 import Logger           from "../src/engine/modules/Logger"
 import Core             from "../src/engine/Core"
 import {Vec2}           from "../src/engine/modules/Geometry2D"
-import GameObjectLoader from "../src/engine/modules/GameObjectLoader";
 import BoundingBox      from "../src/engine/collisions/BoundingBox";
 import PositionalBox    from "../src/engine/interface/PositionalBox";
 import GameDescriptor   from "./game.descriptor.json"
 import Pj               from "./gameobjects/Pj"
 import Enemy            from "./gameobjects/Enemy"
 import Disk             from "./gameobjects/Disk"
+import Area             from "./gameobjects/Area";
 
 class GameStatus {
 
@@ -43,21 +43,20 @@ let ctx = null;
 // [0] Configuration
 // [1] Graphics
 const core = Core.Instance;
-core.configure(GameDescriptor['engine']['core']);
+core.initialize(GameDescriptor['engine']['core']);
 core.ClearColor = GameDescriptor['engine']['clear-color'];
 ctx = core.initGraphics(null, new Vec2(GameDescriptor['engine']['board-dimension']));
-core.loadObjects();
 
 // Register custom objects
-GameObjectLoader.RegisterObjects(['Pj', 'Enemy', 'Disk'], [Pj, Enemy, Disk]);
+Core.GameObjectLoader.RegisterObjects(['Pj', 'Enemy', 'Disk', 'Area'], [Pj, Enemy, Disk, Area]);
 
 // Set game callback
 core.gameCallback = function () {
-    drawables.forEach(object => object.draw());
+    Core.GameStorage.ObjectsList.forEach(object => object.draw());
     if (gameStatus.MustDrawInfo) drawablesInfoObjects.forEach(object => object.draw());
 
     if (gameStatus.Paused === false) {
-        updatables.forEach(object => object.update());
+        Core.GameStorage.ObjectsList.forEach(object => object.update());
     } else drawPause();
 };
 
@@ -81,7 +80,7 @@ Core.AddKeyListener(keyCode => {
 });
 
 GameDescriptor['game-objs'].forEach(object => {
-    let obj = GameObjectLoader.ObjectNewInstance(object.type);
+    let obj = Core.GameObjectLoader.ObjectNewInstance(object.type);
     obj.Name = object.name;
     obj.Position = new Vec2(object.position);
     obj.Size = new Vec2(object.size);
@@ -93,8 +92,8 @@ GameDescriptor['game-objs'].forEach(object => {
     if (object.group) obj.Group = object.group;
     if (obj.attachCollider) obj.attachCollider(new BoundingBox());
 
-    updatables.push(obj);
-    drawables.push(obj);
+    /*updatables.push(obj);
+    drawables.push(obj);*/
 
     switch(object.type) {
         case 'Pj':
