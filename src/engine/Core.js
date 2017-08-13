@@ -83,7 +83,7 @@ export default class Core {
 
             this.clearScreen();
 
-            CollisionSystem.Instance.checkCollision();
+            // CollisionSystem.checkCollision();
             this.gameCallback();
             if (this._statsActive) this.drawStats();
         }, this.sleepTime);
@@ -153,6 +153,8 @@ export default class Core {
 
     static get GameStorage() { return Core._gameStorage }
 
+    static get CollisionSystem() { return Core._collisionSystem }
+
     static get GameObjectLoader() { return Core._gameObjectLoader }
 
     static set Time(value) { Core._time = value }
@@ -173,6 +175,7 @@ export default class Core {
 Core._statsColor        = new Color(0xFFFFFF);
 Core._instance          = new Core();
 Core._gameStorage       = GameStorage;
+Core._collisionSystem   = CollisionSystem.Instance;
 Core._gameObjectLoader  = GameObjectLoader;
 Core._time              = 0;
 Core._frameTime         = 0;

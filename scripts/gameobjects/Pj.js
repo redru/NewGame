@@ -1,5 +1,6 @@
 "use strict";
 import Core             from "../../src/engine/Core"
+import CollisionSystem  from "../../src/engine/collisions/CollisionSystem"
 import GameObject       from "../../src/engine/objects/GameObject";
 import Color            from "../../src/engine/various/Color"
 import KeyCodes         from "../../src/engine/various/KeyCodes"
@@ -18,6 +19,8 @@ export default class Pj extends GameObject {
         this._lastKeyPress      = null;
 
         this._canvasDim         = Core.Instance.CanvasDim;
+        this._wallBottom        = Core.GameStorage.findGameObjectByName('WALL_BOTTOM');
+        this._wallTop           = Core.GameStorage.findGameObjectByName('WALL_TOP');
     }
 
     onCollision(collider) { }
@@ -38,14 +41,16 @@ export default class Pj extends GameObject {
             this.Direction.Y = 0;
             this._currentVelocity = 0;
             this._lastKeyPress = null;
-        } else if (Core.IsKeyPressed(KeyCodes.E) && !this.Collider.collidesWith('WALL_BOTTOM')) {
+        } else if (Core.IsKeyPressed(KeyCodes.E)) {
             this.Direction.Y = -1;
+
             if (this._lastKeyPress === KeyCodes.E)
                 this._currentVelocity += this._acceleration;
             else
                 this._lastKeyPress = KeyCodes.E;
-        } else if (Core.IsKeyPressed(KeyCodes.Q) && !this.Collider.collidesWith('WALL_TOP')) {
+        } else if (Core.IsKeyPressed(KeyCodes.Q)) {
             this.Direction.Y = 1;
+
             if (this._lastKeyPress === KeyCodes.Q)
                 this._currentVelocity += this._acceleration;
             else
@@ -60,7 +65,12 @@ export default class Pj extends GameObject {
             this._currentVelocity = this._maxVelocity;
 
         // Move
+        const oldPosition = Vec2.Copy(this.Position);
+
         this.Position.increment(0, -this.Direction.Y * this._currentVelocity * Core.DeltaTime);
+
+        if (CollisionSystem.Square2collision(this.Collider, this._wallBottom.Collider) || CollisionSystem.Square2collision(this.Collider, this._wallTop.Collider))
+            this.Position.copy(oldPosition);
     }
 
     draw() {

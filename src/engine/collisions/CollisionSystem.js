@@ -58,9 +58,9 @@ export default class CollisionSystem {
                 switch(Collider.GenerateTypesMask(target.Type, collider.Type)) {
                     case Collider.Masks.Square2:
                         if (CollisionSystem.Square2collision(target, collider)) {
-                            // Logger.Append(`[CollisionSystem] Collision between ${target.Attached.Name} and ${collider.Attached.Name}`);
                             collisions.push(target.Attached);
                         }
+
                         break;
                 }
             }

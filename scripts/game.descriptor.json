@@ -16,49 +16,7 @@
     ]
   },
   "game-objs": [
-    {
-      "type"      : "Pj",
-      "name"      : "PJ_1",
-      "group"     : "PLAYER",
-      "color"     : "default",
-      "position"  : [280, 300],
-      "size"      : [10, 80],
-      "rotation"  : 0
-    },
-    {
-      "type"      : "Disk",
-      "name"      : "DISK_1",
-      "color"     : "default",
-      "position"  : [590, 310],
-      "size"      : [20, 20]
-    },
-    {
-      "type"      : "Enemy",
-      "name"      : "ENEMY_1",
-      "group"     : "PLAYER",
-      "color"     : "default",
-      "position"  : [1000, 340],
-      "size"      : [10, 80],
-      "rotation"  : 180
-    },
-    {
-      "type"      : "Area",
-      "name"      : "PJ_AREA",
-      "group"     : "AREA",
-      "color"     : "0x009900",
-      "position"  : [100, 100],
-      "size"      : [140, 520],
-      "normal"    : [0, 0]
-    },
-    {
-      "type"      : "Area",
-      "name"      : "ENEMY_AREA",
-      "group"     : "AREA",
-      "color"     : "0x555555",
-      "position"  : [1040, 100],
-      "size"      : [140, 520],
-      "normal"    : [0, 0]
-    },
+
     {
       "type"      : "RectangleGameObject",
       "name"      : "WALL_TOP",
@@ -94,6 +52,49 @@
       "position"  : [1180, 100],
       "size"      : [50, 520],
       "normal"    : [-1, 0]
+    },
+    {
+      "type"      : "Pj",
+      "name"      : "PJ_1",
+      "group"     : "PLAYER",
+      "color"     : "default",
+      "position"  : [240, 300],
+      "size"      : [10, 80],
+      "rotation"  : 0
+    },
+    {
+      "type"      : "Disk",
+      "name"      : "DISK_1",
+      "color"     : "default",
+      "position"  : [590, 310],
+      "size"      : [20, 20]
+    },
+    {
+      "type"      : "Enemy",
+      "name"      : "ENEMY_1",
+      "group"     : "PLAYER",
+      "color"     : "default",
+      "position"  : [1040, 340],
+      "size"      : [10, 80],
+      "rotation"  : 180
+    },
+    {
+      "type"      : "Area",
+      "name"      : "PJ_AREA",
+      "group"     : "AREA",
+      "color"     : "0x01009900",
+      "position"  : [100, 100],
+      "size"      : [100, 520],
+      "normal"    : [0, 0]
+    },
+    {
+      "type"      : "Area",
+      "name"      : "ENEMY_AREA",
+      "group"     : "AREA",
+      "color"     : "0x01555555",
+      "position"  : [1080, 100],
+      "size"      : [100, 520],
+      "normal"    : [0, 0]
     }
   ]
 }

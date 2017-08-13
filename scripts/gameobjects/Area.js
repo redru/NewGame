@@ -9,7 +9,7 @@ export default class Area extends RectangleGameObject {
     }
 
     draw() {
-        this.Ctx.fillStyle = `rgba(${this.Color.Red},${this.Color.Green},${this.Color.Blue},${this.Color.Alpha * Math.sin(Core.Time / 500)})`;
+        this.Ctx.fillStyle = `rgba(${this.Color.Red},${this.Color.Green},${this.Color.Blue},${this.Color.Alpha * 0.3})`;
         this.Ctx.fillRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y);
 
         if (Core.Instance.StatsActive) {
