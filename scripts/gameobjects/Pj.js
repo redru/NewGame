@@ -16,7 +16,7 @@ export default class Pj extends GameObject {
         this._currentVelocity   = 0;
         this._acceleration      = 80;
         this._rotationSpeed     = 200;
-        this._lastKeyPress      = null;
+        this._lastKeyPress      = null; // Used to prevent acceleration save when switching direction
 
         this._canvasDim         = Core.Instance.CanvasDim;
         this._wallBottom        = Core.GameStorage.findGameObjectByName('WALL_BOTTOM');

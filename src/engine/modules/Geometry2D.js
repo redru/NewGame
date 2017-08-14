@@ -97,12 +97,20 @@ export class Vec2 {
         return this._val[1];
     }
 
+    static SumVectors(v1, v2) {
+        return new Vec2([v1.X + v2.X, v1.Y + v2.Y]);
+    }
+
     static SumScalar(v, scalar) {
         return new Vec2([v.X + scalar, v.Y + scalar]);
     }
 
     static Substract(v1, v2) {
         return new Vec2([v1.X - v2.X, v1.Y - v2.Y]);
+    }
+
+    static Multiply(v1, v2) {
+        return new Vec2([v1.X * v2.X, v1.Y * v2.Y]);
     }
 
     static MultiplyScalar(v, scalar) {

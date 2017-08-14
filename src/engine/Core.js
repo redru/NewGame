@@ -2,12 +2,13 @@
 import Chrono               from "./modules/Chrono"
 import {Vec2}               from "./modules/Geometry2D"
 import GameObjectLoader     from "./modules/GameObjectLoader"
-import GameStorage          from "./modules/GameStorage";
+import GameStorage          from "./modules/GameStorage"
 import Logger               from "./modules/Logger"
 import RectangleGameObject  from "./objects/RectangleGameObject"
 import CollisionSystem      from "./collisions/CollisionSystem"
+import ParticlesEmitter     from "./particles/ParticlesEmitter"
 import Color                from "./various/Color"
-import CubeExplosion        from "./animations/CubeExplosion";
+import CubeExplosion        from "./animations/CubeExplosion"
 
 export default class Core {
 
@@ -85,6 +86,8 @@ export default class Core {
 
             // CollisionSystem.checkCollision();
             this.gameCallback();
+            Core.ParticlesEmitter.emit();
+
             if (this._statsActive) this.drawStats();
         }, this.sleepTime);
     }
@@ -155,6 +158,8 @@ export default class Core {
 
     static get CollisionSystem() { return Core._collisionSystem }
 
+    static get ParticlesEmitter() { return Core._particlesEmitter }
+
     static get GameObjectLoader() { return Core._gameObjectLoader }
 
     static set Time(value) { Core._time = value }
@@ -176,6 +181,7 @@ Core._statsColor        = new Color(0xFFFFFF);
 Core._instance          = new Core();
 Core._gameStorage       = GameStorage;
 Core._collisionSystem   = CollisionSystem.Instance;
+Core._particlesEmitter  = ParticlesEmitter.Instance;
 Core._gameObjectLoader  = GameObjectLoader;
 Core._time              = 0;
 Core._frameTime         = 0;
