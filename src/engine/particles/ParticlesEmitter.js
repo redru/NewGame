@@ -19,7 +19,14 @@ export default class ParticlesEmitter {
         }
     }
 
-    add(position, duration, direction, velocity) {
+    /**
+     *
+     * @param position
+     * @param duration
+     * @param direction
+     * @param velocity
+     */
+    add(position, duration, direction, velocity, color) {
         while (this._particles[this._ptr].Enabled === true) {
             if ((this._ptr++) + 1 >= this._totalParticles) {
                 this._ptr = 0;
@@ -32,6 +39,7 @@ export default class ParticlesEmitter {
         tmp.Duration            = duration;
         tmp.Direction           = direction;
         tmp.Velocity            = velocity;
+        tmp.Color               = color;
         tmp.Enabled             = true;
 
         this._currentParticles++;

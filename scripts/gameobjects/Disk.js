@@ -24,7 +24,7 @@ export default class Disk extends GameObject {
 
     update() {
         const oldPosition = Vec2.Copy(this.Position);
-        this.Position.increment(this.Direction.X * this._velocity * Core.DeltaTime, -this.Direction.Y * this._velocity * Core.DeltaTime);
+        this.move(this.Direction.X * this._velocity * Core.DeltaTime, -this.Direction.Y * this._velocity * Core.DeltaTime);
 
         const collisions = this.Collider.getCollisions();
 
@@ -45,6 +45,11 @@ export default class Disk extends GameObject {
 
         this._animationRot += Core.DeltaTime * 200;
         if (this._animationRot >= 360) this._animationRot = 0;
+
+        let reactionPos = this.Position.getVariant([this.CenterOffset.X, this.CenterOffset.Y]);
+
+        for (let count = 0; count < 10; count++)
+            Core.ParticlesEmitter.add(reactionPos, 200, Vec2.Invert(this.Direction).rotate(Math.random() * 60 - 30), Math.random() * 20, count % 2 === 0 && count % 3 === 0 ? 0x0000FF : 0x00FFFF );
     }
 
     draw() {
@@ -53,9 +58,9 @@ export default class Disk extends GameObject {
         this._ctx.arc(this.Position.X + this._radius, this.Position.Y + this._radius, this._radius, 0, 2 * Math.PI);
         this._ctx.fill();*/
         this._ctx.save();
-        this._ctx.translate(this.Position.X + this.Size.X / 2, this.Position.Y + this.Size.Y / 2);
+        this._ctx.translate(this.Center.X, this.Center.Y);
         this._ctx.rotate(Util2D.ToRadians(this._animationRot));
-        this._ctx.drawImage(this._ballImage, this.Size.X / -2, this.Size.Y / -2, this.Size.X, this.Size.Y);
+        this._ctx.drawImage(this._ballImage, -this.CenterOffset.X, -this.CenterOffset.Y, this.Size.X, this.Size.Y);
         this._ctx.restore();
 
         if (GameStatus.MustDrawInfo) {

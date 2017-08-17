@@ -19,14 +19,13 @@ export default class Enemy extends GameObject {
     }
 
     update() {
-        this.Position.Y = (this._ball.Position.Y + this._ball.Size.Height / 2) - (this.Size.Y / 2);
-
+        this.move(0, this._ball.Position.Y - this.Position.Y);
         this.Normal.copy(Vec2.GetNormalizedVector(this.Rotation));
     }
 
     draw() {
-        this.Ctx.fillStyle = `rgb(${this._color.Red},${this._color.Green},${this._color.Blue})`;
-        this.Ctx.fillRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y);
+        this.Ctx.fillStyle = this._color.toRgb();
+        this.Ctx.fillRect(this.Position.X, this.Position.Y, this.Size.Width, this.Size.Height);
 
         if (GameStatus.MustDrawInfo) {
             this.Collider.draw();

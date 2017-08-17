@@ -125,8 +125,3 @@ core.start(true);
  * 0.707 / -0.707
  *
  */
-
-setInterval(() => {
-    for (let count = 0; count < 5; count++)
-        Core.ParticlesEmitter.add(new Vec2([200, 200]), Math.random() * 1000, Vec2.GetNormalizedVector(Math.random() * 40 - 20), Math.random() * 20);
-}, 0);

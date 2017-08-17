@@ -65,6 +65,10 @@ export class Vec2 {
         ]);
     }
 
+    getVariant(v) {
+        return new Vec2([this._val[0] + v[0], this._val[1] + v[1]]);
+    }
+
     set X(value) {
         this._val[0] = value;
     }
@@ -98,6 +102,9 @@ export class Vec2 {
     }
 
     static SumVectors(v1, v2) {
+        if (!v1) v1 = Vec2.Zero;
+        if (!v2) v2 = Vec2.Zero;
+
         return new Vec2([v1.X + v2.X, v1.Y + v2.Y]);
     }
 
@@ -145,6 +152,10 @@ export class Vec2 {
     static Reflect(direction, normal) {
         let reflected = Vec2.MultiplyScalar(normal, Vec2.DotProduct(direction, normal) * 2);
         return Vec2.Substract(direction, reflected);
+    }
+
+    static Invert(v) {
+        return new Vec2([-v.X, -v.Y]);
     }
 
     static Copy(vec) {

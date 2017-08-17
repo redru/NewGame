@@ -67,7 +67,7 @@ export default class Pj extends GameObject {
         // Move
         const oldPosition = Vec2.Copy(this.Position);
 
-        this.Position.increment(0, -this.Direction.Y * this._currentVelocity * Core.DeltaTime);
+        this.move(0, -this.Direction.Y * this._currentVelocity * Core.DeltaTime);
 
         if (CollisionSystem.Square2collision(this.Collider, this._wallBottom.Collider) || CollisionSystem.Square2collision(this.Collider, this._wallTop.Collider))
             this.Position.copy(oldPosition);

@@ -13,6 +13,8 @@ export default class GameObject {
         this._size          = Vec2.Zero;
         this._normal        = Vec2.Zero;
         this._direction     = Vec2.Zero;
+        this._center        = Vec2.Zero;
+        this._centerOffset  = Vec2.Zero;
         this._rotation      = 0;
         this._collider      = null;
         this._ctx           = Core.Instance.Ctx;
@@ -24,16 +26,18 @@ export default class GameObject {
         this._collider = object;
     }
 
-    drawInfo() {
-        let bx = this._position.X + this._size.X / 2;
-        let by = this._position.Y + this._size.Y / 2;
+    move(xOffset, yOffset) {
+        this._position.increment(xOffset, yOffset);
+        this._center.copy(Vec2.SumVectors(this._position, this._centerOffset));
+    }
 
+    drawInfo() {
         // Draw normal
         this._ctx.save();
         this._ctx.strokeStyle = '#FFFF00';
         this._ctx.beginPath();
-        this._ctx.moveTo(bx, by);
-        this._ctx.lineTo(bx + this._normal.X * 50, by - this._normal.Y * 50);
+        this._ctx.moveTo(this._center.X, this._center.Y);
+        this._ctx.lineTo(this._center.X + this._normal.X * 50, this._center.Y - this._normal.Y * 50);
         this._ctx.stroke();
         this._ctx.restore();
 
@@ -41,8 +45,8 @@ export default class GameObject {
         this._ctx.save();
         this._ctx.strokeStyle = '#00FF00';
         this._ctx.beginPath();
-        this._ctx.moveTo(bx, by);
-        this._ctx.lineTo(bx + this._direction.X * 75, by - this._direction.Y * 75);
+        this._ctx.moveTo(this._center.X, this._center.Y);
+        this._ctx.lineTo(this._center.X + this._direction.X * 75, this._center.Y - this._direction.Y * 75);
         this._ctx.stroke();
         this._ctx.restore();
     }
@@ -59,11 +63,18 @@ export default class GameObject {
 
     get Group() { return this._group }
 
-    set Position(value) { this._position.copy(value) }
+    set Position(value) {
+        this._position.copy(value);
+        this._center.copy(Vec2.SumVectors(this._position, this._centerOffset));
+    }
 
     get Position() { return this._position }
 
-    set Size(value) { this._size.copy(value) }
+    set Size(value) {
+        this._size.copy(value);
+        this._centerOffset = new Vec2([value.X / 2, value.Y / 2]);
+        this._center.copy(Vec2.SumVectors(this._position, this._centerOffset));
+    }
 
     get Size() { return this._size }
 
@@ -74,6 +85,10 @@ export default class GameObject {
     set Direction(value) { this._direction.copy(value) }
 
     get Direction() { return this._direction }
+
+    get Center() { return this._center }
+
+    get CenterOffset() { return this._centerOffset }
 
     set Rotation(value) { this._rotation = value }
 
