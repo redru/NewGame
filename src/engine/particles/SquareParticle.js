@@ -1,5 +1,4 @@
 import ParticleObject from "./ParticleObject";
-import Logger from "../modules/Logger";
 
 export default class SquareParticle extends ParticleObject {
 
@@ -9,7 +8,6 @@ export default class SquareParticle extends ParticleObject {
 
     draw() {
         const currentPosition = this.CurrentPosition;
-        Logger.Append(currentPosition.X + ' / ' + currentPosition.Y);
 
         this.Ctx.save();
         this.Ctx.fillStyle = 'rgb(255, 255, 255)';

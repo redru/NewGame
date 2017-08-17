@@ -10,7 +10,6 @@ import Pj               from "./gameobjects/Pj"
 import Enemy            from "./gameobjects/Enemy"
 import Disk             from "./gameobjects/Disk"
 import Area             from "./gameobjects/Area"
-import SquareParticle   from "../src/engine/particles/SquareParticle"
 
 class GameStatus {
 
@@ -35,8 +34,6 @@ export { gameStatus as default };
 // --------------------------------------------------------------
 
 // Vars
-const updatables = [];
-const drawables = [];
 const drawablesInfoObjects = [];
 let ctx = null;
 
@@ -47,6 +44,7 @@ const core = Core.Instance;
 core.initialize(GameDescriptor['engine']['core']);
 core.ClearColor = GameDescriptor['engine']['clear-color'];
 ctx = core.initGraphics(null, new Vec2(GameDescriptor['engine']['board-dimension']));
+core.postGraphicsInitialization();
 
 // Register custom objects
 Core.GameObjectLoader.RegisterObjects(['Pj', 'Enemy', 'Disk', 'Area'], [Pj, Enemy, Disk, Area]);
@@ -65,9 +63,11 @@ core.gameCallback = function () {
 Core.AddKeyListener(keyCode => {
     switch (keyCode) {
         case KeyCodes.ADD:
+        case 171:
             core.updateFps(5);
             break;
         case KeyCodes.SUBSTRACT:
+        case 173:
             core.updateFps(-5);
             break;
         case KeyCodes.SPACE:
@@ -119,4 +119,14 @@ function drawPause() {
 // Start engine
 core.start(true);
 
-Core.ParticlesEmitter.add(new SquareParticle(new Vec2([200, 200]), 1000, new Vec2([1, 0]), 10));
+/**
+ *
+ * 0.707 /  0.707
+ * 0.707 / -0.707
+ *
+ */
+
+setInterval(() => {
+    for (let count = 0; count < 5; count++)
+        Core.ParticlesEmitter.add(new Vec2([200, 200]), Math.random() * 1000, Vec2.GetNormalizedVector(Math.random() * 40 - 20), Math.random() * 20);
+}, 0);

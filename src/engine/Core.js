@@ -45,9 +45,12 @@ export default class Core {
         this.fps = configuration.fps;
         this.sleepTime = configuration.sleepTime ? configuration.sleepTime : 1000 / configuration.fps;
 
-        GameObjectLoader.RegisterObjects(['RectangleGameObject', 'CubeExplosion'], [RectangleGameObject, CubeExplosion]);
-
         Logger.Append(`[Core] Initialized: ${this.fps} FPS`);
+    }
+
+    postGraphicsInitialization() {
+        Core._particlesEmitter.initialize(500);
+        GameObjectLoader.RegisterObjects(['RectangleGameObject', 'CubeExplosion'], [RectangleGameObject, CubeExplosion]);
     }
 
     initGraphics(target, dimension) {
@@ -126,6 +129,7 @@ export default class Core {
         this._ctx.fillText(`FPS: ${this.fps}`, 10, 15);
         this._ctx.fillText(`Global Time: ${Math.round(Core.Time)} ms`, 60, 15);
         this._ctx.fillText(`Frame Time: ${Core.FrameTime} ms`, 220, 15);
+        this._ctx.fillText(`Particles: ${Core._particlesEmitter.CurrentParticles}`, 480, 15);
     }
 
     set Ctx(value) { this._ctx = value }
