@@ -20,8 +20,8 @@ export default class ParticleObject {
 
     get CurrentPosition() {
         return new Vec2([
-            this._startingPosition.X + this._direction.X * this._velocity * (Core.Time - this._startTime) * 0.016,
-            this._startingPosition.Y + -(this._direction.Y * this._velocity * (Core.Time - this._startTime) * 0.016)
+            this._startingPosition.X + this._direction.X * this._velocity * (Core.Time - this._startTime) * Core.DeltaTime,
+            this._startingPosition.Y + -(this._direction.Y * this._velocity * (Core.Time - this._startTime) * Core.DeltaTime)
         ]);
     }
 

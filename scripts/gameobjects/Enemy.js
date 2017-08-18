@@ -1,8 +1,7 @@
 "use strict";
-import Core             from "../../src/engine/Core"
-import GameObject       from "../../src/engine/objects/GameObject";
+import GameObject       from "../../src/engine/objects/GameObject"
 import Color            from "../../src/engine/various/Color"
-import {Vec2, Util2D}   from "../../src/engine/modules/Geometry2D"
+import { Vec2 }         from "../../src/engine/modules/Geometry2D"
 import GameStatus       from "../Game"
 
 export default class Enemy extends GameObject {

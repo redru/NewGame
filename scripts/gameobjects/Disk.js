@@ -23,15 +23,25 @@ export default class Disk extends GameObject {
     onCollision(object) { }
 
     update() {
+        // Save old position
         const oldPosition = Vec2.Copy(this.Position);
+
+        // Move
         this.move(this.Direction.X * this._velocity * Core.DeltaTime, -this.Direction.Y * this._velocity * Core.DeltaTime);
 
+        // Get collisions
         const collisions = this.Collider.getCollisions();
 
+        // Handle collisions of the ball
         if (collisions.length !== 0) {
+
+            // Return to old position
             this.Position.copy(oldPosition);
 
+            // Check collisions and act based on collision type
             collisions.forEach(object => {
+
+                // If colliding with a WALL or PLAYER, reflect based on object normals
                 if ((object.Group === 'WALL' || object.Group === 'PLAYER') && object.Normal) {
                     this.Rotation = Vec2.Reflect(this.Direction, object.Normal).toRotation() + Math.random() * 16 - 8;
 
@@ -41,15 +51,19 @@ export default class Disk extends GameObject {
                     this.Normal.copy(this.Direction);
                 }
             });
+        } else {
+            // If no collisions, emit reactor particles
+            let reactionDir = Vec2.Invert(this.Direction);
+            let reactionPos = Vec2.MultiplyScalar(reactionDir, this.Size.Width);
+            reactionPos.Y = -reactionPos.Y;
+            reactionPos.increment(this.Center.X, this.Center.Y);
+
+            for (let count = 0; count < 10; count++)
+                Core.ParticlesEmitter.add(reactionPos, 200, reactionDir.rotation(Math.random() * 60 - 30), Math.random() * 20, count === 1 ? 0x0000FF : 0x00FFFF );
         }
 
         this._animationRot += Core.DeltaTime * 200;
         if (this._animationRot >= 360) this._animationRot = 0;
-
-        let reactionPos = this.Position.getVariant([this.CenterOffset.X, this.CenterOffset.Y]);
-
-        for (let count = 0; count < 10; count++)
-            Core.ParticlesEmitter.add(reactionPos, 200, Vec2.Invert(this.Direction).rotate(Math.random() * 60 - 30), Math.random() * 20, count % 2 === 0 && count % 3 === 0 ? 0x0000FF : 0x00FFFF );
     }
 
     draw() {

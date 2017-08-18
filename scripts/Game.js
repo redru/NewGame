@@ -63,11 +63,11 @@ core.gameCallback = function () {
 Core.AddKeyListener(keyCode => {
     switch (keyCode) {
         case KeyCodes.ADD:
-        case 171:
+        case 187:
             core.updateFps(5);
             break;
         case KeyCodes.SUBSTRACT:
-        case 173:
+        case 189:
             core.updateFps(-5);
             break;
         case KeyCodes.SPACE:
