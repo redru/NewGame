@@ -7,10 +7,9 @@ export default class SquareParticle extends ParticleObject {
     }
 
     draw() {
-        const currentPosition = this.CurrentPosition;
-
+        let currentPosition = this.CurrentPosition;
         this.Ctx.save();
-        this.Ctx.fillStyle = this.Color.toRgb();
+        this.Ctx.fillStyle = `rgba(${this.Color.Red},${this.Color.Green},${this.Color.Blue},${this.Color.Alpha * this.ReverseAlphaProgress})`;
         this.Ctx.fillRect(currentPosition.X, currentPosition.Y, 3, 3);
         this.Ctx.restore();
     }

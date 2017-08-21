@@ -9,6 +9,7 @@ export default class ParticleObject {
         this._startingPosition  = position ? Vec2.Copy(position) : Vec2.Zero;
         this._startTime         = Core.Time;
         this._endTime           = Core.Time + duration;
+        this._duration          = duration;
         this._direction         = direction ? Vec2.Copy(direction) : Vec2.Zero;
         this._velocity          = velocity;
         this._color             = new Color(color);
@@ -19,10 +20,21 @@ export default class ParticleObject {
     draw() { }
 
     get CurrentPosition() {
+        let delta = this._velocity * (Core.Time - this._startTime) / 1000;
+
         return new Vec2([
-            this._startingPosition.X + this._direction.X * this._velocity * (Core.Time - this._startTime) * Core.DeltaTime,
-            this._startingPosition.Y + -(this._direction.Y * this._velocity * (Core.Time - this._startTime) * Core.DeltaTime)
+            this._startingPosition.X + this._direction.X * delta,
+            this._startingPosition.Y + -(this._direction.Y * delta)
         ]);
+    }
+
+    /**
+     * Returns the current Alpha delta progress of this particle
+     * @returns {number}
+     * @constructor
+     */
+    get ReverseAlphaProgress() {
+        return (Core.Time - this._endTime) / this._duration;
     }
 
     set Type(value) { this._type = value }
@@ -39,7 +51,13 @@ export default class ParticleObject {
 
     get EndTime() { return this._endTime }
 
-    set Duration(value) { this._startTime = Core.Time; this._endTime = this._startTime + value; }
+    set Duration(value) {
+        this._duration = value;
+        this._startTime = Core.Time;
+        this._endTime = this._startTime + value;
+    }
+
+    get Duration() { return this._duration }
 
     set Direction(value) { this._direction.copy(value) }
 

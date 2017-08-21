@@ -42,8 +42,8 @@ export default class CircularWave {
     }
 
     emitWave() {
-        for (let count = 0; count < 300; count++)
-            Core.ParticlesEmitter.add(this.position, 2000, Vec2.GetNormalizedVector(Math.random() * 360), 3, 0xFF0000);
+        for (let count = 0; count < 100; count++)
+            Core.ParticlesEmitter.add(this.position, 2000, Vec2.GetNormalizedVector(Math.random() * 360), 40, 0xFFFF0000);
     }
 
 }

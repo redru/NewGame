@@ -52,7 +52,7 @@ export default class Disk extends GameObject {
                     this.Direction = Vec2.GetNormalizedVector(this.Rotation);
                     this.Normal.copy(this.Direction);
                 } else if (object.Group === 'AREA' && !this._scored) {
-                    new CircularWave(this.Center, 1, 0, 0, 0, 360);
+                    new CircularWave(this.Center, 3, 0, 200, 0, 360);
                     this._scored = true;
                 }
             });
@@ -64,7 +64,7 @@ export default class Disk extends GameObject {
             reactionPos.increment(this.Center.X, this.Center.Y);
 
             for (let count = 0; count < 10; count++)
-                Core.ParticlesEmitter.add(reactionPos, 50, reactionDir.rotation(Math.random() * 60 - 30), Math.random() * 20, count === 1 ? 0x0000FF : 0x00FFFF );
+                Core.ParticlesEmitter.add(reactionPos, 50, reactionDir.rotation(Math.random() * 60 - 30), Math.random() * 800, count === 1 ? 0x0000FF : 0x00FFFF );
         }
 
         this._animationRot += Core.DeltaTime * 200;
@@ -72,10 +72,6 @@ export default class Disk extends GameObject {
     }
 
     draw() {
-        /*this._ctx.fillStyle = `rgb(${this._color.Red},${this._color.Green},${this._color.Blue})`;
-        this._ctx.beginPath();
-        this._ctx.arc(this.Position.X + this._radius, this.Position.Y + this._radius, this._radius, 0, 2 * Math.PI);
-        this._ctx.fill();*/
         this._ctx.save();
         this._ctx.translate(this.Center.X, this.Center.Y);
         this._ctx.rotate(Util2D.ToRadians(this._animationRot));

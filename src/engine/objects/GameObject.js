@@ -19,6 +19,10 @@ export default class GameObject {
         this._collider      = null;
         this._ctx           = Core.Instance.Ctx;
         this._gameStorage   = GameStorage;
+        this._top           = 0;
+        this._right         = 0;
+        this._bottom        = 0;
+        this._left          = 0;
     }
 
     attachCollider(object) {
@@ -29,6 +33,10 @@ export default class GameObject {
     move(xOffset, yOffset) {
         this._position.increment(xOffset, yOffset);
         this._center.copy(Vec2.SumVectors(this._position, this._centerOffset));
+        this._top = this._position.Y;
+        this._right = this._position.X + this._size.Width;
+        this._bottom = this._position.Y + this._size.Height;
+        this._left = this._position.X;
     }
 
     drawInfo() {
@@ -66,6 +74,10 @@ export default class GameObject {
     set Position(value) {
         this._position.copy(value);
         this._center.copy(Vec2.SumVectors(this._position, this._centerOffset));
+        this._top = this._position.Y;
+        this._right = this._position.X + this._size.Width;
+        this._bottom = this._position.Y + this._size.Height;
+        this._left = this._position.X;
     }
 
     get Position() { return this._position }
@@ -74,6 +86,10 @@ export default class GameObject {
         this._size.copy(value);
         this._centerOffset = new Vec2([value.X / 2, value.Y / 2]);
         this._center.copy(Vec2.SumVectors(this._position, this._centerOffset));
+        this._top = this._position.Y;
+        this._right = this._position.X + this._size.Width;
+        this._bottom = this._position.Y + this._size.Height;
+        this._left = this._position.X;
     }
 
     get Size() { return this._size }
@@ -101,5 +117,13 @@ export default class GameObject {
     get Ctx() { return this._ctx }
 
     get GameStorage() { return this._gameStorage }
+
+    get Top() { return this._top }
+
+    get Right() { return this._right }
+
+    get Bottom() { return this._bottom }
+
+    get Left() { return this._left }
 
 }

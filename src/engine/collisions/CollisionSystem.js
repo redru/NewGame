@@ -1,6 +1,7 @@
 "use strict";
-import Logger   from "../modules/Logger";
-import Collider from "./Collider";
+import Logger       from "../modules/Logger";
+import Collider     from "./Collider";
+import Collision    from "./Collision";
 
 export default class CollisionSystem {
 
@@ -58,7 +59,7 @@ export default class CollisionSystem {
                 switch(Collider.GenerateTypesMask(target.Type, collider.Type)) {
                     case Collider.Masks.Square2:
                         if (CollisionSystem.Square2collision(target, collider)) {
-                            collisions.push(target.Attached);
+                            collisions.push(new Collision(target, Collision.BOTTOM));
                         }
 
                         break;
@@ -67,6 +68,13 @@ export default class CollisionSystem {
         });
 
         return collisions;
+    }
+
+    checkSide(collider, target) {
+        if (collider.Attached.Top >= target.Attached.Top && collider.Attached.Top <= target.Attached.Bottom) return Collision.BOTTOM;
+        if (collider.Attached.Bottom >= target.Attached.Top && collider.Attached.Bottom <= target.Attached.Bottom) return Collision.TOP;
+        if (collider.Attached.Top >= target.Attached.Top && collider.Attached.Top <= target.Attached.Bottom) return Collision.TOP;
+        if (collider.Attached.Top >= target.Attached.Top && collider.Attached.Top <= target.Attached.Bottom) return Collision.TOP;
     }
 
     static GenerateKey(key_1, key_2) {
