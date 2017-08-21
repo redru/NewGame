@@ -8,7 +8,7 @@ import RectangleGameObject  from "./objects/RectangleGameObject"
 import CollisionSystem      from "./collisions/CollisionSystem"
 import ParticlesEmitter     from "./particles/ParticlesEmitter"
 import Color                from "./various/Color"
-import CubeExplosion        from "./animations/CubeExplosion"
+// import CubeExplosion        from "./animations/CubeExplosion"
 
 export default class Core {
 
@@ -50,7 +50,7 @@ export default class Core {
 
     postGraphicsInitialization() {
         Core._particlesEmitter.initialize(500);
-        GameObjectLoader.RegisterObjects(['RectangleGameObject', 'CubeExplosion'], [RectangleGameObject, CubeExplosion]);
+        GameObjectLoader.RegisterObjects(['RectangleGameObject'], [RectangleGameObject]);
     }
 
     initGraphics(target, dimension) {

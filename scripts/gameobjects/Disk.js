@@ -4,6 +4,7 @@ import GameObject       from "../../src/engine/objects/GameObject";
 import Color            from "../../src/engine/various/Color"
 import {Vec2, Util2D}   from "../../src/engine/modules/Geometry2D"
 import GameStatus       from "../Game"
+import CircularWave from "../../src/engine/animations/CircularWave";
 
 export default class Disk extends GameObject {
 
@@ -18,6 +19,7 @@ export default class Disk extends GameObject {
 
         this._ballImage     = document.getElementById('ball');
         this._animationRot  = 0;
+        this._scored        = false;
     }
 
     onCollision(object) { }
@@ -49,6 +51,9 @@ export default class Disk extends GameObject {
 
                     this.Direction = Vec2.GetNormalizedVector(this.Rotation);
                     this.Normal.copy(this.Direction);
+                } else if (object.Group === 'AREA' && !this._scored) {
+                    new CircularWave(this.Center, 1, 0, 0, 0, 360);
+                    this._scored = true;
                 }
             });
         } else {
@@ -59,7 +64,7 @@ export default class Disk extends GameObject {
             reactionPos.increment(this.Center.X, this.Center.Y);
 
             for (let count = 0; count < 10; count++)
-                Core.ParticlesEmitter.add(reactionPos, 200, reactionDir.rotation(Math.random() * 60 - 30), Math.random() * 20, count === 1 ? 0x0000FF : 0x00FFFF );
+                Core.ParticlesEmitter.add(reactionPos, 50, reactionDir.rotation(Math.random() * 60 - 30), Math.random() * 20, count === 1 ? 0x0000FF : 0x00FFFF );
         }
 
         this._animationRot += Core.DeltaTime * 200;
