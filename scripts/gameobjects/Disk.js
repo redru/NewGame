@@ -1,10 +1,11 @@
 "use strict";
 import Core             from "../../src/engine/Core"
-import GameObject       from "../../src/engine/objects/GameObject";
+import GameObject       from "../../src/engine/objects/GameObject"
 import Color            from "../../src/engine/various/Color"
-import {Vec2, Util2D}   from "../../src/engine/modules/Geometry2D"
+import { Vec2, Util2D } from "../../src/engine/modules/Geometry2D"
 import GameStatus       from "../Game"
-import CircularWave from "../../src/engine/animations/CircularWave";
+import CircularWave     from "../../src/engine/animations/CircularWave"
+import Logger           from "../../src/engine/modules/Logger"
 
 export default class Disk extends GameObject {
 
@@ -41,18 +42,19 @@ export default class Disk extends GameObject {
             this.Position.copy(oldPosition);
 
             // Check collisions and act based on collision type
-            collisions.forEach(object => {
+            collisions.forEach(collision => {
+                Logger.Append(`Collided ${collision.Side}`);
 
-                // If colliding with a WALL or PLAYER, reflect based on object normals
-                if ((object.Group === 'WALL' || object.Group === 'PLAYER') && object.Normal) {
-                    this.Rotation = Vec2.Reflect(this.Direction, object.Normal).toRotation() + Math.random() * 16 - 8;
+                // If colliding with a WALL or PLAYER, reflect based on collision.Attached normals
+                if ((collision.Attached.Group === 'WALL' || collision.Attached.Group === 'PLAYER') && collision.Attached.Normal) {
+                    this.Rotation = Vec2.Reflect(this.Direction, collision.Attached.Normal).toRotation() + Math.random() * 16 - 8;
 
                     this.Rotation = Util2D.AdjustRotation(this.Rotation);
 
                     this.Direction = Vec2.GetNormalizedVector(this.Rotation);
                     this.Normal.copy(this.Direction);
-                } else if (object.Group === 'AREA' && !this._scored) {
-                    new CircularWave(this.Center, 3, 0, 200, 0, 360);
+                } else if (collision.Attached.Group === 'AREA' && !this._scored) {
+                    new CircularWave(this.Center, 1, 0, 0, 0, 360);
                     this._scored = true;
                 }
             });

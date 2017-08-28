@@ -59,7 +59,7 @@ export default class CollisionSystem {
                 switch(Collider.GenerateTypesMask(target.Type, collider.Type)) {
                     case Collider.Masks.Square2:
                         if (CollisionSystem.Square2collision(target, collider)) {
-                            collisions.push(new Collision(target, Collision.BOTTOM));
+                            collisions.push(new Collision(target, this.checkSide(collider, target)));
                         }
 
                         break;
@@ -71,10 +71,10 @@ export default class CollisionSystem {
     }
 
     checkSide(collider, target) {
-        if (collider.Attached.Top >= target.Attached.Top && collider.Attached.Top <= target.Attached.Bottom) return Collision.BOTTOM;
-        if (collider.Attached.Bottom >= target.Attached.Top && collider.Attached.Bottom <= target.Attached.Bottom) return Collision.TOP;
-        if (collider.Attached.Top >= target.Attached.Top && collider.Attached.Top <= target.Attached.Bottom) return Collision.TOP;
-        if (collider.Attached.Top >= target.Attached.Top && collider.Attached.Top <= target.Attached.Bottom) return Collision.TOP;
+        if (collider.Attached.Top >= target.Attached.Top && collider.Attached.Top <= target.Attached.Bottom) return Collision.Sides.BOTTOM;
+        if (collider.Attached.Bottom >= target.Attached.Top && collider.Attached.Bottom <= target.Attached.Bottom) return Collision.Sides.TOP;
+        if (collider.Attached.Right >= target.Attached.Left && collider.Attached.Right <= target.Attached.Right) return Collision.Sides.LEFT;
+        if (collider.Attached.Left >= target.Attached.Left && collider.Attached.Left <= target.Attached.Right) return Collision.Sides.RIGHT;
     }
 
     static GenerateKey(key_1, key_2) {
